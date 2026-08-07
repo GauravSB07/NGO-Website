@@ -86,12 +86,9 @@ GET INVOLVED
 
 <li class="nav-item ms-5">
 
-<a href="#"
-class="btn btn-primary rounded-pill px-4">
-
-LOGIN
-
-</a>
+<form action="admin/login.php" method="POST">
+    <button type = "submit">Login</button>
+</form>
 
 </li>
 
