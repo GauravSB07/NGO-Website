@@ -27,35 +27,6 @@ body{
 
 }
 
-/* Animated Underline */
-
-.nav-link::after{
-
-    content:"";
-
-    position:absolute;
-
-    left:50%;
-
-    bottom:-6px;
-
-    width:0;
-
-    height:3px;
-
-    background:#FDB813;
-
-    transform:translateX(-50%);
-
-    transition:0.35s ease;
-
-}
-
-.nav-link:hover::after{
-
-    width:100%;
-
-}
 
 .mega-menu{
 
