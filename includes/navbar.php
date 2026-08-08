@@ -1,115 +1,157 @@
-<nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+<nav class="navbar navbar-expand-lg main-navbar">
+    <div class="container-fluid navbar-container">
 
-<div class="container-fluid px-5">
+        <!-- BRAND -->
+        <a class="navbar-brand ngo-brand" href="index.php">
+            <span class="brand-title">Sevartha</span>
+            <span class="brand-subtitle">Foundation</span>
+        </a>
 
-<a class="navbar-brand fw-bold" href="#">
-<img src="images/logo.png" height="70">
-<p>Sevartha Foundation</p>
-</a>
+        <!-- MOBILE TOGGLE -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-<button class="navbar-toggler"
-data-bs-toggle="collapse"
-data-bs-target="#navbarNav">
+        <!-- NAVIGATION -->
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
 
-<span class="navbar-toggler-icon"></span>
+            <ul class="navbar-nav align-items-lg-center">
 
-</button>
+                <!-- ABOUT US (FIXED) -->
+                <li class="nav-item about-nav">
 
-<div class="collapse navbar-collapse justify-content-end"
-id="navbarNav">
+                    <a
+                        class="nav-link about-nav-link"
+                        href="about.php"
+                        id="aboutDropdown"
+                        role="button"
+                    >
+                        About Us
+                    </a>
 
-<ul class="navbar-nav align-items-center">
+                    <div class="about-menu" aria-labelledby="aboutDropdown">
 
-<li class="nav-item dropdown position-static">
+                        <div class="about-menu-header">
+                            <span class="about-menu-label">ABOUT SEVARTHA Foundation</span>
+                        
+                        </div>
 
-<a class="nav-link fw-semibold px-4 dropdown-toggle"
-href="#"
-data-bs-toggle="dropdown">
+                        <div class="about-menu-list">
 
-ABOUT US
+                            <a href="mission-vision-focus.php" class="about-menu-item">
+                                <span class="about-menu-icon">
+                                    <i class="fa-solid fa-bullseye"></i>
+                                </span>
+                                <span class="about-menu-content">
+                                    <strong>Mission, Vision & Focus</strong>
+                                    <small>What drives our work</small>
+                                </span>
+                            </a>
 
-</a>
+                            <a href="founders.php" class="about-menu-item">
+                                <span class="about-menu-icon">
+                                    <i class="fa-solid fa-users"></i>
+                                </span>
+                                <span class="about-menu-content">
+                                    <strong>Our Founders</strong>
+                                    <small>The people behind Sevartha</small>
+                                </span>
+                            </a>
 
-<div class="dropdown-menu mega-menu p-4 border-0 shadow">
+                            <a href="our-teams.php" class="about-menu-item">
+                                <span class="about-menu-icon">
+                                    <i class="fa-solid fa-people-group"></i>
+                                </span>
+                                <span class="about-menu-content">
+                                    <strong>Our Team</strong>
+                                    <small>Meet our dedicated team</small>
+                                </span>
+                            </a>
 
-<div class="row">
+                            <a href="accountability-transparency.php" class="about-menu-item">
+                                <span class="about-menu-icon">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </span>
+                                <span class="about-menu-content">
+                                    <strong>Financial Transparency</strong>
+                                    <small>Our commitment to accountability</small>
+                                </span>
+                            </a>
 
-<div class="col-md-4">
+                            <a href="contact.php" class="about-menu-item">
+                                <span class="about-menu-icon">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </span>
+                                <span class="about-menu-content">
+                                    <strong>Contact Us</strong>
+                                    <small>Get in touch with us</small>
+                                </span>
+                            </a>
 
-<a href="#" class="dropdown-item">Home</a>
+                        </div>
+                    </div>
+                </li>
 
-<a href="#" class="dropdown-item">People</a>
+                <!-- OUR WORK -->
+                <li class="nav-item">
+                    <a class="nav-link" href="programs.php">
+                        Our Work
+                    </a>
+                </li>
 
-<a href="#" class="dropdown-item">Governance</a>
+                <!-- IMPACT STORIES -->
+                <li class="nav-item">
+                    <a class="nav-link" href="impact-stories.php">
+                        Impact Stories
+                    </a>
+                </li>
 
-<a href="#" class="dropdown-item">Annual Reports</a>
+                <!-- TESTIMONIALS -->
+                <li class="nav-item">
+                    <a class="nav-link" href="testimonials.php">
+                        Testimonials
+                    </a>
+                </li>
 
-</div>
+                <!-- NEWS -->
+                <li class="nav-item">
+                    <a class="nav-link" href="news.php">
+                        News
+                    </a>
+                </li>
 
-<div class="col-md-4">
+                <!-- CONTACT -->
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.php">
+                        Contact Us
+                    </a>
+                </li>
 
-<a href="#" class="dropdown-item">Overview</a>
+                <!-- LOGIN -->
+                <li class="nav-item login-item">
+                    <a class="nav-link login-link" href="admin/login.php">
+                        Login
+                    </a>
+                </li>
 
-<a href="#" class="dropdown-item">Partners</a>
+                <!-- DONATE -->
+                <li class="nav-item donate-item">
+                    <a href="contact.php" class="donate-button">
+                        Donate
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </li>
 
-<a href="#" class="dropdown-item">Media Mentions</a>
+            </ul>
 
-</div>
-
-</div>
-
-</div>
-
-</li>
-
-<li class="nav-item">
-
-<a class="nav-link fw-semibold px-4"
-href="#">
-
-OUR WORK
-
-</a>
-
-</li>
-
-<li class="nav-item">
-
-<a class="nav-link fw-semibold px-4"
-href="#">
-
-GET INVOLVED
-
-</a>
-
-</li>
-
-<li class="nav-item ms-5">
-
-<a href="#"
-class="btn btn-primary rounded-pill px-4">
-
-LOGIN
-
-</a>
-
-</li>
-
-<li class="nav-item ms-2">
-
-<a href="#"
-class="btn btn-outline-dark rounded-pill px-4">
-
-DONATE
-
-</a>
-
-</li>
-
-</ul>
-
-</div>
-
-</div>
-
+        </div>
+    </div>
 </nav>

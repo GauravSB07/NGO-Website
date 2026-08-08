@@ -3,7 +3,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$database = "ngo_website";
+$database = "ngo_database";
 
 $conn = mysqli_connect($host,$user, $password, $database);
 

@@ -1,0 +1,1310 @@
+/* =========================================================
+   SEVARTHA NAVBAR
+   Dedicated Navbar Styles
+========================================================= */
+
+:root {
+    --nav-bg: #fffaf4;
+    --nav-bg-soft: #fff5e9;
+
+    --nav-primary: #e76f51;
+    --nav-primary-dark: #d95d39;
+    --nav-secondary: #f4a261;
+
+    --nav-text: #403a36;
+    --nav-text-soft: #6b625c;
+
+    --nav-border: rgba(231, 111, 81, 0.16);
+
+    --nav-menu-bg: rgba(255, 252, 248, 0.98);
+    --nav-menu-hover: #fff0df;
+
+    --nav-shadow:
+        0 12px 35px rgba(70, 45, 25, 0.12);
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: relative;
+
+    z-index: 1000;
+
+    min-height: 76px;
+
+    padding: 5px 0;
+
+    background:
+        linear-gradient(180deg,
+            #fffdf9 0%,
+            #fff5e9 100%);
+
+    border-bottom:
+        1px solid var(--nav-border);
+
+    box-shadow:
+        0 4px 18px rgba(74, 55, 35, 0.06);
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.navbar .container-fluid {
+    width: 100%;
+
+    max-width: 1400px;
+
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.navbar .ngo-brand {
+    display: inline-flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    flex-shrink: 0;
+
+    color: var(--nav-primary-dark);
+
+    text-decoration: none;
+
+    line-height: 1;
+
+    margin-right: 30px;
+}
+
+
+/* BRAND TITLE */
+
+.navbar .ngo-brand .brand-title {
+    display: block;
+
+    margin: 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 2rem;
+
+    font-weight: 800;
+
+    line-height: 1;
+
+    color: var(--nav-primary-dark);
+}
+
+
+/* BRAND SUBTITLE */
+
+.navbar .ngo-brand .brand-subtitle {
+    display: inline-block;
+
+    margin-top: 5px;
+
+    padding-top: 5px;
+
+    border-top:
+        2px solid #f0b36d;
+
+    color: #e08a3e;
+
+    font-size: 1rem;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   NAVIGATION LAYOUT
+========================================================= */
+
+.navbar .navbar-collapse {
+    align-items: center;
+}
+
+
+.navbar .navbar-nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 4px;
+
+    margin: 0;
+
+    padding: 0;
+
+    list-style: none;
+}
+
+
+/*
+   Disable old animation from style.css.
+*/
+
+.navbar .navbar-nav .nav-item {
+    position: relative;
+
+    animation: none !important;
+}
+
+
+/* =========================================================
+   NORMAL NAV LINKS
+========================================================= */
+
+.navbar .navbar-nav .nav-link {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 48px;
+
+    padding:
+        12px 13px;
+
+    margin: 0;
+
+    color: var(--nav-text);
+
+    background: transparent;
+
+    border: 0;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+}
+
+
+/* REMOVE BOOTSTRAP CARET */
+
+.navbar .navbar-nav .nav-link::before {
+    display: none;
+}
+
+
+/* UNDERLINE */
+
+.navbar .navbar-nav .nav-link::after {
+    content: "";
+
+    position: absolute;
+
+    left: 13px;
+
+    right: 13px;
+
+    bottom: 3px;
+
+    width: auto;
+
+    height: 3px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(90deg,
+            var(--nav-primary),
+            var(--nav-secondary));
+
+    transform:
+        scaleX(0);
+
+    transform-origin: center;
+
+    transition:
+        transform .25s ease;
+}
+
+
+/* HOVER */
+
+.navbar .navbar-nav .nav-link:hover {
+    color: var(--nav-primary-dark);
+
+    transform:
+        translateY(-1px);
+}
+
+
+.navbar .navbar-nav .nav-link:hover::after {
+    transform:
+        scaleX(1);
+}
+
+
+/* ACTIVE */
+
+.navbar .navbar-nav .nav-link.active,
+.navbar .navbar-nav .nav-link[aria-current="page"] {
+    color: var(--nav-primary-dark);
+}
+
+
+.navbar .navbar-nav .nav-link.active::after,
+.navbar .navbar-nav .nav-link[aria-current="page"]::after {
+    transform:
+        scaleX(1);
+}
+
+
+/* =========================================================
+   ABOUT US NAV ITEM
+========================================================= */
+
+.navbar .about-nav {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+}
+
+
+/*
+   About Us is intentionally NOT a Bootstrap dropdown.
+*/
+
+.navbar .about-nav .about-nav-link {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   ABOUT MENU
+========================================================= */
+
+.navbar .about-nav .about-menu {
+    position: absolute;
+
+    top: calc(100% + 9px);
+
+    left: 50%;
+
+    width: 500px;
+
+    max-width:
+        calc(100vw - 40px);
+
+    padding: 18px;
+
+    background:
+        var(--nav-menu-bg);
+
+    border:
+        1px solid rgba(231, 111, 81, 0.18);
+
+    border-radius: 20px;
+
+    box-shadow:
+        var(--nav-shadow);
+
+    backdrop-filter:
+        blur(12px);
+
+    -webkit-backdrop-filter:
+        blur(12px);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    transform:
+        translate(-50%, -8px);
+
+    transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility .22s ease;
+
+    z-index: 2000;
+}
+
+
+/* =========================================================
+   INVISIBLE HOVER BRIDGE
+========================================================= */
+
+.navbar .about-nav .about-menu::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    right: 0;
+
+    top: -12px;
+
+    height: 14px;
+
+    background: transparent;
+}
+
+
+/* =========================================================
+   OPEN ABOUT MENU
+========================================================= */
+
+.navbar .about-nav:hover .about-menu,
+.navbar .about-nav:focus-within .about-menu {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+
+    transform:
+        translate(-50%, 0);
+}
+
+
+/* =========================================================
+   ABOUT MENU HEADER
+========================================================= */
+
+.navbar .about-menu-header {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 8px;
+
+    padding:
+        5px 8px 14px;
+
+    border-bottom:
+        1px solid rgba(231, 111, 81, 0.12);
+}
+
+
+/* SMALL LABEL */
+
+.navbar .about-menu-label {
+    color:
+        var(--nav-primary-dark);
+
+    font-size:
+        .68rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        1.8px;
+
+    white-space:
+        nowrap;
+}
+
+
+/* MAIN TITLE */
+
+.navbar .about-menu-title {
+    color:
+        var(--nav-text);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:
+        1.05rem;
+
+    font-weight:
+        500;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   MENU LIST
+========================================================= */
+
+.navbar .about-menu-list {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        4px;
+
+    padding-top:
+        8px;
+}
+
+
+/* =========================================================
+   MENU ITEM
+========================================================= */
+
+.navbar .about-menu-item {
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    width:
+        100%;
+
+    min-height:
+        58px;
+
+    padding:
+        9px 12px;
+
+    border-radius:
+        13px;
+
+    color:
+        var(--nav-text);
+
+    background:
+        transparent;
+
+    text-decoration:
+        none;
+
+    transition:
+        background .22s ease,
+        color .22s ease,
+        transform .22s ease;
+}
+
+
+/* REMOVE BOOTSTRAP LINK EFFECTS */
+
+.navbar .about-menu-item:focus,
+.navbar .about-menu-item:active {
+    color:
+        var(--nav-text);
+
+    text-decoration:
+        none;
+
+    outline:
+        none;
+}
+
+
+/* MENU ITEM HOVER */
+
+.navbar .about-menu-item:hover {
+    background:
+        var(--nav-menu-hover);
+
+    color:
+        var(--nav-primary-dark);
+
+    transform:
+        translateX(3px);
+
+    text-decoration:
+        none;
+}
+
+
+/* =========================================================
+   MENU ICON
+========================================================= */
+
+.navbar .about-menu-icon {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    flex:
+        0 0 40px;
+
+    width:
+        40px;
+
+    height:
+        40px;
+
+    margin-right:
+        11px;
+
+    border-radius:
+        11px;
+
+    background:
+        rgba(231, 111, 81, 0.09);
+
+    color:
+        var(--nav-primary);
+
+    font-size:
+        16px;
+
+    transition:
+        background .22s ease,
+        color .22s ease,
+        transform .22s ease;
+}
+
+
+/* ICON HOVER */
+
+.navbar .about-menu-item:hover .about-menu-icon {
+    background:
+        linear-gradient(135deg,
+            var(--nav-primary),
+            var(--nav-secondary));
+
+    color:
+        #fff;
+
+    transform:
+        scale(1.04);
+}
+
+
+/* =========================================================
+   MENU TEXT
+========================================================= */
+
+.navbar .about-menu-content {
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
+
+    min-width:
+        0;
+
+    line-height:
+        1.2;
+}
+
+
+/* TITLE */
+
+.navbar .about-menu-content strong {
+    display:
+        block;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    color:
+        #443d38;
+
+    font-size:
+        .96rem;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.3;
+
+    transition:
+        color .2s ease;
+}
+
+
+/* DESCRIPTION */
+
+.navbar .about-menu-content small {
+    display:
+        block;
+
+    margin-top:
+        3px;
+
+    padding:
+        0;
+
+    color:
+        #81776f;
+
+    font-size:
+        .77rem;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.3;
+
+    transition:
+        color .2s ease;
+}
+
+
+/* TEXT HOVER */
+
+.navbar .about-menu-item:hover .about-menu-content strong {
+    color:
+        var(--nav-primary-dark);
+}
+
+
+.navbar .about-menu-item:hover .about-menu-content small {
+    color:
+        #75635a;
+}
+
+
+/* =========================================================
+   DONATE BUTTON
+========================================================= */
+
+.navbar .donate-item {
+    margin-left:
+        8px;
+}
+
+
+.navbar .donate-button {
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    min-height:
+        42px;
+
+    padding:
+        10px 19px;
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(135deg,
+            var(--nav-primary),
+            var(--nav-secondary));
+
+    color:
+        #fff;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+    line-height:
+        1;
+
+    text-decoration:
+        none;
+
+    white-space:
+        nowrap;
+
+    box-shadow:
+        0 7px 18px rgba(231, 111, 81, .20);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+
+.navbar .donate-button:hover {
+    color:
+        #fff;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 11px 25px rgba(231, 111, 81, .30);
+
+    text-decoration:
+        none;
+}
+
+
+.navbar .donate-button i {
+    font-size:
+        13px;
+
+    transition:
+        transform .25s ease;
+}
+
+
+.navbar .donate-button:hover i {
+    transform:
+        translateX(3px);
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.navbar .login-item {
+    margin-left:
+        4px;
+}
+
+
+.navbar .login-link {
+    color:
+        #514a44 !important;
+}
+
+
+.navbar .login-link:hover {
+    color:
+        var(--nav-primary-dark) !important;
+}
+
+
+/* =========================================================
+   MOBILE TOGGLER
+========================================================= */
+
+.navbar .navbar-toggler {
+    width:
+        44px;
+
+    height:
+        42px;
+
+    padding:
+        8px;
+
+    border:
+        1px solid rgba(231, 111, 81, .35);
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(255, 255, 255, .65);
+
+    box-shadow:
+        none;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease;
+}
+
+
+.navbar .navbar-toggler:hover {
+    background:
+        #fff0df;
+
+    border-color:
+        var(--nav-primary);
+}
+
+
+.navbar .navbar-toggler:focus {
+    box-shadow:
+        0 0 0 3px rgba(231, 111, 81, .12);
+}
+
+
+/* HAMBURGER */
+
+.navbar .navbar-toggler-icon {
+    width:
+        22px;
+
+    height:
+        22px;
+
+    background-image:
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d95d39' stroke-linecap='round' stroke-width='2.2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"
+        );
+}
+
+
+/* =========================================================
+   BOOTSTRAP SAFETY OVERRIDES
+========================================================= */
+
+/*
+   We are NOT using Bootstrap's dropdown system
+   for the About Us menu.
+
+   These rules make sure Bootstrap cannot introduce
+   dropdown styling into our custom menu.
+*/
+
+.navbar .about-menu.dropdown-menu {
+    display:
+        block;
+}
+
+.navbar .about-menu .dropdown-item {
+    background:
+        transparent;
+}
+
+
+/*
+   Remove Bootstrap's default dropdown caret
+   if Bootstrap adds one.
+*/
+
+.navbar .about-nav-link.dropdown-toggle::after {
+    display:
+        none !important;
+}
+
+
+/*
+   Make sure the custom menu does not inherit
+   Bootstrap's normal dropdown spacing.
+*/
+
+.navbar .about-menu {
+    margin:
+        0;
+
+    float:
+        none;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1199px) {
+
+    .navbar .container-fluid {
+        padding-left:
+            22px;
+
+        padding-right:
+            22px;
+    }
+
+
+    .navbar .ngo-brand {
+        margin-right:
+            15px;
+    }
+
+
+    .navbar .ngo-brand .brand-title {
+        font-size:
+            1.8rem;
+    }
+
+
+    .navbar .navbar-nav {
+        gap:
+            0;
+    }
+
+
+    .navbar .navbar-nav .nav-link {
+        padding:
+            12px 9px;
+
+        font-size:
+            13px;
+    }
+
+
+    .navbar .donate-button {
+        padding:
+            10px 15px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE / COLLAPSED NAVIGATION
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .navbar {
+        min-height:
+            68px;
+    }
+
+
+    .navbar .container-fluid {
+        padding-left:
+            18px;
+
+        padding-right:
+            18px;
+    }
+
+
+    .navbar .navbar-collapse {
+
+        margin-top:
+            12px;
+
+        padding:
+            10px 0 18px;
+
+        border-top:
+            1px solid rgba(231, 111, 81, .12);
+    }
+
+
+    .navbar .navbar-nav {
+
+        width:
+            100%;
+
+        align-items:
+            stretch !important;
+
+        gap:
+            2px;
+    }
+
+
+    .navbar .navbar-nav .nav-item {
+
+        width:
+            100%;
+    }
+
+
+    .navbar .navbar-nav .nav-link {
+
+        width:
+            100%;
+
+        justify-content:
+            flex-start;
+
+        padding:
+            13px 10px;
+
+        min-height:
+            44px;
+    }
+
+
+    .navbar .navbar-nav .nav-link::after {
+
+        left:
+            10px;
+
+        right:
+            auto;
+
+        width:
+            35px;
+
+        bottom:
+            3px;
+    }
+
+
+    /* =====================================================
+       MOBILE ABOUT
+    ===================================================== */
+
+    .navbar .about-nav {
+
+        display:
+            block;
+
+        width:
+            100%;
+    }
+
+
+    .navbar .about-nav .about-menu {
+
+        position:
+            static;
+
+        width:
+            100%;
+
+        max-width:
+            none;
+
+        margin:
+            2px 0 8px;
+
+        padding:
+            10px;
+
+        border-radius:
+            14px;
+
+        box-shadow:
+            0 8px 25px rgba(70, 45, 25, .08);
+
+        transform:
+            none;
+
+        opacity:
+            0;
+
+        visibility:
+            hidden;
+
+        pointer-events:
+            none;
+    }
+
+
+    /*
+       On mobile, open the submenu when
+       About Us receives focus.
+    */
+
+    .navbar .about-nav:focus-within .about-menu {
+
+        transform:
+            none;
+
+        opacity:
+            1;
+
+        visibility:
+            visible;
+
+        pointer-events:
+            auto;
+    }
+
+
+    .navbar .about-menu-header {
+
+        padding:
+            7px 8px 11px;
+    }
+
+
+    .navbar .about-menu-item {
+
+        min-height:
+            54px;
+    }
+
+
+    .navbar .about-menu-content strong {
+
+        font-size:
+            .90rem;
+    }
+
+
+    .navbar .about-menu-content small {
+
+        font-size:
+            .72rem;
+    }
+
+
+    .navbar .about-menu-icon {
+
+        flex-basis:
+            36px;
+
+        width:
+            36px;
+
+        height:
+            36px;
+
+        margin-right:
+            9px;
+    }
+
+
+    /* LOGIN */
+
+    .navbar .login-item {
+
+        margin-left:
+            0;
+    }
+
+
+    /* DONATE */
+
+    .navbar .donate-item {
+
+        margin:
+            8px 0 0;
+    }
+
+
+    .navbar .donate-button {
+
+        width:
+            100%;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .navbar .container-fluid {
+
+        padding-left:
+            14px;
+
+        padding-right:
+            14px;
+    }
+
+
+    .navbar .ngo-brand .brand-title {
+
+        font-size:
+            1.55rem;
+    }
+
+
+    .navbar .ngo-brand .brand-subtitle {
+
+        font-size:
+            .78rem;
+
+        margin-top:
+            4px;
+
+        padding-top:
+            4px;
+    }
+
+
+    .navbar .about-menu {
+
+        padding:
+            8px;
+    }
+
+
+    .navbar .about-menu-content strong {
+
+        font-size:
+            .88rem;
+    }
+
+
+    .navbar .about-menu-content small {
+
+        font-size:
+            .70rem;
+    }
+
+
+    .navbar .about-menu-icon {
+
+        flex-basis:
+            36px;
+
+        width:
+            36px;
+
+        height:
+            36px;
+
+        margin-right:
+            9px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .navbar *,
+    .navbar *::before,
+    .navbar *::after {
+
+        transition-duration:
+            .01ms !important;
+
+        animation-duration:
+            .01ms !important;
+    }
+}
