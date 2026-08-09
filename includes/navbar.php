@@ -1,225 +1,403 @@
-<?php
+<nav class="navbar navbar-expand-lg main-navbar">
 
-include __DIR__ . "/../config/db.php";
+    <div class="container-fluid navbar-container">
 
-$categories = mysqli_query($conn, "SELECT * FROM categories ORDER BY id ASC");
+        <!-- BRAND -->
 
-?>
+        <a
+            class="navbar-brand ngo-brand"
+            href="/ngo-website/index.php"
+        >
 
-<nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+            <span class="brand-title">
+                Sevartha
+            </span>
 
-<div class="container-fluid px-5">
+            <span class="brand-subtitle">
+                Foundation
+            </span>
 
-    <!-- Logo -->
+        </a>
 
-    <a class="navbar-brand fw-bold d-flex align-items-center"
-       href="/ngo-website/index.php">
 
-        <img src="/ngo-website/images/logo.png"
-             height="70"
-             class="me-2">
+        <!-- MOBILE TOGGLE -->
 
-        <p class="mb-0">
-            Sevartha Foundation
-        </p>
-
-    </a>
-
-    <!-- Mobile Button -->
-
-    <button class="navbar-toggler"
+        <button
+            class="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
-            data-bs-target="#navbarNav">
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
 
-        <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
 
-    </button>
+        </button>
 
-    <!-- Navbar -->
 
-    <div class="collapse navbar-collapse justify-content-end"
-         id="navbarNav">
+        <!-- NAVIGATION -->
 
-        <ul class="navbar-nav align-items-center">
+        <div
+            class="collapse navbar-collapse justify-content-end"
+            id="navbarNav"
+        >
 
-            <!-- ABOUT -->
+            <ul class="navbar-nav align-items-lg-center">
 
-            <li class="nav-item dropdown position-static">
 
-                <a class="nav-link fw-semibold px-4 dropdown-toggle"
-                   href="#"
-                   data-bs-toggle="dropdown">
+                <!-- ABOUT US -->
 
-                    ABOUT US
+                <li class="nav-item about-nav">
 
-                </a>
+                    <a
+                        class="nav-link about-nav-link"
+                        href="about.php"
+                        id="aboutDropdown"
+                        role="button"
+                    >
 
-                <div class="dropdown-menu mega-menu p-4 border-0 shadow">
+                        About Us
 
-                    <div class="row">
+                    </a>
 
-                        <div class="col-md-6">
 
-                            <a href="#" class="dropdown-item">
+                    <div
+                        class="about-menu"
+                        aria-labelledby="aboutDropdown"
+                    >
 
-                                Home
+                        <div class="about-menu-header">
 
-                            </a>
-
-                            <a href="#" class="dropdown-item">
-
-                                People
-
-                            </a>
-
-                            <a href="#" class="dropdown-item">
-
-                                Governance
-
-                            </a>
-
-                            <a href="#" class="dropdown-item">
-
-                                Annual Reports
-
-                            </a>
+                            <span class="about-menu-label">
+                                ABOUT SEVARTHA FOUNDATION
+                            </span>
 
                         </div>
 
-                        <div class="col-md-6">
 
-                            <a href="#" class="dropdown-item">
+                        <div class="about-menu-list">
 
-                                Overview
+
+                            <a
+                                href="mission-vision-focus.php"
+                                class="about-menu-item"
+                            >
+
+                                <span class="about-menu-icon">
+
+                                    <i class="fa-solid fa-bullseye"></i>
+
+                                </span>
+
+                                <span class="about-menu-content">
+
+                                    <strong>
+                                        Mission, Vision & Focus
+                                    </strong>
+
+                                    <small>
+                                        What drives our work
+                                    </small>
+
+                                </span>
 
                             </a>
 
-                            <a href="#" class="dropdown-item">
 
-                                Partners
+                            <a
+                                href="founders.php"
+                                class="about-menu-item"
+                            >
+
+                                <span class="about-menu-icon">
+
+                                    <i class="fa-solid fa-users"></i>
+
+                                </span>
+
+                                <span class="about-menu-content">
+
+                                    <strong>
+                                        Our Founders
+                                    </strong>
+
+                                    <small>
+                                        The people behind Sevartha
+                                    </small>
+
+                                </span>
 
                             </a>
 
-                            <a href="#" class="dropdown-item">
 
-                                Media Mentions
+                            <a
+                                href="our-teams.php"
+                                class="about-menu-item"
+                            >
+
+                                <span class="about-menu-icon">
+
+                                    <i class="fa-solid fa-people-group"></i>
+
+                                </span>
+
+                                <span class="about-menu-content">
+
+                                    <strong>
+                                        Our Team
+                                    </strong>
+
+                                    <small>
+                                        Meet our dedicated team
+                                    </small>
+
+                                </span>
 
                             </a>
+
+
+                            <a
+                                href="accountability-transparency.php"
+                                class="about-menu-item"
+                            >
+
+                                <span class="about-menu-icon">
+
+                                    <i class="fa-solid fa-chart-line"></i>
+
+                                </span>
+
+                                <span class="about-menu-content">
+
+                                    <strong>
+                                        Financial Transparency
+                                    </strong>
+
+                                    <small>
+                                        Our commitment to accountability
+                                    </small>
+
+                                </span>
+
+                            </a>
+
+
+                            <a
+                                href="contact.php"
+                                class="about-menu-item"
+                            >
+
+                                <span class="about-menu-icon">
+
+                                    <i class="fa-solid fa-envelope"></i>
+
+                                </span>
+
+                                <span class="about-menu-content">
+
+                                    <strong>
+                                        Contact Us
+                                    </strong>
+
+                                    <small>
+                                        Get in touch with us
+                                    </small>
+
+                                </span>
+
+                            </a>
+
 
                         </div>
 
                     </div>
 
-                </div>
+                </li>
 
-            </li>
 
-            <!-- OUR WORK -->
+                <!-- OUR WORK -->
 
-            <li class="nav-item dropdown position-static">
+                <li class="nav-item dropdown position-static">
 
-                <a class="nav-link fw-semibold px-4 dropdown-toggle"
-                   href="#"
-                   data-bs-toggle="dropdown">
+                    <a
+                        class="nav-link"
+                        href="#"
+                        data-bs-toggle="dropdown"
+                    >
 
-                    OUR WORK
+                        Our Work
 
-                </a>
+                    </a>
 
-                <div class="dropdown-menu mega-menu p-4 border-0 shadow">
 
-                    <div class="row">
+                    <div
+                        class="dropdown-menu mega-menu p-4 border-0 shadow"
+                    >
 
-                        <?php
+                        <div class="row">
 
-                        $count = 0;
+                            <?php
 
-                        while($navCategory = mysqli_fetch_assoc($categories))
-                        {
+                            $count = 0;
 
-                            if($count % 3 == 0)
-                            {
-                                echo '<div class="col-md-4">';
+                            while (
+                                $navCategory =
+                                mysqli_fetch_assoc($categories)
+                            ) {
+
+                                if ($count % 3 == 0) {
+
+                                    echo '<div class="col-md-4">';
+
+                                }
+
+                            ?>
+
+
+                                <a
+                                    href="/ngo-website/our-work/category.php?slug=<?= urlencode($navCategory['slug']); ?>"
+                                    class="dropdown-item"
+                                >
+
+                                    <?= htmlspecialchars(
+                                        $navCategory['name']
+                                    ); ?>
+
+                                </a>
+
+
+                            <?php
+
+                                $count++;
+
+                                if ($count % 3 == 0) {
+
+                                    echo '</div>';
+
+                                }
+
                             }
 
-                        ?>
 
-                        <a
-                        href="/ngo-website/our-work/category.php?slug=<?= $navCategory['slug']; ?>"
-                        class="dropdown-item">
+                            if ($count % 3 != 0) {
 
-                            <?= htmlspecialchars($navCategory['name']); ?>
-
-                        </a>
-
-                        <?php
-
-                            $count++;
-
-                            if($count % 3 == 0)
-                            {
                                 echo '</div>';
+
                             }
 
-                        }
+                            ?>
 
-                        if($count % 3 != 0)
-                        {
-                            echo '</div>';
-                        }
-
-                        ?>
+                        </div>
 
                     </div>
 
-                </div>
+                </li>
 
-            </li>
 
-            <!-- GET INVOLVED -->
+                <!-- IMPACT STORIES -->
 
-            <li class="nav-item">
+                <li class="nav-item">
 
-                <a class="nav-link fw-semibold px-4"
-                   href="#">
+                    <a
+                        class="nav-link"
+                        href="impact-stories.php"
+                    >
 
-                    GET INVOLVED
+                        Impact Stories
 
-                </a>
+                    </a>
 
-            </li>
+                </li>
 
-            <!-- LOGIN -->
 
-            <li class="nav-item ms-5">
+                <!-- TESTIMONIALS -->
 
-                <a href="/ngo-website/admin/login.php"
-                   class="btn btn-primary rounded-pill px-4">
+                <li class="nav-item">
 
-                    LOGIN
+                    <a
+                        class="nav-link"
+                        href="testimonials.php"
+                    >
 
-                </a>
+                        Testimonials
 
-            </li>
+                    </a>
 
-            <!-- DONATE -->
+                </li>
 
-            <li class="nav-item ms-2">
 
-                <a href="#"
-                   class="btn btn-outline-dark rounded-pill px-4">
+                <!-- NEWS -->
 
-                    DONATE
+                <li class="nav-item">
 
-                </a>
+                    <a
+                        class="nav-link"
+                        href="news.php"
+                    >
 
-            </li>
+                        News
 
-        </ul>
+                    </a>
+
+                </li>
+
+
+                <!-- CONTACT -->
+
+                <li class="nav-item">
+
+                    <a
+                        class="nav-link"
+                        href="contact.php"
+                    >
+
+                        Contact Us
+
+                    </a>
+
+                </li>
+
+
+                <!-- LOGIN -->
+
+                <li class="nav-item login-item">
+
+                    <a
+                        class="nav-link login-link"
+                        href="/ngo-website/admin/login.php"
+                    >
+
+                        Login
+
+                    </a>
+
+                </li>
+
+
+                <!-- DONATE -->
+
+                <li class="nav-item donate-item">
+
+                    <a
+                        href="contact.php"
+                        class="donate-button"
+                    >
+
+                        Donate
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+                </li>
+
+
+            </ul>
+
+        </div>
 
     </div>
-
-</div>
 
 </nav>
