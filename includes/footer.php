@@ -1,159 +1,55 @@
-<footer class="bg-dark text-white pt-5 pb-3 mt-5">
+<footer class="site-footer">
+    <div class="footer-container">
 
-    <div class="container">
-
-        <div class="row">
-
-            <!-- NGO Info -->
-
-            <div class="col-lg-4 col-md-6 mb-4">
-
-                <h4 class="fw-bold">
-
-                    Sevartha Foundation
-
-                </h4>
-
-                <p class="mt-3">
-
-                    Sevartha Foundation is dedicated to improving lives through
-                    education, healthcare, disaster relief, hunger eradication,
-                    and dignity for elders.
-
-                </p>
-
-            </div>
-
-            <!-- Quick Links -->
-
-            <div class="col-lg-2 col-md-6 mb-4">
-
-                <h5 class="fw-bold">
-
-                    Quick Links
-
-                </h5>
-
-                <ul class="list-unstyled mt-3">
-
-                    <li class="mb-2">
-                        <a href="/ngo-website/index.php" class="footer-link">
-                            Home
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="#" class="footer-link">
-                            About Us
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="#" class="footer-link">
-                            Our Work
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="#" class="footer-link">
-                            Contact
-                        </a>
-                    </li>
-
-                </ul>
-
-            </div>
-
-            <!-- Our Work -->
-
-            <div class="col-lg-3 col-md-6 mb-4">
-
-                <h5 class="fw-bold">
-
-                    Our Work
-
-                </h5>
-
-                <ul class="list-unstyled mt-3">
-
-                    <li class="mb-2">
-                        <a href="/ngo-website/our-work/category.php?slug=education" class="footer-link">
-                            Education for All
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="/ngo-website/our-work/category.php?slug=healthcare" class="footer-link">
-                            Healthcare
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="/ngo-website/our-work/category.php?slug=hunger" class="footer-link">
-                            Hunger & Poverty
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="/ngo-website/our-work/category.php?slug=elders" class="footer-link">
-                            Dignity For Elders
-                        </a>
-                    </li>
-
-                    <li class="mb-2">
-                        <a href="/ngo-website/our-work/category.php?slug=disaster" class="footer-link">
-                            Disaster Relief
-                        </a>
-                    </li>
-
-                </ul>
-
-            </div>
-
-            <!-- Contact -->
-
-            <div class="col-lg-3 col-md-6 mb-4">
-
-                <h5 class="fw-bold">
-
-                    Contact
-
-                </h5>
-
-                <p class="mt-3 mb-2">
-
-                    📍 Mumbai, Maharashtra
-
-                </p>
-
-                <p class="mb-2">
-
-                    📧 info@sevarthafoundation.org
-
-                </p>
-
-                <p>
-
-                    📞 +91 98765 43210
-
-                </p>
-
-            </div>
-
+        <!-- ABOUT -->
+        <div class="footer-col">
+            <h4>About</h4>
+            <ul>
+                <li><a href="about.php">About Us</a></li>
+                <li><a href="founders.php">Our Founders</a></li>
+                <li><a href="our-teams.php">Our Team</a></li>
+                <li><a href="accountability-transparency.php">Financial Transparency</a></li>
+            </ul>
         </div>
 
-        <hr class="border-secondary">
+        <!-- PROGRAMS -->
+        <div class="footer-col">
+            <h4>Programs</h4>
+            <ul>
+                <li><a href="programs.php">Our Work</a></li>
+                <li><a href="impact-stories.php">Impact Stories</a></li>
+                <li><a href="testimonials.php">Testimonials</a></li>
+                <li><a href="news.php">News & Updates</a></li>
+            </ul>
+        </div>
 
-        <div class="text-center">
+        <!-- TAKE ACTION -->
+        <div class="footer-col">
+            <h4>Take Action</h4>
+            <ul>
+                <li><a href="contact.php">Donate Now</a></li>
+                <li><a href="contact.php">Partner With Us</a></li>
+                <li><a href="contact.php">Volunteer</a></li>
+                <li><a href="contact.php">Contact Us</a></li>
+            </ul>
+        </div>
 
-            <p class="mb-0">
+        <!-- CONNECT -->
+        <div class="footer-col footer-connect">
+            <h4>Connect</h4>
 
-                © <?php echo date("Y"); ?> Sevartha Foundation. All Rights Reserved.
+            <div class="footer-social">
+                <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
 
-            </p>
-
+            <a href="contact.php" class="footer-contact-btn">CONTACT US</a>
         </div>
 
     </div>
 
+    <div class="footer-bottom">
+        © 2026 Sevartha Foundation — All Rights Reserved
+    </div>
 </footer>
