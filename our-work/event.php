@@ -2,39 +2,71 @@
 
 include "../config/db.php";
 
-if(!isset($_GET['id']))
-{
+
+/* =========================================================
+   CHECK EVENT ID
+========================================================= */
+
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+
     die("Event not found.");
+
 }
 
-$id = $_GET['id'];
+$id = (int) $_GET['id'];
 
-/* Event Details */
 
-$sql = "SELECT * FROM events WHERE id=?";
+/* =========================================================
+   GET EVENT DETAILS
+========================================================= */
 
-$stmt = mysqli_prepare($conn,$sql);
+$sql = "
+    SELECT *
+    FROM events
+    WHERE id = ?
+";
 
-mysqli_stmt_bind_param($stmt,"i",$id);
+$stmt = mysqli_prepare($conn, $sql);
+
+mysqli_stmt_bind_param(
+    $stmt,
+    "i",
+    $id
+);
 
 mysqli_stmt_execute($stmt);
 
 $result = mysqli_stmt_get_result($stmt);
 
-if(mysqli_num_rows($result)==0)
-{
+
+if (mysqli_num_rows($result) == 0) {
+
     die("Event not found.");
+
 }
+
 
 $event = mysqli_fetch_assoc($result);
 
-/* Gallery Images */
 
-$sql2 = "SELECT * FROM event_images WHERE event_id=?";
+/* =========================================================
+   GET GALLERY IMAGES
+========================================================= */
 
-$stmt2 = mysqli_prepare($conn,$sql2);
+$sql2 = "
+    SELECT *
+    FROM event_images
+    WHERE event_id = ?
+    ORDER BY id ASC
+";
 
-mysqli_stmt_bind_param($stmt2,"i",$id);
+$stmt2 = mysqli_prepare($conn, $sql2);
+
+mysqli_stmt_bind_param(
+    $stmt2,
+    "i",
+    $id
+);
 
 mysqli_stmt_execute($stmt2);
 
@@ -42,187 +74,414 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
 ?>
 
+
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<title><?= $event['title']; ?></title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>
+        <?= htmlspecialchars($event['title']); ?>
+        | Sevartha Foundation
+    </title>
 
-<link rel="stylesheet" href="../css/style.css">
 
-<style>
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
 
-.hero{
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
-    height:450px;
-    overflow:hidden;
 
-}
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
 
-.hero img{
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
-    width:100%;
-    height:100%;
-    object-fit:cover;
 
-}
+    <!-- =====================================================
+         GLOBAL CSS
+    ====================================================== -->
 
-.gallery img{
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-    width:100%;
-    height:250px;
-    object-fit:cover;
-    border-radius:12px;
-    cursor:pointer;
-    transition:.3s;
 
-}
+    <!-- =====================================================
+         NAVBAR CSS
+    ====================================================== -->
 
-.gallery img:hover{
+    <link
+        rel="stylesheet"
+        href="../css/navbar.css"
+    >
 
-    transform:scale(1.03);
 
-}
+    <!-- =====================================================
+         DETAILED EVENT CSS
+    ====================================================== -->
 
-.info-box{
+    <link
+        rel="stylesheet"
+        href="../css/our-work/detailed_event.css"
+    >
 
-    background:#f8f9fa;
-    padding:20px;
-    border-radius:12px;
 
-}
+    <!-- =====================================================
+         FOOTER CSS
+    ====================================================== -->
 
-</style>
+    <link
+        rel="stylesheet"
+        href="../css/footer.css"
+    >
 
 </head>
 
-<body>
+
+<body class="event-page">
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================== -->
 
 <?php include "../includes/navbar.php"; ?>
 
-<!-- Hero -->
 
-<div class="hero">
+<!-- =========================================================
+     EVENT HERO / COVER IMAGE
+========================================================== -->
 
-<img src="../uploads/events/<?= $event['cover_image']; ?>">
+<section class="hero">
 
-</div>
+    <?php if (!empty($event['cover_image'])) { ?>
 
-<div class="container py-5">
+        <img
+            src="../uploads/events/<?= htmlspecialchars(
+                $event['cover_image']
+            ); ?>"
+            alt="<?= htmlspecialchars(
+                $event['title']
+            ); ?>"
+        >
 
-<h1>
+    <?php } else { ?>
 
-<?= $event['title']; ?>
+        <div class="event-cover-placeholder">
 
-</h1>
+            <i class="fa-regular fa-image"></i>
 
-<div class="row mt-4">
+        </div>
 
-<div class="col-lg-8">
+    <?php } ?>
 
-<h3>
+</section>
 
-About This Event
 
-</h3>
+<!-- =========================================================
+     EVENT CONTENT
+========================================================== -->
 
-<p>
+<main class="container py-5">
 
-<?= nl2br($event['description']); ?>
 
-</p>
+    <!-- =====================================================
+         EVENT TITLE
+    ====================================================== -->
 
-</div>
+    <h1>
 
-<div class="col-lg-4">
+        <?= htmlspecialchars(
+            $event['title']
+        ); ?>
 
-<div class="info-box">
+    </h1>
 
-<p>
 
-📍 <strong>Location:</strong>
+    <!-- =====================================================
+         EVENT DETAILS
+    ====================================================== -->
 
-<?= $event['location']; ?>
+    <div class="row mt-4">
 
-</p>
 
-<p>
+        <!-- =================================================
+             DESCRIPTION
+        ================================================== -->
 
-📅 <strong>Date:</strong>
+        <div class="col-lg-8">
 
-<?= $event['event_date']; ?>
+            <h3>
+                About This Event
+            </h3>
 
-</p>
 
-<?php if(!empty($event['supported_by'])){ ?>
+            <?php if (!empty($event['description'])) { ?>
 
-<p>
+                <div class="event-description">
 
-🤝 <strong>Supported By:</strong>
+                    <?= nl2br(
+                        htmlspecialchars(
+                            $event['description']
+                        )
+                    ); ?>
 
-<?= $event['supported_by']; ?>
+                </div>
 
-</p>
+            <?php } else { ?>
 
-<?php } ?>
+                <p class="event-description">
 
-<?php if(!empty($event['beneficiaries'])){ ?>
+                    No description has been provided for this event.
 
-<p>
+                </p>
 
-👥 <strong>Beneficiaries:</strong>
+            <?php } ?>
 
-<?= $event['beneficiaries']; ?>
+        </div>
 
-</p>
 
-<?php } ?>
+        <!-- =================================================
+             INFORMATION BOX
+        ================================================== -->
 
-</div>
+        <div class="col-lg-4">
 
-</div>
+            <div class="info-box">
 
-</div>
 
-<hr class="my-5">
+                <!-- LOCATION
+                     Core field
+                -->
 
-<h2 class="mb-4">
+                <?php if (!empty($event['location'])) { ?>
 
-Gallery
+                    <p>
 
-</h2>
+                        <span>📍</span>
 
-<div class="row gallery">
+                        <strong>
+                            Location:
+                        </strong>
 
-<?php while($image=mysqli_fetch_assoc($gallery)){ ?>
+                        <span>
+                            <?= htmlspecialchars(
+                                $event['location']
+                            ); ?>
+                        </span>
 
-<div class="col-lg-4 mb-4">
+                    </p>
 
-<img
-src="../uploads/events/<?= $image['image_path']; ?>"
-class="img-fluid">
+                <?php } ?>
 
-</div>
 
-<?php } ?>
+                <!-- DATE
+                     Optional field
+                -->
 
-</div>
+                <?php if (!empty($event['event_date'])) { ?>
 
-<a href="javascript:history.back()" class="btn btn-primary mt-3">
+                    <p>
 
-← Back
+                        <span>📅</span>
 
-</a>
+                        <strong>
+                            Date:
+                        </strong>
 
-</div>
+                        <span>
+
+                            <?= date(
+                                'd M Y',
+                                strtotime(
+                                    $event['event_date']
+                                )
+                            ); ?>
+
+                        </span>
+
+                    </p>
+
+                <?php } ?>
+
+
+                <!-- SUPPORTED BY
+                     Optional field
+                -->
+
+                <?php if (
+                    !empty($event['supported_by'])
+                ) { ?>
+
+                    <p>
+
+                        <span>🤝</span>
+
+                        <strong>
+                            Supported By:
+                        </strong>
+
+                        <span>
+
+                            <?= htmlspecialchars(
+                                $event['supported_by']
+                            ); ?>
+
+                        </span>
+
+                    </p>
+
+                <?php } ?>
+
+
+                <!-- BENEFICIARIES
+                     Optional field
+                -->
+
+                <?php if (
+                    !empty($event['beneficiaries'])
+                ) { ?>
+
+                    <p>
+
+                        <span>👥</span>
+
+                        <strong>
+                            Beneficiaries:
+                        </strong>
+
+                        <span>
+
+                            <?= htmlspecialchars(
+                                $event['beneficiaries']
+                            ); ?>
+
+                        </span>
+
+                    </p>
+
+                <?php } ?>
+
+
+                <!--
+                    If no optional information exists,
+                    the box still contains the core location.
+                -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         GALLERY
+    ====================================================== -->
+
+    <?php if (mysqli_num_rows($gallery) > 0) { ?>
+
+        <hr class="my-5">
+
+
+        <h2 class="mb-4">
+
+            Gallery
+
+        </h2>
+
+
+        <div class="row gallery">
+
+
+            <?php while (
+                $image = mysqli_fetch_assoc($gallery)
+            ) { ?>
+
+
+                <div class="col-lg-4 col-md-6 mb-4">
+
+
+                    <?php if (
+                        !empty($image['image_path'])
+                    ) { ?>
+
+                        <img
+                            src="../uploads/events/<?= htmlspecialchars(
+                                $image['image_path']
+                            ); ?>"
+                            alt="<?= htmlspecialchars(
+                                $event['title']
+                            ); ?>"
+                            class="img-fluid"
+                        >
+
+                    <?php } ?>
+
+
+                </div>
+
+
+            <?php } ?>
+
+
+        </div>
+
+    <?php } ?>
+
+
+    <!-- =====================================================
+         BACK BUTTON
+    ====================================================== -->
+
+    <a
+        href="javascript:history.back()"
+        class="btn btn-primary mt-3"
+    >
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back
+
+    </a>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================== -->
 
 <?php include "../includes/footer.php"; ?>
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+></script>
+
 
 </body>
 

@@ -4,27 +4,58 @@ session_start();
 
 include "../../config/db.php";
 
+
+/*
+|--------------------------------------------------------------------------
+| Admin Authentication
+|--------------------------------------------------------------------------
+*/
+
 if (!isset($_SESSION['admin_id'])) {
+
     header("Location: ../login.php");
     exit();
+
 }
 
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+
+/*
+|--------------------------------------------------------------------------
+| Validate Image ID
+|--------------------------------------------------------------------------
+*/
+
+if (
+    !isset($_GET['id']) ||
+    !is_numeric($_GET['id'])
+) {
+
     die("Invalid image.");
+
 }
+
 
 $image_id = (int) $_GET['id'];
 
 
-/* Get image */
+/*
+|--------------------------------------------------------------------------
+| Get Image
+|--------------------------------------------------------------------------
+*/
 
 $sql = "
-    SELECT image_path, event_id
-    FROM event_images
+    SELECT id, event_id, image_role
+    FROM images
     WHERE id = ?
 ";
 
-$stmt = mysqli_prepare($conn, $sql);
+
+$stmt = mysqli_prepare(
+    $conn,
+    $sql
+);
+
 
 mysqli_stmt_bind_param(
     $stmt,
@@ -32,37 +63,74 @@ mysqli_stmt_bind_param(
     $image_id
 );
 
-mysqli_stmt_execute($stmt);
 
-$result = mysqli_stmt_get_result($stmt);
+mysqli_stmt_execute(
+    $stmt
+);
 
-if (mysqli_num_rows($result) == 0) {
+
+$result =
+    mysqli_stmt_get_result(
+        $stmt
+    );
+
+
+if (
+    mysqli_num_rows($result) === 0
+) {
+
     die("Image not found.");
-}
 
-$image = mysqli_fetch_assoc($result);
-
-
-/* Delete physical file */
-
-$file = "../../uploads/events/" . $image['image_path'];
-
-if (file_exists($file)) {
-    unlink($file);
 }
 
 
-/* Delete database record */
+$image =
+    mysqli_fetch_assoc(
+        $result
+    );
+
+
+/*
+|--------------------------------------------------------------------------
+| Prevent Cover Image Deletion
+|--------------------------------------------------------------------------
+|
+| The cover image should be replaced through edit.php,
+| not deleted as a gallery image.
+|
+|--------------------------------------------------------------------------
+*/
+
+if (
+    $image['image_role'] === 'cover'
+) {
+
+    die(
+        "The cover image cannot be deleted here. "
+        . "Use Edit Event to replace it."
+    );
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Delete Image From Database
+|--------------------------------------------------------------------------
+*/
 
 $deleteSql = "
-    DELETE FROM event_images
+    DELETE FROM images
     WHERE id = ?
 ";
 
-$deleteStmt = mysqli_prepare(
-    $conn,
-    $deleteSql
-);
+
+$deleteStmt =
+    mysqli_prepare(
+        $conn,
+        $deleteSql
+    );
+
 
 mysqli_stmt_bind_param(
     $deleteStmt,
@@ -70,14 +138,31 @@ mysqli_stmt_bind_param(
     $image_id
 );
 
-mysqli_stmt_execute($deleteStmt);
+
+if (
+    !mysqli_stmt_execute(
+        $deleteStmt
+    )
+) {
+
+    die(
+        "Failed to delete image."
+    );
+
+}
 
 
-/* Return to Edit */
+/*
+|--------------------------------------------------------------------------
+| Return To Edit Page
+|--------------------------------------------------------------------------
+*/
 
 header(
-    "Location: edit.php?id=" . $image['event_id']
+    "Location: edit.php?id="
+    . (int) $image['event_id']
 );
+
 
 exit();
 

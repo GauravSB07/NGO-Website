@@ -5,46 +5,46 @@ session_start();
 include "../../config/db.php";
 
 
-/*
-|--------------------------------------------------------------------------
-| Admin Authentication
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   ADMIN AUTHENTICATION
+========================================================= */
 
 if (!isset($_SESSION['admin_id'])) {
 
     header("Location: ../login.php");
+
     exit();
 
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| Variables
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   VARIABLES
+========================================================= */
 
 $editMode = false;
+
 $editCategory = null;
+
 $error = "";
+
 $success = "";
 
 
-/*
-|--------------------------------------------------------------------------
-| DELETE CATEGORY
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   DELETE CATEGORY
+========================================================= */
 
-if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+if (
+    isset($_GET['delete']) &&
+    is_numeric($_GET['delete'])
+) {
 
-    $category_id = (int) $_GET['delete'];
+    $category_id =
+        (int) $_GET['delete'];
 
 
-    /*
-    | Check if category has events
-    */
+    /* Check if category has events */
 
     $checkSql = "
         SELECT COUNT(*) AS total
@@ -52,10 +52,13 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
         WHERE category_id = ?
     ";
 
-    $checkStmt = mysqli_prepare(
-        $conn,
-        $checkSql
-    );
+
+    $checkStmt =
+        mysqli_prepare(
+            $conn,
+            $checkSql
+        );
+
 
     mysqli_stmt_bind_param(
         $checkStmt,
@@ -63,13 +66,22 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
         $category_id
     );
 
-    mysqli_stmt_execute($checkStmt);
+
+    mysqli_stmt_execute(
+        $checkStmt
+    );
+
 
     $checkResult =
-        mysqli_stmt_get_result($checkStmt);
+        mysqli_stmt_get_result(
+            $checkStmt
+        );
+
 
     $eventData =
-        mysqli_fetch_assoc($checkResult);
+        mysqli_fetch_assoc(
+            $checkResult
+        );
 
 
     if ($eventData['total'] > 0) {
@@ -84,11 +96,13 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             WHERE id = ?
         ";
 
+
         $deleteStmt =
             mysqli_prepare(
                 $conn,
                 $deleteSql
             );
+
 
         mysqli_stmt_bind_param(
             $deleteStmt,
@@ -96,7 +110,12 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             $category_id
         );
 
-        if (mysqli_stmt_execute($deleteStmt)) {
+
+        if (
+            mysqli_stmt_execute(
+                $deleteStmt
+            )
+        ) {
 
             $success =
                 "Category deleted successfully.";
@@ -113,18 +132,17 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| LOAD CATEGORY FOR EDIT
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   LOAD CATEGORY FOR EDIT
+========================================================= */
 
 if (
     isset($_GET['edit']) &&
     is_numeric($_GET['edit'])
 ) {
 
-    $category_id = (int) $_GET['edit'];
+    $category_id =
+        (int) $_GET['edit'];
 
 
     $editSql = "
@@ -133,11 +151,13 @@ if (
         WHERE id = ?
     ";
 
+
     $editStmt =
         mysqli_prepare(
             $conn,
             $editSql
         );
+
 
     mysqli_stmt_bind_param(
         $editStmt,
@@ -145,16 +165,28 @@ if (
         $category_id
     );
 
-    mysqli_stmt_execute($editStmt);
+
+    mysqli_stmt_execute(
+        $editStmt
+    );
+
 
     $editResult =
-        mysqli_stmt_get_result($editStmt);
+        mysqli_stmt_get_result(
+            $editStmt
+        );
 
 
-    if (mysqli_num_rows($editResult) == 1) {
+    if (
+        mysqli_num_rows(
+            $editResult
+        ) == 1
+    ) {
 
         $editCategory =
-            mysqli_fetch_assoc($editResult);
+            mysqli_fetch_assoc(
+                $editResult
+            );
 
         $editMode = true;
 
@@ -168,13 +200,13 @@ if (
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| ADD CATEGORY
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   ADD CATEGORY
+========================================================= */
 
-if (isset($_POST['add_category'])) {
+if (
+    isset($_POST['add_category'])
+) {
 
     $name =
         trim($_POST['name']);
@@ -183,25 +215,28 @@ if (isset($_POST['add_category'])) {
         trim($_POST['slug']);
 
     $short_description =
-        trim($_POST['short_description']);
+        trim(
+            $_POST['short_description']
+        );
 
 
-    /*
-    | Generate URL-friendly slug
-    */
+    /* Generate URL-friendly slug */
 
-    $slug = strtolower($slug);
+    $slug =
+        strtolower($slug);
 
-    $slug = preg_replace(
-        '/[^a-z0-9]+/',
-        '-',
-        $slug
-    );
+    $slug =
+        preg_replace(
+            '/[^a-z0-9]+/',
+            '-',
+            $slug
+        );
 
-    $slug = trim(
-        $slug,
-        '-'
-    );
+    $slug =
+        trim(
+            $slug,
+            '-'
+        );
 
 
     if (
@@ -215,9 +250,7 @@ if (isset($_POST['add_category'])) {
     } else {
 
 
-        /*
-        | Check duplicate slug
-        */
+        /* Check duplicate slug */
 
         $checkSql = "
             SELECT id
@@ -225,11 +258,13 @@ if (isset($_POST['add_category'])) {
             WHERE slug = ?
         ";
 
+
         $checkStmt =
             mysqli_prepare(
                 $conn,
                 $checkSql
             );
+
 
         mysqli_stmt_bind_param(
             $checkStmt,
@@ -237,21 +272,28 @@ if (isset($_POST['add_category'])) {
             $slug
         );
 
-        mysqli_stmt_execute($checkStmt);
+
+        mysqli_stmt_execute(
+            $checkStmt
+        );
+
 
         $checkResult =
-            mysqli_stmt_get_result($checkStmt);
+            mysqli_stmt_get_result(
+                $checkStmt
+            );
 
 
         if (
-            mysqli_num_rows($checkResult) > 0
+            mysqli_num_rows(
+                $checkResult
+            ) > 0
         ) {
 
             $error =
                 "This slug already exists.";
 
         } else {
-
 
             $insertSql = "
                 INSERT INTO categories
@@ -263,11 +305,13 @@ if (isset($_POST['add_category'])) {
                 VALUES (?, ?, ?)
             ";
 
+
             $insertStmt =
                 mysqli_prepare(
                     $conn,
                     $insertSql
                 );
+
 
             mysqli_stmt_bind_param(
                 $insertStmt,
@@ -301,13 +345,13 @@ if (isset($_POST['add_category'])) {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| UPDATE CATEGORY
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   UPDATE CATEGORY
+========================================================= */
 
-if (isset($_POST['update_category'])) {
+if (
+    isset($_POST['update_category'])
+) {
 
     $category_id =
         (int) $_POST['category_id'];
@@ -319,25 +363,28 @@ if (isset($_POST['update_category'])) {
         trim($_POST['slug']);
 
     $short_description =
-        trim($_POST['short_description']);
+        trim(
+            $_POST['short_description']
+        );
 
 
-    /*
-    | Generate URL-friendly slug
-    */
+    /* Generate URL-friendly slug */
 
-    $slug = strtolower($slug);
+    $slug =
+        strtolower($slug);
 
-    $slug = preg_replace(
-        '/[^a-z0-9]+/',
-        '-',
-        $slug
-    );
+    $slug =
+        preg_replace(
+            '/[^a-z0-9]+/',
+            '-',
+            $slug
+        );
 
-    $slug = trim(
-        $slug,
-        '-'
-    );
+    $slug =
+        trim(
+            $slug,
+            '-'
+        );
 
 
     if (
@@ -351,20 +398,26 @@ if (isset($_POST['update_category'])) {
         $editMode = true;
 
         $editCategory = [
-            'id' => $category_id,
-            'name' => $name,
-            'slug' => $slug,
+
+            'id' =>
+                $category_id,
+
+            'name' =>
+                $name,
+
+            'slug' =>
+                $slug,
+
             'short_description' =>
                 $short_description
+
         ];
 
     } else {
 
 
-        /*
-        | Check duplicate slug
-        | excluding current category
-        */
+        /* Check duplicate slug
+           excluding current category */
 
         $checkSql = "
             SELECT id
@@ -373,11 +426,13 @@ if (isset($_POST['update_category'])) {
             AND id != ?
         ";
 
+
         $checkStmt =
             mysqli_prepare(
                 $conn,
                 $checkSql
             );
+
 
         mysqli_stmt_bind_param(
             $checkStmt,
@@ -386,7 +441,11 @@ if (isset($_POST['update_category'])) {
             $category_id
         );
 
-        mysqli_stmt_execute($checkStmt);
+
+        mysqli_stmt_execute(
+            $checkStmt
+        );
+
 
         $checkResult =
             mysqli_stmt_get_result(
@@ -395,7 +454,9 @@ if (isset($_POST['update_category'])) {
 
 
         if (
-            mysqli_num_rows($checkResult) > 0
+            mysqli_num_rows(
+                $checkResult
+            ) > 0
         ) {
 
             $error =
@@ -404,30 +465,41 @@ if (isset($_POST['update_category'])) {
             $editMode = true;
 
             $editCategory = [
-                'id' => $category_id,
-                'name' => $name,
-                'slug' => $slug,
+
+                'id' =>
+                    $category_id,
+
+                'name' =>
+                    $name,
+
+                'slug' =>
+                    $slug,
+
                 'short_description' =>
                     $short_description
+
             ];
 
         } else {
 
-
             $updateSql = "
                 UPDATE categories
+
                 SET
                     name = ?,
                     slug = ?,
                     short_description = ?
+
                 WHERE id = ?
             ";
+
 
             $updateStmt =
                 mysqli_prepare(
                     $conn,
                     $updateSql
                 );
+
 
             mysqli_stmt_bind_param(
                 $updateStmt,
@@ -448,6 +520,8 @@ if (isset($_POST['update_category'])) {
                 $success =
                     "Category updated successfully.";
 
+                $editMode = false;
+
             } else {
 
                 $error =
@@ -462,11 +536,9 @@ if (isset($_POST['update_category'])) {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| GET ALL CATEGORIES
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   GET ALL CATEGORIES
+========================================================= */
 
 $sql = "
     SELECT
@@ -475,6 +547,7 @@ $sql = "
         categories.slug,
         categories.short_description,
         COUNT(events.id) AS total_events
+
     FROM categories
 
     LEFT JOIN events
@@ -486,8 +559,10 @@ $sql = "
         categories.slug,
         categories.short_description
 
-    ORDER BY categories.id ASC
+    ORDER BY
+        categories.id ASC
 ";
+
 
 $result =
     mysqli_query(
@@ -503,230 +578,278 @@ $result =
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>
-Manage Categories | Admin
-</title>
-
-
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-rel="stylesheet"
->
+    <title>
+        Manage Categories | Admin
+    </title>
 
 
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
->
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
 
-<style>
+    <!-- Font Awesome -->
 
-body {
-
-    background: #f5f6fa;
-
-}
-
-
-.admin-container {
-
-    max-width: 1150px;
-
-    margin: 50px auto;
-
-}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
 
-.card {
+    <!-- Admin CSS -->
 
-    border: none;
-
-    border-radius: 12px;
-
-}
-
-
-.form-label {
-
-    font-weight: 600;
-
-}
-
-
-.category-table {
-
-    background: white;
-
-}
-
-
-</style>
+    <link
+        rel="stylesheet"
+        href="../../css/admin/admin.css"
+    >
 
 </head>
 
 
-<body>
+<body class="admin-dashboard">
 
 
-<div class="admin-container px-3">
+<!-- =========================================================
+     ADMIN NAVBAR
+========================================================== -->
+
+<nav class="admin-navbar">
+
+    <div class="container-fluid px-4">
 
 
-    <!-- Header -->
+        <a
+            class="admin-brand"
+            href="../dashboard.php"
+        >
 
-    <div
-    class="d-flex justify-content-between align-items-center mb-4"
-    >
+            Sevartha Foundation
+
+            <span class="text-muted">
+                | Admin
+            </span>
+
+        </a>
+
+
+        <div class="admin-user">
+
+            <span>
+
+                <i class="fa-solid fa-user me-1"></i>
+
+                <?= htmlspecialchars(
+                    $_SESSION['admin_name']
+                ); ?>
+
+            </span>
+
+
+            <a
+                href="../logout.php"
+                class="admin-logout"
+            >
+
+                <i
+                    class="fa-solid fa-right-from-bracket"
+                ></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================== -->
+
+<main class="admin-container">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="admin-header">
 
         <div>
 
-            <h2 class="fw-bold mb-1">
-
+            <h1>
                 Manage Categories
+            </h1>
 
-            </h2>
-
-            <p class="text-muted mb-0">
-
-                Add, edit and manage your
-                Our Work categories.
-
+            <p>
+                Add, edit and manage your Our Work categories.
             </p>
 
         </div>
 
 
         <a
-        href="../dashboard.php"
-        class="btn btn-outline-secondary"
+            href="../dashboard.php"
+            class="admin-btn-secondary"
         >
 
-            ← Dashboard
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Dashboard
 
         </a>
 
     </div>
 
 
-    <!-- Messages -->
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
 
+    <?php if (
+        !empty($success)
+    ) { ?>
 
-    <?php if (!empty($success)) { ?>
+        <div class="admin-alert admin-alert-success">
 
-        <div class="alert alert-success">
+            <i
+                class="fa-solid fa-circle-check me-2"
+            ></i>
 
-            <i class="fa-solid fa-circle-check me-2"></i>
-
-            <?= htmlspecialchars($success); ?>
-
-        </div>
-
-    <?php } ?>
-
-
-    <?php if (!empty($error)) { ?>
-
-        <div class="alert alert-danger">
-
-            <i class="fa-solid fa-circle-exclamation me-2"></i>
-
-            <?= htmlspecialchars($error); ?>
+            <?= htmlspecialchars(
+                $success
+            ); ?>
 
         </div>
 
     <?php } ?>
 
 
-    <!-- Add / Edit Form -->
+    <?php if (
+        !empty($error)
+    ) { ?>
 
-    <div class="card shadow-sm mb-4">
+        <div class="admin-alert">
 
-        <div class="card-body p-4">
+            <i
+                class="fa-solid fa-circle-exclamation me-2"
+            ></i>
 
+            <?= htmlspecialchars(
+                $error
+            ); ?>
 
-            <div
-            class="d-flex justify-content-between align-items-center mb-4"
-            >
+        </div>
 
-                <div>
-
-                    <h4 class="fw-bold mb-1">
-
-                        <?= $editMode
-                            ? 'Edit Category'
-                            : 'Add New Category'
-                        ?>
-
-                    </h4>
-
-                    <p class="text-muted mb-0">
-
-                        <?= $editMode
-                            ? 'Update category information.'
-                            : 'Create a new category for Our Work.'
-                        ?>
-
-                    </p>
-
-                </div>
+    <?php } ?>
 
 
-                <?php if ($editMode) { ?>
+    <!-- =====================================================
+         ADD / EDIT FORM
+    ====================================================== -->
 
-                    <a
-                    href="index.php"
-                    class="btn btn-sm btn-outline-secondary"
-                    >
+    <div class="admin-form-card">
 
-                        Cancel Edit
 
-                    </a>
+        <div class="admin-section-header">
 
-                <?php } ?>
+
+            <div>
+
+                <h3>
+
+                    <?= $editMode
+                        ? 'Edit Category'
+                        : 'Add New Category'
+                    ?>
+
+                </h3>
+
+
+                <p>
+
+                    <?= $editMode
+                        ? 'Update category information.'
+                        : 'Create a new category for Our Work.'
+                    ?>
+
+                </p>
 
             </div>
 
 
-            <form method="POST">
+            <?php if (
+                $editMode
+            ) { ?>
+
+                <a
+                    href="index.php"
+                    class="admin-btn-secondary"
+                >
+
+                    <i class="fa-solid fa-xmark"></i>
+
+                    Cancel Edit
+
+                </a>
+
+            <?php } ?>
 
 
-                <?php if ($editMode) { ?>
+        </div>
 
-                    <input
+
+        <form method="POST">
+
+
+            <?php if (
+                $editMode
+            ) { ?>
+
+                <input
                     type="hidden"
                     name="category_id"
                     value="<?= $editCategory['id']; ?>"
+                >
+
+            <?php } ?>
+
+
+            <!-- NAME + SLUG -->
+
+            <div class="row">
+
+
+                <div class="col-md-6 mb-4">
+
+                    <label
+                        for="categoryName"
+                        class="admin-form-label"
                     >
 
-                <?php } ?>
+                        Category Name
+
+                        <span class="admin-required">
+                            *
+                        </span>
+
+                    </label>
 
 
-                <div class="row">
-
-
-                    <!-- Name -->
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-
-                            Category Name
-
-                            <span class="text-danger">
-                                *
-                            </span>
-
-                        </label>
-
-
-                        <input
+                    <input
                         type="text"
                         name="name"
                         id="categoryName"
@@ -739,27 +862,28 @@ body {
                         ?>"
                         placeholder="Example: Education for All"
                         required
-                        >
+                    >
 
-                    </div>
-
-
-                    <!-- Slug -->
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-
-                            Slug
-
-                            <span class="text-danger">
-                                *
-                            </span>
-
-                        </label>
+                </div>
 
 
-                        <input
+                <div class="col-md-6 mb-4">
+
+                    <label
+                        for="categorySlug"
+                        class="admin-form-label"
+                    >
+
+                        Slug
+
+                        <span class="admin-required">
+                            *
+                        </span>
+
+                    </label>
+
+
+                    <input
                         type="text"
                         name="slug"
                         id="categorySlug"
@@ -772,393 +896,414 @@ body {
                         ?>"
                         placeholder="education-for-all"
                         required
-                        >
+                    >
 
 
-                        <small class="text-muted">
+                    <div class="admin-image-note">
 
-                            Used in the category URL.
-
-                        </small>
+                        Used in the category URL.
 
                     </div>
 
-
                 </div>
-
-
-                <!-- Description -->
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-
-                        Short Description
-
-                    </label>
-
-
-                    <textarea
-                    name="short_description"
-                    class="form-control"
-                    rows="3"
-                    placeholder="Brief description of this category..."
-                    ><?= $editMode
-                        ? htmlspecialchars(
-                            $editCategory[
-                                'short_description'
-                            ]
-                        )
-                        : ''
-                    ?></textarea>
-
-                </div>
-
-
-                <div class="text-end">
-
-
-                    <?php if ($editMode) { ?>
-
-                        <button
-                        type="submit"
-                        name="update_category"
-                        class="btn btn-primary px-4"
-                        >
-
-                            <i
-                            class="fa-solid fa-save me-1"
-                            ></i>
-
-                            Update Category
-
-                        </button>
-
-                    <?php } else { ?>
-
-                        <button
-                        type="submit"
-                        name="add_category"
-                        class="btn btn-primary px-4"
-                        >
-
-                            <i
-                            class="fa-solid fa-plus me-1"
-                            ></i>
-
-                            Add Category
-
-                        </button>
-
-                    <?php } ?>
-
-
-                </div>
-
-
-            </form>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- Categories Table -->
-
-    <div class="card shadow-sm">
-
-
-        <div class="card-body p-0">
-
-
-            <div class="table-responsive">
-
-
-                <table
-                class="table table-hover align-middle mb-0"
-                >
-
-
-                    <thead class="table-light">
-
-
-                        <tr>
-
-                            <th class="px-4">
-                                Category
-                            </th>
-
-                            <th>
-                                Slug
-                            </th>
-
-                            <th>
-                                Events
-                            </th>
-
-                            <th>
-                                Description
-                            </th>
-
-                            <th class="text-center">
-                                Actions
-                            </th>
-
-                        </tr>
-
-
-                    </thead>
-
-
-                    <tbody>
-
-
-                    <?php if (
-                        mysqli_num_rows($result) > 0
-                    ) { ?>
-
-
-                        <?php while (
-                            $category =
-                            mysqli_fetch_assoc($result)
-                        ) { ?>
-
-
-                            <tr>
-
-
-                                <!-- Name -->
-
-                                <td class="px-4">
-
-                                    <strong>
-
-                                        <?= htmlspecialchars(
-                                            $category['name']
-                                        ); ?>
-
-                                    </strong>
-
-                                </td>
-
-
-                                <!-- Slug -->
-
-                                <td>
-
-                                    <code>
-
-                                        <?= htmlspecialchars(
-                                            $category['slug']
-                                        ); ?>
-
-                                    </code>
-
-                                </td>
-
-
-                                <!-- Event Count -->
-
-                                <td>
-
-                                    <span
-                                    class="badge bg-primary"
-                                    >
-
-                                        <?= $category[
-                                            'total_events'
-                                        ]; ?>
-
-                                    </span>
-
-                                </td>
-
-
-                                <!-- Description -->
-
-                                <td
-                                style="max-width:300px;"
-                                >
-
-                                    <?php if (
-                                        !empty(
-                                            $category[
-                                                'short_description'
-                                            ]
-                                        )
-                                    ) { ?>
-
-                                        <?= htmlspecialchars(
-                                            $category[
-                                                'short_description'
-                                            ]
-                                        ); ?>
-
-                                    <?php } else { ?>
-
-                                        <span
-                                        class="text-muted"
-                                        >
-
-                                            No description
-
-                                        </span>
-
-                                    <?php } ?>
-
-                                </td>
-
-
-                                <!-- Actions -->
-
-                                <td>
-
-
-                                    <div
-                                    class="d-flex justify-content-center gap-2"
-                                    >
-
-
-                                        <!-- View -->
-
-                                        <a
-                                        href="../../our-work/category.php?slug=<?= urlencode(
-                                            $category['slug']
-                                        ); ?>"
-                                        target="_blank"
-                                        class="btn btn-sm btn-outline-primary"
-                                        >
-
-                                            View
-
-                                        </a>
-
-
-                                        <!-- Edit -->
-
-                                        <a
-                                        href="?edit=<?= $category['id']; ?>"
-                                        class="btn btn-sm btn-outline-warning"
-                                        >
-
-                                            Edit
-
-                                        </a>
-
-
-                                        <!-- Delete -->
-
-                                        <?php if (
-                                            $category[
-                                                'total_events'
-                                            ] == 0
-                                        ) { ?>
-
-
-                                            <a
-                                            href="?delete=<?= $category['id']; ?>"
-                                            class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Are you sure you want to delete this category?');"
-                                            >
-
-                                                Delete
-
-                                            </a>
-
-
-                                        <?php } else { ?>
-
-
-                                            <button
-                                            type="button"
-                                            class="btn btn-sm btn-outline-secondary"
-                                            disabled
-                                            title="This category has events"
-                                            >
-
-                                                Delete
-
-                                            </button>
-
-
-                                        <?php } ?>
-
-
-                                    </div>
-
-
-                                </td>
-
-
-                            </tr>
-
-
-                        <?php } ?>
-
-
-                    <?php } else { ?>
-
-
-                        <tr>
-
-                            <td
-                            colspan="5"
-                            class="text-center py-5"
-                            >
-
-                                <h5>
-
-                                    No categories found.
-
-                                </h5>
-
-                                <p
-                                class="text-muted"
-                                >
-
-                                    Add your first category above.
-
-                                </p>
-
-                            </td>
-
-                        </tr>
-
-
-                    <?php } ?>
-
-
-                    </tbody>
-
-
-                </table>
 
 
             </div>
 
 
+            <!-- DESCRIPTION -->
+
+            <div class="mb-4">
+
+                <label
+                    for="shortDescription"
+                    class="admin-form-label"
+                >
+
+                    Short Description
+
+                </label>
+
+
+                <textarea
+                    name="short_description"
+                    id="shortDescription"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Brief description of this category..."
+                ><?= $editMode
+                    ? htmlspecialchars(
+                        $editCategory[
+                            'short_description'
+                        ]
+                    )
+                    : ''
+                ?></textarea>
+
+            </div>
+
+
+            <!-- SUBMIT -->
+
+            <div class="admin-form-actions">
+
+
+                <?php if (
+                    $editMode
+                ) { ?>
+
+                    <button
+                        type="submit"
+                        name="update_category"
+                        class="admin-btn-primary"
+                    >
+
+                        <i
+                            class="fa-solid fa-floppy-disk"
+                        ></i>
+
+                        Update Category
+
+                    </button>
+
+                <?php } else { ?>
+
+                    <button
+                        type="submit"
+                        name="add_category"
+                        class="admin-btn-primary"
+                    >
+
+                        <i
+                            class="fa-solid fa-plus"
+                        ></i>
+
+                        Add Category
+
+                    </button>
+
+                <?php } ?>
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         CATEGORIES TABLE
+    ====================================================== -->
+
+    <div class="admin-table-card mt-4">
+
+
+        <div class="table-responsive">
+
+
+            <table class="admin-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Slug
+                        </th>
+
+                        <th>
+                            Events
+                        </th>
+
+                        <th>
+                            Description
+                        </th>
+
+                        <th class="text-center">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                <?php if (
+                    mysqli_num_rows($result) > 0
+                ) { ?>
+
+
+                    <?php while (
+                        $category =
+                        mysqli_fetch_assoc(
+                            $result
+                        )
+                    ) { ?>
+
+
+                        <tr>
+
+
+                            <!-- CATEGORY -->
+
+                            <td>
+
+                                <strong>
+
+                                    <?= htmlspecialchars(
+                                        $category['name']
+                                    ); ?>
+
+                                </strong>
+
+                            </td>
+
+
+                            <!-- SLUG -->
+
+                            <td>
+
+                                <code class="admin-code">
+
+                                    <?= htmlspecialchars(
+                                        $category['slug']
+                                    ); ?>
+
+                                </code>
+
+                            </td>
+
+
+                            <!-- EVENT COUNT -->
+
+                            <td>
+
+                                <span
+                                    class="admin-badge"
+                                >
+
+                                    <?= $category[
+                                        'total_events'
+                                    ]; ?>
+
+                                    <?= $category[
+                                        'total_events'
+                                    ] == 1
+                                        ? 'Event'
+                                        : 'Events'
+                                    ?>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- DESCRIPTION -->
+
+                            <td>
+
+                                <?php if (
+                                    !empty(
+                                        $category[
+                                            'short_description'
+                                        ]
+                                    )
+                                ) { ?>
+
+                                    <div
+                                        class="admin-description-cell"
+                                    >
+
+                                        <?= htmlspecialchars(
+                                            $category[
+                                                'short_description'
+                                            ]
+                                        ); ?>
+
+                                    </div>
+
+                                <?php } else { ?>
+
+                                    <span
+                                        class="text-muted"
+                                    >
+
+                                        No description
+
+                                    </span>
+
+                                <?php } ?>
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+                                <div
+                                    class="admin-table-actions"
+                                >
+
+
+                                    <!-- VIEW -->
+
+                                    <a
+                                        href="../../our-work/category.php?slug=<?= urlencode(
+                                            $category['slug']
+                                        ); ?>"
+                                        target="_blank"
+                                        class="admin-action-btn view"
+                                        title="View Category"
+                                    >
+
+                                        <i
+                                            class="fa-solid fa-eye"
+                                        ></i>
+
+                                    </a>
+
+
+                                    <!-- EDIT -->
+
+                                    <a
+                                        href="?edit=<?= $category['id']; ?>"
+                                        class="admin-action-btn edit"
+                                        title="Edit Category"
+                                    >
+
+                                        <i
+                                            class="fa-solid fa-pen"
+                                        ></i>
+
+                                    </a>
+
+
+                                    <!-- DELETE -->
+
+                                    <?php if (
+                                        $category[
+                                            'total_events'
+                                        ] == 0
+                                    ) { ?>
+
+                                        <a
+                                            href="?delete=<?= $category['id']; ?>"
+                                            class="admin-action-btn delete"
+                                            title="Delete Category"
+                                            onclick="return confirm('Are you sure you want to delete this category?');"
+                                        >
+
+                                            <i
+                                                class="fa-solid fa-trash"
+                                            ></i>
+
+                                        </a>
+
+                                    <?php } else { ?>
+
+                                        <button
+                                            type="button"
+                                            class="admin-action-btn disabled"
+                                            disabled
+                                            title="This category has events"
+                                        >
+
+                                            <i
+                                                class="fa-solid fa-lock"
+                                            ></i>
+
+                                        </button>
+
+                                    <?php } ?>
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    <?php } ?>
+
+
+                <?php } else { ?>
+
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            class="admin-empty-table"
+                        >
+
+                            <div
+                                class="admin-empty-icon"
+                            >
+
+                                <i
+                                    class="fa-solid fa-layer-group"
+                                ></i>
+
+                            </div>
+
+
+                            <h3>
+                                No Categories Found
+                            </h3>
+
+
+                            <p>
+                                Add your first category above.
+                            </p>
+
+                        </td>
+
+                    </tr>
+
+
+                <?php } ?>
+
+
+                </tbody>
+
+
+            </table>
+
+
         </div>
 
 
     </div>
 
 
-</div>
+</main>
 
+
+<!-- =========================================================
+     AUTOMATIC SLUG
+========================================================== -->
 
 <script>
-
-/*
-|--------------------------------------------------------------------------
-| Automatic Slug
-|--------------------------------------------------------------------------
-*/
 
 const categoryName =
     document.getElementById(
         "categoryName"
     );
+
 
 const categorySlug =
     document.getElementById(
@@ -1166,16 +1311,19 @@ const categorySlug =
     );
 
 
-let slugManuallyChanged = false;
+let slugManuallyChanged =
+    false;
 
 
 /*
+|--------------------------------------------------------------------------
 | Detect manual slug editing
+|--------------------------------------------------------------------------
 */
 
 categorySlug.addEventListener(
     "input",
-    function() {
+    function () {
 
         slugManuallyChanged = true;
 
@@ -1184,30 +1332,33 @@ categorySlug.addEventListener(
 
 
 /*
+|--------------------------------------------------------------------------
 | Generate slug while adding
+|--------------------------------------------------------------------------
 */
 
 categoryName.addEventListener(
     "input",
-    function() {
+    function () {
 
-        /*
-        | Only automatically change slug
-        | when creating a category.
-        */
 
         <?php if (!$editMode) { ?>
+
 
             if (!slugManuallyChanged) {
 
                 categorySlug.value =
                     categoryName.value
+
                     .toLowerCase()
+
                     .trim()
+
                     .replace(
                         /[^a-z0-9]+/g,
                         "-"
                     )
+
                     .replace(
                         /^-+|-+$/g,
                         ""
@@ -1215,7 +1366,9 @@ categoryName.addEventListener(
 
             }
 
+
         <?php } ?>
+
 
     }
 );

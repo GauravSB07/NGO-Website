@@ -4,15 +4,23 @@ session_start();
 
 include "../../config/db.php";
 
-/* Check Admin Login */
+
+/* =========================================================
+   ADMIN AUTHENTICATION
+========================================================= */
 
 if (!isset($_SESSION['admin_id'])) {
+
     header("Location: ../login.php");
+
     exit();
+
 }
 
 
-/* Get Events */
+/* =========================================================
+   GET EVENTS
+========================================================= */
 
 $sql = "
     SELECT 
@@ -20,16 +28,27 @@ $sql = "
         events.title,
         events.event_date,
         events.location,
-        events.cover_image,
         events.status,
-        categories.name AS category_name
+        categories.name AS category_name,
+        images.id AS cover_image_id
+
     FROM events
+
     INNER JOIN categories
         ON events.category_id = categories.id
+
+    LEFT JOIN images
+        ON events.id = images.event_id
+        AND images.image_role = 'cover'
+
     ORDER BY events.event_date DESC
 ";
 
-$result = mysqli_query($conn, $sql);
+
+$result = mysqli_query(
+    $conn,
+    $sql
+);
 
 ?>
 
@@ -39,418 +58,459 @@ $result = mysqli_query($conn, $sql);
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Manage Events | Admin</title>
-
-
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-rel="stylesheet"
->
+    <title>
+        Manage Events | Admin
+    </title>
 
 
-<style>
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
 
-body {
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
-    background: #f5f6fa;
 
-}
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
 
-.admin-container {
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
-    max-width: 1200px;
 
-    margin: 50px auto;
+    <!-- =====================================================
+         ADMIN CSS
+    ====================================================== -->
 
-}
-
-.card {
-
-    border: none;
-
-    border-radius: 12px;
-
-}
-
-.event-image {
-
-    width: 90px;
-
-    height: 65px;
-
-    object-fit: cover;
-
-    border-radius: 8px;
-
-}
-
-</style>
+    <link
+        rel="stylesheet"
+        href="../../css/admin/admin.css"
+    >
 
 </head>
 
 
-<body>
+<body class="admin-dashboard">
 
 
-<div class="admin-container">
+<!-- =========================================================
+     ADMIN NAVBAR
+========================================================== -->
+
+<nav class="admin-navbar">
+
+    <div class="container-fluid px-4">
 
 
-    <!-- Header -->
+        <a
+            class="admin-brand"
+            href="../dashboard.php"
+        >
 
-    <div
-    class="d-flex justify-content-between align-items-center mb-4"
-    >
+            Sevartha Foundation
+
+            <span class="text-muted">
+                | Admin
+            </span>
+
+        </a>
+
+
+        <div class="admin-user">
+
+            <span>
+
+                <i class="fa-solid fa-user me-1"></i>
+
+                <?= htmlspecialchars(
+                    $_SESSION['admin_name']
+                ); ?>
+
+            </span>
+
+
+            <a
+                href="../logout.php"
+                class="admin-logout"
+            >
+
+                <i
+                    class="fa-solid fa-right-from-bracket"
+                ></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN CONTENT
+========================================================== -->
+
+<main class="admin-container">
+
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="admin-header">
 
         <div>
 
-            <h2 class="fw-bold mb-1">
-
+            <h1>
                 Manage Events
+            </h1>
 
-            </h2>
-
-            <p class="text-muted mb-0">
-
+            <p>
                 View and manage all NGO events.
-
             </p>
 
         </div>
 
 
         <a
-        href="add.php"
-        class="btn btn-primary"
+            href="add.php"
+            class="admin-btn-primary"
         >
 
-            + Add New Event
+            <i class="fa-solid fa-plus"></i>
+
+            Add New Event
 
         </a>
 
     </div>
 
 
-    <!-- Success Message -->
+    <!-- =====================================================
+         SUCCESS MESSAGES
+    ====================================================== -->
 
-    <?php if (isset($_GET['success'])) { ?>
+    <?php if (
+        isset($_GET['success'])
+    ) { ?>
 
-        <div class="alert alert-success">
-            ✓ Event added successfully!
+        <div class="admin-alert admin-alert-success">
+
+            <i
+                class="fa-solid fa-circle-check me-2"
+            ></i>
+
+            Event added successfully!
+
         </div>
 
     <?php } ?>
 
 
-    <?php if (isset($_GET['updated'])) { ?>
+    <?php if (
+        isset($_GET['updated'])
+    ) { ?>
 
-        <div class="alert alert-success">
-            ✓ Event updated successfully!
+        <div class="admin-alert admin-alert-success">
+
+            <i
+                class="fa-solid fa-circle-check me-2"
+            ></i>
+
+            Event updated successfully!
+
         </div>
 
     <?php } ?>
 
 
-    <?php if (isset($_GET['deleted'])) { ?>
+    <?php if (
+        isset($_GET['deleted'])
+    ) { ?>
 
-        <div class="alert alert-success">
-            ✓ Event deleted successfully!
+        <div class="admin-alert admin-alert-success">
+
+            <i
+                class="fa-solid fa-circle-check me-2"
+            ></i>
+
+            Event deleted successfully!
+
         </div>
 
     <?php } ?>
 
 
-    <!-- Events Table -->
+    <!-- =====================================================
+         EVENTS TABLE
+    ====================================================== -->
 
-    <div class="card shadow-sm">
-
-        <div class="card-body p-0">
-
-
-            <div class="table-responsive">
-
-                <table
-                class="table table-hover align-middle mb-0"
-                >
-
-                    <thead class="table-light">
-
-                        <tr>
-
-                            <th class="px-4">
-                                Image
-                            </th>
-
-                            <th>
-                                Event
-                            </th>
-
-                            <th>
-                                Category
-                            </th>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Location
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th class="text-center">
-                                Actions
-                            </th>
-
-                        </tr>
-
-                    </thead>
+    <div class="admin-table-card">
 
 
-                    <tbody>
+        <div class="table-responsive">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Image
+                        </th>
+
+                        <th>
+                            Event
+                        </th>
+
+                        <th>
+                            Category
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Location
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th class="text-center">
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
 
 
-                    <?php if (
-                        mysqli_num_rows($result) > 0
+                <tbody>
+
+
+                <?php if (
+                    mysqli_num_rows($result) > 0
+                ) { ?>
+
+
+                    <?php while (
+                        $event =
+                        mysqli_fetch_assoc($result)
                     ) { ?>
 
 
-                        <?php while (
-                            $event =
-                            mysqli_fetch_assoc($result)
-                        ) { ?>
+                        <tr>
 
 
-                            <tr>
+                            <!-- IMAGE -->
 
+                            <td>
 
-                                <!-- Image -->
+                                <?php if (
+                                    !empty($event['cover_image_id'])
+                                ) { ?>
 
-                                <td class="px-4">
-
-                                    <?php if (
-                                        !empty(
-                                            $event['cover_image']
-                                        )
-                                    ) { ?>
-
-                                        <img
-                                        src="../../uploads/events/<?= htmlspecialchars(
-                                            $event['cover_image']
-                                        ); ?>"
+                                    <img
+                                        src="../../image.php?id=<?= (int) $event['cover_image_id']; ?>"
                                         class="event-image"
-                                        >
-
-                                    <?php } else { ?>
-
-                                        <span
-                                        class="text-muted"
-                                        >
-
-                                            No Image
-
-                                        </span>
-
-                                    <?php } ?>
-
-                                </td>
-
-
-                                <!-- Event -->
-
-                                <td>
-
-                                    <strong>
-
-                                        <?= htmlspecialchars(
-                                            $event['title']
-                                        ); ?>
-
-                                    </strong>
-
-                                </td>
-
-
-                                <!-- Category -->
-
-                                <td>
-
-                                    <span
-                                    class="badge bg-info text-dark"
+                                        alt="<?= htmlspecialchars($event['title']); ?>"
                                     >
 
-                                        <?= htmlspecialchars(
-                                            $event['category_name']
-                                        ); ?>
+                                <?php } else { ?>
+
+                                    <span class="text-muted">
+                                        No Image
+                                    </span>
+
+                                <?php } ?>
+
+                            </td>
+
+
+                            <!-- EVENT -->
+
+                            <td>
+
+                                <strong>
+
+                                    <?= htmlspecialchars(
+                                        $event['title']
+                                    ); ?>
+
+                                </strong>
+
+                            </td>
+
+
+                            <!-- CATEGORY -->
+
+                            <td>
+
+                                <span class="admin-badge">
+
+                                    <?= htmlspecialchars(
+                                        $event['category_name']
+                                    ); ?>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                <?php if (
+                                    !empty(
+                                        $event['event_date']
+                                    )
+                                ) { ?>
+
+                                    <?= date(
+                                        "d M Y",
+                                        strtotime(
+                                            $event['event_date']
+                                        )
+                                    ); ?>
+
+                                <?php } else { ?>
+
+                                    <span
+                                        class="text-muted"
+                                    >
+
+                                        —
 
                                     </span>
 
-                                </td>
-
-
-                                <!-- Date -->
-
-                                <td>
-
-                                    <?= !empty(
-                                        $event['event_date']
-                                    )
-                                        ? date(
-                                            "d M Y",
-                                            strtotime(
-                                                $event['event_date']
-                                            )
-                                        )
-                                        : "-"
-                                    ?>
-
-                                </td>
-
-
-                                <!-- Location -->
-
-                                <td>
-
-                                    <?= htmlspecialchars(
-                                        $event['location']
-                                    ); ?>
-
-                                </td>
-
-
-                                <!-- Status -->
-
-                                <td>
-
-                                    <?php if (
-                                        $event['status']
-                                        === 'Active'
-                                    ) { ?>
-
-                                        <span
-                                        class="badge bg-success"
-                                        >
-
-                                            Active
-
-                                        </span>
-
-                                    <?php } else { ?>
-
-                                        <span
-                                        class="badge bg-secondary"
-                                        >
-
-                                            Inactive
-
-                                        </span>
-
-                                    <?php } ?>
-
-                                </td>
-
-
-                                <!-- Actions -->
-
-                                <td>
-
-                                    <div
-                                    class="d-flex justify-content-center gap-2"
-                                    >
-
-
-                                        <!-- View -->
-
-                                        <a
-                                        href="../../our-work/event.php?id=<?= $event['id']; ?>"
-                                        target="_blank"
-                                        class="btn btn-sm btn-outline-primary"
-                                        >
-
-                                            View
-
-                                        </a>
-
-
-                                        <!-- Edit -->
-
-                                        <a
-                                        href="edit.php?id=<?= $event['id']; ?>"
-                                        class="btn btn-sm btn-outline-warning"
-                                        >
-
-                                            Edit
-
-                                        </a>
-
-
-                                        <!-- Delete -->
-
-                                        <a
-                                        href="delete.php?id=<?= $event['id']; ?>"
-                                        class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm(
-                                            'Are you sure you want to delete this event?'
-                                        );"
-                                        >
-
-                                            Delete
-
-                                        </a>
-
-
-                                    </div>
-
-                                </td>
-
-
-                            </tr>
-
-
-                        <?php } ?>
-
-
-                    <?php } else { ?>
-
-
-                        <tr>
-
-                            <td
-                            colspan="7"
-                            class="text-center py-5"
-                            >
-
-                                <h5>
-
-                                    No Events Found
-
-                                </h5>
-
-                                <p class="text-muted">
-
-                                    Start by adding your first event.
-
-                                </p>
-
-                                <a
-                                href="add.php"
-                                class="btn btn-primary"
-                                >
-
-                                    + Add Event
-
-                                </a>
+                                <?php } ?>
 
                             </td>
+
+
+                            <!-- LOCATION -->
+
+                            <td>
+
+                                <?= htmlspecialchars(
+                                    $event['location']
+                                ); ?>
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <?php if (
+                                    $event['status']
+                                    === 'Active'
+                                ) { ?>
+
+                                    <span
+                                        class="admin-status active"
+                                    >
+
+                                        Active
+
+                                    </span>
+
+                                <?php } else { ?>
+
+                                    <span
+                                        class="admin-status inactive"
+                                    >
+
+                                        Inactive
+
+                                    </span>
+
+                                <?php } ?>
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+                                <div
+                                    class="admin-table-actions"
+                                >
+
+
+                                    <!-- VIEW -->
+
+                                    <a
+                                        href="../../our-work/event.php?id=<?= $event['id']; ?>"
+                                        target="_blank"
+                                        class="admin-action-btn view"
+                                        title="View Event"
+                                    >
+
+                                        <i
+                                            class="fa-solid fa-eye"
+                                        ></i>
+
+                                    </a>
+
+
+                                    <!-- EDIT -->
+
+                                    <a
+                                        href="edit.php?id=<?= $event['id']; ?>"
+                                        class="admin-action-btn edit"
+                                        title="Edit Event"
+                                    >
+
+                                        <i
+                                            class="fa-solid fa-pen"
+                                        ></i>
+
+                                    </a>
+
+
+                                    <!-- DELETE -->
+
+                                    <a
+                                        href="delete.php?id=<?= $event['id']; ?>"
+                                        class="admin-action-btn delete"
+                                        title="Delete Event"
+                                        onclick="return confirm('Are you sure you want to delete this event?');"
+                                    >
+
+                                        <i
+                                            class="fa-solid fa-trash"
+                                        ></i>
+
+                                    </a>
+
+
+                                </div>
+
+                            </td>
+
 
                         </tr>
 
@@ -458,18 +518,74 @@ body {
                     <?php } ?>
 
 
-                    </tbody>
+                <?php } else { ?>
 
-                </table>
 
-            </div>
+                    <!-- EMPTY STATE -->
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="admin-empty-table"
+                        >
+
+                            <div
+                                class="admin-empty-icon"
+                            >
+
+                                <i
+                                    class="fa-regular fa-calendar-xmark"
+                                ></i>
+
+                            </div>
+
+
+                            <h3>
+                                No Events Found
+                            </h3>
+
+
+                            <p>
+
+                                Start by adding your
+                                first event.
+
+                            </p>
+
+
+                            <a
+                                href="add.php"
+                                class="admin-btn-primary"
+                            >
+
+                                <i
+                                    class="fa-solid fa-plus"
+                                ></i>
+
+                                Add Event
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                <?php } ?>
+
+
+                </tbody>
+
+            </table>
 
         </div>
+
 
     </div>
 
 
-</div>
+</main>
 
 
 </body>
