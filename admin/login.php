@@ -2,6 +2,13 @@
 
 session_start();
 
+
+/*
+|--------------------------------------------------------------------------
+| Already Logged In
+|--------------------------------------------------------------------------
+*/
+
 if (isset($_SESSION['admin_id'])) {
 
     header("Location: dashboard.php");
@@ -9,14 +16,18 @@ if (isset($_SESSION['admin_id'])) {
 
 }
 
+
 include "../config/db.php";
+
 
 $error = "";
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
+*/
 
 if (isset($_POST['login'])) {
 
@@ -24,11 +35,24 @@ if (isset($_POST['login'])) {
     $password = $_POST['password'];
 
 
+    /*
+    |--------------------------------------------------------------------------
+    | Validate
+    |--------------------------------------------------------------------------
+    */
+
     if ($username === "" || $password === "") {
 
         $error = "Please enter your username and password.";
 
     } else {
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Get Admin
+        |--------------------------------------------------------------------------
+        */
 
         $sql = "
             SELECT *
@@ -37,7 +61,12 @@ if (isset($_POST['login'])) {
             LIMIT 1
         ";
 
-        $stmt = mysqli_prepare($conn, $sql);
+
+        $stmt = mysqli_prepare(
+            $conn,
+            $sql
+        );
+
 
         mysqli_stmt_bind_param(
             $stmt,
@@ -45,10 +74,18 @@ if (isset($_POST['login'])) {
             $username
         );
 
+
         mysqli_stmt_execute($stmt);
+
 
         $result = mysqli_stmt_get_result($stmt);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Admin
+        |--------------------------------------------------------------------------
+        */
 
         if (mysqli_num_rows($result) === 1) {
 
@@ -56,24 +93,48 @@ if (isset($_POST['login'])) {
 
 
             /*
-             * Your current database stores the password
-             * as plain text.
-             */
+            |--------------------------------------------------------------------------
+            | Verify Password
+            |--------------------------------------------------------------------------
+            */
 
-            if ($password === $admin['password']) {
+            if (
+                password_verify(
+                    $password,
+                    $admin['password']
+                )
+            ) {
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | Regenerate Session ID
+                |--------------------------------------------------------------------------
+                */
+
+                session_regenerate_id(true);
+
 
                 $_SESSION['admin_id'] =
                     $admin['id'];
 
+
                 $_SESSION['admin_name'] =
                     $admin['full_name'];
 
+
+                /*
+                |--------------------------------------------------------------------------
+                | Dashboard
+                |--------------------------------------------------------------------------
+                */
 
                 header(
                     "Location: dashboard.php"
                 );
 
                 exit();
+
 
             } else {
 
@@ -82,6 +143,7 @@ if (isset($_POST['login'])) {
 
             }
 
+
         } else {
 
             $error =
@@ -89,9 +151,13 @@ if (isset($_POST['login'])) {
 
         }
 
+
+        mysqli_stmt_close($stmt);
+
     }
 
 }
+
 ?>
 
 <!DOCTYPE html>

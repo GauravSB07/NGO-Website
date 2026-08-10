@@ -90,7 +90,7 @@
                 <div class="hero-image-frame">
 
                 <img
-                    src="static_image.php?name=homepage_image1.png"
+                    src="static_image.php?name=shivshram_cover.png"
                     alt="Sevartha Foundation"
                 >
 
