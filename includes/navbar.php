@@ -1,11 +1,42 @@
-<nav class="navbar navbar-expand-lg main-navbar">
+<?php
 
-    <div class="container-fluid navbar-container">
+/* =========================================================
+   DATABASE CONNECTION
+========================================================= */
 
-        <!-- BRAND -->
+if (!isset($conn)) {
+    include __DIR__ . '/../config/db.php';
+}
+
+
+/* =========================================================
+   GET CATEGORIES FOR OUR WORK
+========================================================= */
+
+$categoriesQuery = "
+    SELECT id, name, slug
+    FROM categories
+    ORDER BY id ASC
+";
+
+$categories = mysqli_query($conn, $categoriesQuery);
+
+if (!$categories) {
+    die("Category query failed: " . mysqli_error($conn));
+}
+
+?>
+
+<nav class="navbar">
+
+    <div class="container-fluid">
+
+        <!-- =================================================
+             BRAND
+        ================================================== -->
 
         <a
-            class="navbar-brand ngo-brand"
+            class="ngo-brand"
             href="/ngo-website/index.php"
         >
 
@@ -20,7 +51,9 @@
         </a>
 
 
-        <!-- MOBILE TOGGLE -->
+        <!-- =================================================
+             MOBILE TOGGLE
+        ================================================== -->
 
         <button
             class="navbar-toggler"
@@ -37,25 +70,27 @@
         </button>
 
 
-        <!-- NAVIGATION -->
+        <!-- =================================================
+             NAVIGATION
+        ================================================== -->
 
         <div
             class="collapse navbar-collapse justify-content-end"
             id="navbarNav"
         >
 
-            <ul class="navbar-nav align-items-lg-center">
+            <ul class="navbar-nav">
 
 
-                <!-- ABOUT US -->
+                <!-- =================================================
+                     ABOUT US
+                ================================================== -->
 
-                <li class="nav-item about-nav">
+                <li class="nav-item nav-dropdown about-nav">
 
                     <a
-                        class="nav-link about-nav-link"
-                        href="about.php"
-                        id="aboutDropdown"
-                        role="button"
+                        href="#"
+                        class="nav-link nav-dropdown-link"
                     >
 
                         About Us
@@ -63,35 +98,30 @@
                     </a>
 
 
-                    <div
-                        class="about-menu"
-                        aria-labelledby="aboutDropdown"
-                    >
+                    <div class="nav-dropdown-menu about-menu">
 
-                        <div class="about-menu-header">
+                        <div class="dropdown-header">
 
-                            <span class="about-menu-label">
-                                ABOUT SEVARTHA FOUNDATION
-                            </span>
+                            ABOUT SEVARTHA FOUNDATION
 
                         </div>
 
 
-                        <div class="about-menu-list">
+                        <div class="dropdown-list">
 
 
                             <a
                                 href="mission-vision-focus.php"
-                                class="about-menu-item"
+                                class="dropdown-item-custom"
                             >
 
-                                <span class="about-menu-icon">
+                                <span class="dropdown-icon">
 
                                     <i class="fa-solid fa-bullseye"></i>
 
                                 </span>
 
-                                <span class="about-menu-content">
+                                <span class="dropdown-content">
 
                                     <strong>
                                         Mission, Vision & Focus
@@ -108,16 +138,16 @@
 
                             <a
                                 href="founders.php"
-                                class="about-menu-item"
+                                class="dropdown-item-custom"
                             >
 
-                                <span class="about-menu-icon">
+                                <span class="dropdown-icon">
 
                                     <i class="fa-solid fa-users"></i>
 
                                 </span>
 
-                                <span class="about-menu-content">
+                                <span class="dropdown-content">
 
                                     <strong>
                                         Our Founders
@@ -134,16 +164,16 @@
 
                             <a
                                 href="our-teams.php"
-                                class="about-menu-item"
+                                class="dropdown-item-custom"
                             >
 
-                                <span class="about-menu-icon">
+                                <span class="dropdown-icon">
 
                                     <i class="fa-solid fa-people-group"></i>
 
                                 </span>
 
-                                <span class="about-menu-content">
+                                <span class="dropdown-content">
 
                                     <strong>
                                         Our Team
@@ -160,16 +190,16 @@
 
                             <a
                                 href="accountability-transparency.php"
-                                class="about-menu-item"
+                                class="dropdown-item-custom"
                             >
 
-                                <span class="about-menu-icon">
+                                <span class="dropdown-icon">
 
                                     <i class="fa-solid fa-chart-line"></i>
 
                                 </span>
 
-                                <span class="about-menu-content">
+                                <span class="dropdown-content">
 
                                     <strong>
                                         Financial Transparency
@@ -186,16 +216,16 @@
 
                             <a
                                 href="contact.php"
-                                class="about-menu-item"
+                                class="dropdown-item-custom"
                             >
 
-                                <span class="about-menu-icon">
+                                <span class="dropdown-icon">
 
                                     <i class="fa-solid fa-envelope"></i>
 
                                 </span>
 
-                                <span class="about-menu-content">
+                                <span class="dropdown-content">
 
                                     <strong>
                                         Contact Us
@@ -217,14 +247,15 @@
                 </li>
 
 
-                <!-- OUR WORK -->
+                <!-- =================================================
+                     OUR WORK
+                ================================================== -->
 
-                <li class="nav-item dropdown position-static">
+                <li class="nav-item nav-dropdown">
 
                     <a
-                        class="nav-link"
                         href="#"
-                        data-bs-toggle="dropdown"
+                        class="nav-link nav-dropdown-link"
                     >
 
                         Our Work
@@ -232,33 +263,22 @@
                     </a>
 
 
-                    <div
-                        class="dropdown-menu mega-menu p-4 border-0 shadow"
-                    >
+                    <div class="nav-dropdown-menu work-menu">
 
-                        <div class="row">
+                        <div class="work-grid">
 
                             <?php
-
-                            $count = 0;
 
                             while (
                                 $navCategory =
                                 mysqli_fetch_assoc($categories)
                             ) {
 
-                                if ($count % 3 == 0) {
-
-                                    echo '<div class="col-md-4">';
-
-                                }
-
                             ?>
-
 
                                 <a
                                     href="/ngo-website/our-work/category.php?slug=<?= urlencode($navCategory['slug']); ?>"
-                                    class="dropdown-item"
+                                    class="work-item"
                                 >
 
                                     <?= htmlspecialchars(
@@ -267,23 +287,7 @@
 
                                 </a>
 
-
                             <?php
-
-                                $count++;
-
-                                if ($count % 3 == 0) {
-
-                                    echo '</div>';
-
-                                }
-
-                            }
-
-
-                            if ($count % 3 != 0) {
-
-                                echo '</div>';
 
                             }
 
@@ -296,77 +300,223 @@
                 </li>
 
 
-                <!-- IMPACT STORIES -->
+                <!-- =================================================
+                     IMPACT STORIES
+                ================================================== -->
 
-                <li class="nav-item">
+                <li class="nav-item nav-dropdown">
 
                     <a
-                        class="nav-link"
-                        href="impact-stories.php"
+                        href="#"
+                        class="nav-link nav-dropdown-link"
                     >
 
                         Impact Stories
 
                     </a>
 
+
+                    <div class="nav-dropdown-menu">
+
+                        <a
+                            href="impact-stories.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            All Impact Stories
+
+                        </a>
+
+
+                        <a
+                            href="success-stories.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Success Stories
+
+                        </a>
+
+
+                        <a
+                            href="community-stories.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Community Stories
+
+                        </a>
+
+                    </div>
+
                 </li>
 
 
-                <!-- TESTIMONIALS -->
+                <!-- =================================================
+                     TESTIMONIALS
+                ================================================== -->
 
-                <li class="nav-item">
+                <li class="nav-item nav-dropdown">
 
                     <a
-                        class="nav-link"
-                        href="testimonials.php"
+                        href="#"
+                        class="nav-link nav-dropdown-link"
                     >
 
                         Testimonials
 
                     </a>
 
+
+                    <div class="nav-dropdown-menu">
+
+                        <a
+                            href="testimonials.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            All Testimonials
+
+                        </a>
+
+
+                        <a
+                            href="beneficiary-testimonials.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Beneficiaries
+
+                        </a>
+
+
+                        <a
+                            href="volunteer-testimonials.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Volunteers
+
+                        </a>
+
+                    </div>
+
                 </li>
 
 
-                <!-- NEWS -->
+                <!-- =================================================
+                     NEWS
+                ================================================== -->
 
-                <li class="nav-item">
+                <li class="nav-item nav-dropdown">
 
                     <a
-                        class="nav-link"
-                        href="news.php"
+                        href="#"
+                        class="nav-link nav-dropdown-link"
                     >
 
                         News
 
                     </a>
 
+
+                    <div class="nav-dropdown-menu">
+
+                        <a
+                            href="news.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Latest News
+
+                        </a>
+
+
+                        <a
+                            href="media.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Media Coverage
+
+                        </a>
+
+
+                        <a
+                            href="press-releases.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Press Releases
+
+                        </a>
+
+                    </div>
+
                 </li>
 
 
-                <!-- CONTACT -->
+                <!-- =================================================
+                     CONTACT US
+                ================================================== -->
 
-                <li class="nav-item">
+                <li class="nav-item nav-dropdown">
 
                     <a
-                        class="nav-link"
-                        href="contact.php"
+                        href="#"
+                        class="nav-link nav-dropdown-link"
                     >
 
                         Contact Us
 
                     </a>
 
+
+                    <div class="nav-dropdown-menu">
+
+                        <a
+                            href="contact.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Contact Us
+
+                        </a>
+
+
+                        <a
+                            href="volunteer.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Volunteer With Us
+
+                        </a>
+
+
+                        <a
+                            href="locations.php"
+                            class="simple-dropdown-item"
+                        >
+
+                            Our Locations
+
+                        </a>
+
+                    </div>
+
                 </li>
 
 
-                <!-- LOGIN -->
+                <!-- =================================================
+                     LOGIN
+                ================================================== -->
 
                 <li class="nav-item login-item">
 
                     <a
-                        class="nav-link login-link"
                         href="/ngo-website/admin/login.php"
+                        class="nav-link login-link"
                     >
 
                         Login
@@ -376,7 +526,9 @@
                 </li>
 
 
-                <!-- DONATE -->
+                <!-- =================================================
+                     DONATE
+                ================================================== -->
 
                 <li class="nav-item donate-item">
 

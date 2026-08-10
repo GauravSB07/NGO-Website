@@ -1,168 +1,343 @@
 <?php
 
 session_start();
-include '../config/db.php';
 
-if(isset($_POST['login']))
-{
+if (isset($_SESSION['admin_id'])) {
 
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-
-    $sql = "SELECT * FROM admin WHERE username=?";
-
-    $stmt = mysqli_prepare($conn,$sql);
-
-    mysqli_stmt_bind_param($stmt,"s",$username);
-
-    mysqli_stmt_execute($stmt);
-
-    $result = mysqli_stmt_get_result($stmt);
-
-    if(mysqli_num_rows($result)==1)
-    {
-
-        $admin = mysqli_fetch_assoc($result);
-
-        if($password == $admin['password'])
-        {
-
-            $_SESSION['admin_id']=$admin['id'];
-            $_SESSION['admin_name']=$admin['full_name'];
-
-            header("Location: dashboard.php");
-            exit();
-
-        }
-        else
-        {
-            $error="Incorrect Password!";
-        }
-
-    }
-    else
-    {
-        $error="Username not found!";
-    }
+    header("Location: dashboard.php");
+    exit();
 
 }
 
+include "../config/db.php";
+
+$error = "";
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+if (isset($_POST['login'])) {
+
+    $username = trim($_POST['username']);
+    $password = $_POST['password'];
+
+
+    if ($username === "" || $password === "") {
+
+        $error = "Please enter your username and password.";
+
+    } else {
+
+        $sql = "
+            SELECT *
+            FROM admin
+            WHERE username = ?
+            LIMIT 1
+        ";
+
+        $stmt = mysqli_prepare($conn, $sql);
+
+        mysqli_stmt_bind_param(
+            $stmt,
+            "s",
+            $username
+        );
+
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
+
+
+        if (mysqli_num_rows($result) === 1) {
+
+            $admin = mysqli_fetch_assoc($result);
+
+
+            /*
+             * Your current database stores the password
+             * as plain text.
+             */
+
+            if ($password === $admin['password']) {
+
+                $_SESSION['admin_id'] =
+                    $admin['id'];
+
+                $_SESSION['admin_name'] =
+                    $admin['full_name'];
+
+
+                header(
+                    "Location: dashboard.php"
+                );
+
+                exit();
+
+            } else {
+
+                $error =
+                    "Invalid username or password.";
+
+            }
+
+        } else {
+
+            $error =
+                "Invalid username or password.";
+
+        }
+
+    }
+
+}
 ?>
 
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
 
-<title>Admin Login</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/admin.css">
-<link rel="stylesheet" href="../css/navbar.css">
+    <title>
+        Admin Login | Sevartha Foundation
+    </title>
 
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
 
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+
+    <!-- =====================================================
+         LOGIN CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="../css/admin/login.css"
+    >
 
 </head>
 
-<body class="login-page">
 
-<?php include '../includes/navbar.php'; ?>
+<body class="admin-login-page">
 
-<div class="container-fluid p-0">
 
-<div class="row g-0 vh-100">
+<div class="container-fluid min-vh-100">
 
-    <!-- Image -->
+    <div class="row min-vh-100">
 
-    <div class="col-lg-7">
 
-        <div class="login-image">
+        <!-- =================================================
+             LOGIN IMAGE
+        ================================================== -->
 
-            <img src="../images/login.jpg" class="img-fluid">
+        <div class="col-lg-7 d-none d-lg-block p-0">
 
-        </div>
+            <div class="login-image">
 
-    </div>
-
-    <!-- Login -->
-
-    <div class="col-lg-5 d-flex align-items-center justify-content-center">
-
-        <div class="login-card">
-
-            <h2 class="text-center mb-4">
-
-                Welcome Back
-
-            </h2>
-
-            <?php if(isset($error)){ ?>
-
-            <div class="alert alert-danger">
-
-                <?= $error; ?>
+                <img
+                    src="../images/login.jpg"
+                    alt="Sevartha Foundation"
+                >
 
             </div>
 
-            <?php } ?>
+        </div>
 
-            <form method="POST" action="">
 
-                <div class="mb-3">
+        <!-- =================================================
+             LOGIN
+        ================================================== -->
 
-                    <input
-                    type="text"
-                    class="form-control"
-                    name="username"
-                    placeholder="Username">
+        <div
+            class="col-lg-5 d-flex align-items-center justify-content-center"
+        >
 
-                </div>
+            <div class="login-card">
 
-                <div class="mb-3">
 
-                    <input
-                    type="password"
-                    class="form-control"
-                    name="password"
-                    placeholder="Password">
+                <!-- Heading -->
 
-                </div>
+                <h2 class="text-center">
 
-                <button type="submit"
+                    Welcome Back
+
+                </h2>
+
+
+                <p class="login-subtitle">
+
+                    Sign in to your admin account
+
+                </p>
+
+
+                <!-- Error -->
+
+                <?php if ($error !== "") { ?>
+
+                    <div class="login-error">
+
+                        <i
+                            class="fa-solid fa-circle-exclamation"
+                        ></i>
+
+                        <?= htmlspecialchars($error); ?>
+
+                    </div>
+
+                <?php } ?>
+
+
+                <!-- Login Form -->
+
+                <form
+                    method="POST"
+                    action=""
+                >
+
+
+                    <!-- Username -->
+
+                    <div class="login-form-group">
+
+                        <label for="username">
+
+                            Username
+
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i
+                                class="fa-solid fa-user"
+                            ></i>
+
+                            <input
+                                type="text"
+                                id="username"
+                                name="username"
+                                class="form-control"
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Password -->
+
+                    <div class="login-form-group">
+
+                        <label for="password">
+
+                            Password
+
+                        </label>
+
+                        <div class="input-wrapper">
+
+                            <i
+                                class="fa-solid fa-lock"
+                            ></i>
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Login Button -->
+
+                    <button
+                        type="submit"
                         name="login"
-                        class="btn btn-primary w-100">
+                        class="login-button"
+                    >
 
-                    Login
+                        <i
+                            class="fa-solid fa-right-to-bracket"
+                        ></i>
 
-                </button>
+                        Login
 
-                <div class="text-center mt-3">
+                    </button>
 
-                    <a href="#">
 
-                        Forgot Password?
+                    <!-- Forgot Password -->
 
-                    </a>
+                    <div class="forgot-password">
+
+                        <a href="#">
+
+                            Forgot Password?
+
+                        </a>
+
+                    </div>
+
+
+                </form>
+
+
+                <!-- Footer Text -->
+
+                <div class="login-footer">
+
+                    Sevartha Foundation
+                    <span>•</span>
+                    Admin Panel
 
                 </div>
 
-            </form>
+
+            </div>
 
         </div>
+
 
     </div>
 
 </div>
 
-</div>
 
 </body>
 

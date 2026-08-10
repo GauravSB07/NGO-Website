@@ -31,7 +31,6 @@
 
 <?php include 'includes/navbar.php'; ?>
 
-
 <!-- =========================================================
      HERO SECTION
 ========================================================= -->
@@ -90,11 +89,10 @@
 
                 <div class="hero-image-frame">
 
-                    <img
-                        src="css/images/children.jpg"
-                        alt="Children learning"
-                        class="hero-image"
-                    >
+                <img
+                    src="static_image.php?name=homepage_image1.png"
+                    alt="Sevartha Foundation"
+                >
 
                 </div>
 
