@@ -3,13 +3,20 @@
 session_start();
 
 if (!isset($_SESSION['admin_id'])) {
+
     header("Location: login.php");
+
     exit();
+
 }
+
 
 include "../config/db.php";
 
-/* Count Events */
+
+/* =========================================================
+   TOTAL EVENTS
+========================================================= */
 
 $eventQuery = mysqli_query(
     $conn,
@@ -20,6 +27,20 @@ $eventData = mysqli_fetch_assoc($eventQuery);
 
 $totalEvents = $eventData['total'];
 
+
+/* =========================================================
+   TOTAL CATEGORIES
+========================================================= */
+
+$categoryQuery = mysqli_query(
+    $conn,
+    "SELECT COUNT(*) AS total FROM categories"
+);
+
+$categoryData = mysqli_fetch_assoc($categoryQuery);
+
+$totalCategories = $categoryData['total'];
+
 ?>
 
 <!DOCTYPE html>
@@ -28,120 +49,86 @@ $totalEvents = $eventData['total'];
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Admin Dashboard</title>
-
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-rel="stylesheet"
->
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
->
-
-<style>
-
-body {
-    background: #f5f6fa;
-}
+    <title>
+        Admin Dashboard | Sevartha Foundation
+    </title>
 
 
-/* Navbar */
+    <!-- =====================================================
+         BOOTSTRAP
+    ====================================================== -->
 
-.admin-navbar {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-
-
-.admin-container {
-    max-width: 1200px;
-    margin: auto;
-}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
 
-/* Cards */
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
 
-.dashboard-card {
-
-    border: none;
-    border-radius: 15px;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-
-}
-
-.dashboard-card:hover {
-
-    transform: translateY(-4px);
-
-    box-shadow:
-        0 10px 25px rgba(0,0,0,0.1);
-
-}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
 
-.icon-box {
+    <!-- =====================================================
+         ADMIN CSS
+    ====================================================== -->
 
-    width: 65px;
-    height: 65px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 12px;
-
-    background: #f0f3ff;
-
-}
-
-
-</style>
+    <link
+        rel="stylesheet"
+        href="../css/admin/admin.css"
+    >
 
 </head>
 
 
-<body>
+<body class="admin-dashboard">
 
 
-<!-- Admin Navbar -->
+<!-- =========================================================
+     ADMIN NAVBAR
+========================================================== -->
 
-<nav class="navbar admin-navbar">
+<nav class="admin-navbar">
 
-    <div
-    class="container-fluid px-4"
-    >
+    <div class="container-fluid px-4">
+
 
         <a
-        class="navbar-brand fw-bold"
-        href="dashboard.php"
+            class="admin-brand"
+            href="dashboard.php"
         >
 
             Sevartha Foundation
 
             <span class="text-muted">
+
                 | Admin
+
             </span>
 
         </a>
 
 
-        <div class="d-flex align-items-center gap-3">
+        <div class="admin-user">
 
-            <span class="text-muted">
 
-                <i class="fa-solid fa-user me-1"></i>
+            <span>
+
+                <i
+                    class="fa-solid fa-user me-1"
+                ></i>
 
                 <?= htmlspecialchars(
                     $_SESSION['admin_name']
@@ -151,255 +138,262 @@ body {
 
 
             <a
-            href="logout.php"
-            class="btn btn-danger btn-sm"
+                href="logout.php"
+                class="admin-logout"
             >
 
-                <i class="fa-solid fa-right-from-bracket me-1"></i>
+                <i
+                    class="fa-solid fa-right-from-bracket"
+                ></i>
 
                 Logout
 
             </a>
 
+
         </div>
+
 
     </div>
 
 </nav>
 
 
-<!-- Dashboard -->
+<!-- =========================================================
+     DASHBOARD
+========================================================== -->
 
-<div class="admin-container px-3 px-md-4 py-5">
+<main class="admin-container">
 
 
-    <!-- Heading -->
+    <!-- =====================================================
+         HEADING
+    ====================================================== -->
 
-    <div class="mb-5">
+    <div class="admin-header">
 
-        <h1 class="fw-bold">
+        <div>
 
-            Welcome,
-            <?= htmlspecialchars(
-                $_SESSION['admin_name']
-            ); ?>
+            <h1>
 
-        </h1>
+                Welcome,
 
-        <p class="text-muted">
+                <?= htmlspecialchars(
+                    $_SESSION['admin_name']
+                ); ?>
 
-            Manage your Sevartha Foundation website
-            from here.
+            </h1>
 
-        </p>
+            <p>
+
+                Manage your Sevartha Foundation website
+                from here.
+
+            </p>
+
+        </div>
 
     </div>
 
 
-    <!-- Dashboard Cards -->
+    <!-- =====================================================
+         DASHBOARD CARDS
+    ====================================================== -->
 
     <div class="row g-4">
 
 
-        <!-- EVENTS -->
+        <!-- =================================================
+             EVENTS
+        ================================================== -->
 
         <div class="col-md-6 col-lg-4">
 
-            <div
-            class="card dashboard-card h-100 shadow-sm"
-            >
-
-                <div class="card-body p-4">
+            <div class="admin-card">
 
 
-                    <div
-                    class="d-flex justify-content-between align-items-start"
-                    >
-
-                        <div>
-
-                            <h5 class="fw-bold mb-1">
-
-                                Events
-
-                            </h5>
-
-                            <p class="text-muted mb-3">
-
-                                Total Events
-
-                            </p>
-
-                            <h2 class="fw-bold mb-3">
-
-                                <?= $totalEvents; ?>
-
-                            </h2>
-
-                        </div>
+                <div class="admin-stat">
 
 
-                        <div class="icon-box">
+                    <div>
 
-                            <i
-                            class="fa-solid fa-calendar-days fa-2x"
-                            ></i>
+                        <h3>
+                            Events
+                        </h3>
+
+                        <p class="admin-stat-label">
+
+                            Total Events
+
+                        </p>
+
+                        <div class="admin-stat-number">
+
+                            <?= $totalEvents; ?>
 
                         </div>
 
                     </div>
 
 
-                    <div class="d-flex gap-2">
+                    <div class="admin-card-icon">
 
-                        <a
-                        href="events/add.php"
-                        class="btn btn-primary"
-                        >
-
-                            <i
-                            class="fa-solid fa-plus me-1"
-                            ></i>
-
-                            Add Event
-
-                        </a>
-
-
-                        <a
-                        href="events/index.php"
-                        class="btn btn-outline-dark"
-                        >
-
-                            Manage
-
-                        </a>
+                        <i
+                            class="fa-solid fa-calendar-days"
+                        ></i>
 
                     </div>
 
 
                 </div>
 
+
+                <div class="d-flex gap-2 mt-4">
+
+
+                    <a
+                        href="events/add.php"
+                        class="admin-btn-primary"
+                    >
+
+                        <i
+                            class="fa-solid fa-plus"
+                        ></i>
+
+                        Add Event
+
+                    </a>
+
+
+                    <a
+                        href="events/index.php"
+                        class="admin-btn-secondary"
+                    >
+
+                        Manage
+
+                    </a>
+
+
+                </div>
+
+
             </div>
 
         </div>
 
 
-        <!-- CATEGORIES -->
+        <!-- =================================================
+             CATEGORIES
+        ================================================== -->
 
         <div class="col-md-6 col-lg-4">
 
-            <div
-            class="card dashboard-card h-100 shadow-sm"
-            >
-
-                <div class="card-body p-4">
+            <div class="admin-card">
 
 
-                    <div
-                    class="d-flex justify-content-between align-items-start"
-                    >
-
-                        <div>
-
-                            <h5 class="fw-bold mb-1">
-
-                                Categories
-
-                            </h5>
-
-                            <p class="text-muted">
-
-                                Manage work categories
-
-                            </p>
-
-                        </div>
+                <div class="admin-stat">
 
 
-                        <div class="icon-box">
+                    <div>
 
-                            <i
-                            class="fa-solid fa-layer-group fa-2x"
-                            ></i>
+                        <h3>
+                            Categories
+                        </h3>
 
-                        </div>
+                        <p>
+
+                            Manage work categories
+
+                        </p>
 
                     </div>
 
 
+                    <div class="admin-card-icon">
+
+                        <i
+                            class="fa-solid fa-layer-group"
+                        ></i>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="mt-4">
+
                     <a
-                    href="categories/index.php"
-                    class="btn btn-outline-dark"
+                        href="categories/index.php"
+                        class="admin-btn-secondary"
                     >
 
                         Manage Categories
 
                     </a>
 
-
                 </div>
+
 
             </div>
 
         </div>
 
 
-        <!-- WEBSITE -->
+        <!-- =================================================
+             WEBSITE
+        ================================================== -->
 
         <div class="col-md-6 col-lg-4">
 
-            <div
-            class="card dashboard-card h-100 shadow-sm"
-            >
-
-                <div class="card-body p-4">
+            <div class="admin-card">
 
 
-                    <div
-                    class="d-flex justify-content-between align-items-start"
-                    >
-
-                        <div>
-
-                            <h5 class="fw-bold mb-1">
-
-                                Website
-
-                            </h5>
-
-                            <p class="text-muted">
-
-                                View public website
-
-                            </p>
-
-                        </div>
+                <div class="admin-stat">
 
 
-                        <div class="icon-box">
+                    <div>
 
-                            <i
-                            class="fa-solid fa-globe fa-2x"
-                            ></i>
+                        <h3>
+                            Website
+                        </h3>
 
-                        </div>
+                        <p>
+
+                            View public website
+
+                        </p>
 
                     </div>
 
 
+                    <div class="admin-card-icon">
+
+                        <i
+                            class="fa-solid fa-globe"
+                        ></i>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="mt-4">
+
                     <a
-                    href="../index.php"
-                    target="_blank"
-                    class="btn btn-outline-dark"
+                        href="../index.php"
+                        target="_blank"
+                        class="admin-btn-secondary"
                     >
 
                         Open Website
 
                     </a>
 
-
                 </div>
+
 
             </div>
 
@@ -409,7 +403,16 @@ body {
     </div>
 
 
-</div>
+</main>
+
+
+<!-- =========================================================
+     BOOTSTRAP JS
+========================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+></script>
 
 
 </body>

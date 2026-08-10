@@ -4,164 +4,232 @@ session_start();
 
 include "../../config/db.php";
 
+
+/* =========================================================
+   ADMIN AUTHENTICATION
+========================================================= */
+
 if (!isset($_SESSION['admin_id'])) {
+
     header("Location: ../login.php");
     exit();
+
 }
 
 
-if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+/* =========================================================
+   VALIDATE EVENT ID
+========================================================= */
+
+if (
+    !isset($_GET['id']) ||
+    !is_numeric($_GET['id'])
+) {
+
     die("Invalid event.");
+
 }
 
 $event_id = (int) $_GET['id'];
 
 
-/*
-|--------------------------------------------------------------------------
-| Get Event
-|--------------------------------------------------------------------------
-*/
+/* =========================================================
+   CHECK EVENT EXISTS
+========================================================= */
 
-$sql = "
-    SELECT cover_image
-    FROM events
-    WHERE id = ?
-";
-
-$stmt = mysqli_prepare($conn, $sql);
-
-mysqli_stmt_bind_param(
-    $stmt,
-    "i",
-    $event_id
-);
-
-mysqli_stmt_execute($stmt);
-
-$result = mysqli_stmt_get_result($stmt);
-
-if (mysqli_num_rows($result) == 0) {
-    die("Event not found.");
-}
-
-$event = mysqli_fetch_assoc($result);
-
-
-/*
-|--------------------------------------------------------------------------
-| Get Gallery Images
-|--------------------------------------------------------------------------
-*/
-
-$gallerySql = "
-    SELECT image_path
-    FROM event_images
-    WHERE event_id = ?
-";
-
-$galleryStmt = mysqli_prepare(
-    $conn,
-    $gallerySql
-);
-
-mysqli_stmt_bind_param(
-    $galleryStmt,
-    "i",
-    $event_id
-);
-
-mysqli_stmt_execute($galleryStmt);
-
-$galleryResult =
-    mysqli_stmt_get_result($galleryStmt);
-
-
-/*
-|--------------------------------------------------------------------------
-| Delete Physical Cover
-|--------------------------------------------------------------------------
-*/
-
-$uploadDir = "../../uploads/events/";
-
-if (
-    !empty($event['cover_image']) &&
-    file_exists(
-        $uploadDir . $event['cover_image']
-    )
-) {
-
-    unlink(
-        $uploadDir . $event['cover_image']
+$checkStmt =
+    mysqli_prepare(
+        $conn,
+        "
+        SELECT id, title
+        FROM events
+        WHERE id = ?
+        "
     );
 
+
+mysqli_stmt_bind_param(
+    $checkStmt,
+    "i",
+    $event_id
+);
+
+
+mysqli_stmt_execute(
+    $checkStmt
+);
+
+
+$result =
+    mysqli_stmt_get_result(
+        $checkStmt
+    );
+
+
+if (
+    mysqli_num_rows($result) === 0
+) {
+
+    die("Event not found.");
+
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| Delete Physical Gallery Images
-|--------------------------------------------------------------------------
-*/
+$event =
+    mysqli_fetch_assoc(
+        $result
+    );
 
-while (
-    $image =
-    mysqli_fetch_assoc($galleryResult)
-) {
 
-    $imageFile =
-        $uploadDir . $image['image_path'];
+/* =========================================================
+   DELETE EVENT
+========================================================= */
 
-    if (file_exists($imageFile)) {
+try {
 
-        unlink($imageFile);
+
+    mysqli_begin_transaction(
+        $conn
+    );
+
+
+    /* =====================================================
+       DELETE IMAGES
+    ====================================================== */
+
+    $imageStmt =
+        mysqli_prepare(
+            $conn,
+            "
+            DELETE FROM images
+            WHERE event_id = ?
+            "
+        );
+
+
+    mysqli_stmt_bind_param(
+        $imageStmt,
+        "i",
+        $event_id
+    );
+
+
+    if (
+        !mysqli_stmt_execute(
+            $imageStmt
+        )
+    ) {
+
+        throw new Exception(
+            "Failed to delete event images."
+        );
 
     }
 
+
+    /* =====================================================
+       DELETE CUSTOM DETAILS
+    ====================================================== */
+
+    $detailStmt =
+        mysqli_prepare(
+            $conn,
+            "
+            DELETE FROM event_details
+            WHERE event_id = ?
+            "
+        );
+
+
+    mysqli_stmt_bind_param(
+        $detailStmt,
+        "i",
+        $event_id
+    );
+
+
+    if (
+        !mysqli_stmt_execute(
+            $detailStmt
+        )
+    ) {
+
+        throw new Exception(
+            "Failed to delete event details."
+        );
+
+    }
+
+
+    /* =====================================================
+       DELETE EVENT
+    ====================================================== */
+
+    $eventStmt =
+        mysqli_prepare(
+            $conn,
+            "
+            DELETE FROM events
+            WHERE id = ?
+            "
+        );
+
+
+    mysqli_stmt_bind_param(
+        $eventStmt,
+        "i",
+        $event_id
+    );
+
+
+    if (
+        !mysqli_stmt_execute(
+            $eventStmt
+        )
+    ) {
+
+        throw new Exception(
+            "Failed to delete event."
+        );
+
+    }
+
+
+    /* =====================================================
+       COMMIT
+    ====================================================== */
+
+    mysqli_commit(
+        $conn
+    );
+
+
+    header(
+        "Location: index.php?deleted=1"
+    );
+
+    exit();
+
+
+} catch (Exception $e) {
+
+
+    if (mysqli_ping($conn)) {
+
+        mysqli_rollback(
+            $conn
+        );
+
+    }
+
+
+    die(
+        "Unable to delete event: "
+        . htmlspecialchars(
+            $e->getMessage()
+        )
+    );
+
 }
-
-
-/*
-|--------------------------------------------------------------------------
-| Delete Event
-|--------------------------------------------------------------------------
-|
-| Because event_images and event_details have
-| ON DELETE CASCADE, their database records
-| will automatically be deleted.
-|
-*/
-
-$deleteSql = "
-    DELETE FROM events
-    WHERE id = ?
-";
-
-$deleteStmt = mysqli_prepare(
-    $conn,
-    $deleteSql
-);
-
-mysqli_stmt_bind_param(
-    $deleteStmt,
-    "i",
-    $event_id
-);
-
-mysqli_stmt_execute($deleteStmt);
-
-
-/*
-|--------------------------------------------------------------------------
-| Return
-|--------------------------------------------------------------------------
-*/
-
-header(
-    "Location: index.php?deleted=1"
-);
-
-exit();
 
 ?>

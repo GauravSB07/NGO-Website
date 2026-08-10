@@ -4,9 +4,10 @@ session_start();
 
 include "../../config/db.php";
 
+
 /*
 |--------------------------------------------------------------------------
-| Admin Authentication
+| ADMIN AUTHENTICATION
 |--------------------------------------------------------------------------
 */
 
@@ -20,7 +21,372 @@ if (!isset($_SESSION['admin_id'])) {
 
 /*
 |--------------------------------------------------------------------------
-| Get Categories
+| IMAGE CONFIGURATION
+|--------------------------------------------------------------------------
+*/
+
+$maxOriginalSize = 25 * 1024 * 1024; // 25 MB
+
+$maxWidth  = 1920;
+$maxHeight = 1920;
+
+$allowedMimeTypes = [
+    'image/jpeg',
+    'image/png',
+    'image/webp'
+];
+
+
+/*
+|--------------------------------------------------------------------------
+| IMAGE PROCESSING FUNCTION
+|--------------------------------------------------------------------------
+|
+| Takes the uploaded image and:
+|
+| 1. Validates it
+| 2. Resizes it if necessary
+| 3. Compresses it
+| 4. Returns optimized binary data
+|
+|--------------------------------------------------------------------------
+*/
+
+function processUploadedImage(
+    string $tmpPath,
+    string $originalMime,
+    int $originalSize,
+    int $maxWidth,
+    int $maxHeight
+): array {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Check Original File Size
+    |--------------------------------------------------------------------------
+    */
+
+    if ($originalSize > 25 * 1024 * 1024) {
+
+        throw new Exception(
+            "Image '{$originalSize}' is larger than the allowed 25 MB upload limit."
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Image Information
+    |--------------------------------------------------------------------------
+    */
+
+    $imageInfo = @getimagesize($tmpPath);
+
+    if ($imageInfo === false) {
+
+        throw new Exception(
+            "The uploaded file is not a valid image."
+        );
+
+    }
+
+
+    $originalWidth  = $imageInfo[0];
+    $originalHeight = $imageInfo[1];
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Source Image
+    |--------------------------------------------------------------------------
+    */
+
+    switch ($originalMime) {
+
+        case 'image/jpeg':
+
+            $source = @imagecreatefromjpeg($tmpPath);
+
+            break;
+
+
+        case 'image/png':
+
+            $source = @imagecreatefrompng($tmpPath);
+
+            break;
+
+
+        case 'image/webp':
+
+            if (!function_exists('imagecreatefromwebp')) {
+
+                throw new Exception(
+                    "Your PHP installation does not support WebP images."
+                );
+
+            }
+
+            $source = @imagecreatefromwebp($tmpPath);
+
+            break;
+
+
+        default:
+
+            throw new Exception(
+                "Unsupported image format."
+            );
+
+    }
+
+
+    if (!$source) {
+
+        throw new Exception(
+            "Unable to process the uploaded image."
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Calculate New Dimensions
+    |--------------------------------------------------------------------------
+    */
+
+    $scale = min(
+        $maxWidth / $originalWidth,
+        $maxHeight / $originalHeight,
+        1
+    );
+
+
+    $newWidth = max(
+        1,
+        (int) round(
+            $originalWidth * $scale
+        )
+    );
+
+
+    $newHeight = max(
+        1,
+        (int) round(
+            $originalHeight * $scale
+        )
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Destination Image
+    |--------------------------------------------------------------------------
+    */
+
+    $destination = imagecreatetruecolor(
+        $newWidth,
+        $newHeight
+    );
+
+
+    if (!$destination) {
+
+        imagedestroy($source);
+
+        throw new Exception(
+            "Unable to create optimized image."
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Preserve Transparency
+    |--------------------------------------------------------------------------
+    */
+
+    imagealphablending(
+        $destination,
+        false
+    );
+
+    imagesavealpha(
+        $destination,
+        true
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Transparent Background
+    |--------------------------------------------------------------------------
+    */
+
+    $transparent =
+        imagecolorallocatealpha(
+            $destination,
+            0,
+            0,
+            0,
+            127
+        );
+
+
+    imagefilledrectangle(
+        $destination,
+        0,
+        0,
+        $newWidth,
+        $newHeight,
+        $transparent
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Resize
+    |--------------------------------------------------------------------------
+    */
+
+    imagecopyresampled(
+        $destination,
+        $source,
+        0,
+        0,
+        0,
+        0,
+        $newWidth,
+        $newHeight,
+        $originalWidth,
+        $originalHeight
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Output Buffer
+    |--------------------------------------------------------------------------
+    */
+
+    ob_start();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Prefer WebP
+    |--------------------------------------------------------------------------
+    */
+
+    if (function_exists('imagewebp')) {
+
+        imagewebp(
+            $destination,
+            null,
+            82
+        );
+
+        $optimizedMime =
+            'image/webp';
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fallback
+    |--------------------------------------------------------------------------
+    */
+
+    else {
+
+        /*
+         * JPEG source → JPEG
+         */
+
+        if ($originalMime === 'image/jpeg') {
+
+            imagejpeg(
+                $destination,
+                null,
+                82
+            );
+
+            $optimizedMime =
+                'image/jpeg';
+
+        }
+
+        /*
+         * PNG source → PNG
+         */
+
+        else {
+
+            imagepng(
+                $destination,
+                null,
+                6
+            );
+
+            $optimizedMime =
+                'image/png';
+
+        }
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get Optimized Binary
+    |--------------------------------------------------------------------------
+    */
+
+    $optimizedData =
+        ob_get_clean();
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Cleanup
+    |--------------------------------------------------------------------------
+    */
+
+    imagedestroy($source);
+
+    imagedestroy($destination);
+
+
+    if (
+        $optimizedData === false ||
+        $optimizedData === ''
+    ) {
+
+        throw new Exception(
+            "Failed to optimize the uploaded image."
+        );
+
+    }
+
+
+    return [
+        'data' => $optimizedData,
+        'mime' => $optimizedMime,
+        'width' => $newWidth,
+        'height' => $newHeight,
+        'size' => strlen($optimizedData)
+    ];
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GET CATEGORIES
 |--------------------------------------------------------------------------
 */
 
@@ -30,31 +396,59 @@ $categoryQuery = "
     ORDER BY name ASC
 ";
 
-$categories = mysqli_query($conn, $categoryQuery);
+$categories =
+    mysqli_query(
+        $conn,
+        $categoryQuery
+    );
 
 
 /*
 |--------------------------------------------------------------------------
-| Add Event
+| ADD EVENT
 |--------------------------------------------------------------------------
 */
 
 if (isset($_POST['add_event'])) {
 
-    $category_id = intval($_POST['category_id']);
 
-    $title = trim($_POST['title']);
+    $category_id =
+        intval(
+            $_POST['category_id'] ?? 0
+        );
 
-    $event_date = $_POST['event_date'];
 
-    $location = trim($_POST['location']);
+    $title =
+        trim(
+            $_POST['title'] ?? ''
+        );
 
-    $description = trim($_POST['description']);
+
+    /*
+     * Event date is optional.
+     */
+
+    $event_date =
+        !empty($_POST['event_date'])
+        ? $_POST['event_date']
+        : null;
+
+
+    $location =
+        trim(
+            $_POST['location'] ?? ''
+        );
+
+
+    $description =
+        trim(
+            $_POST['description'] ?? ''
+        );
 
 
     /*
     |--------------------------------------------------------------------------
-    | Validation
+    | BASIC VALIDATION
     |--------------------------------------------------------------------------
     */
 
@@ -65,14 +459,15 @@ if (isset($_POST['add_event'])) {
         empty($description)
     ) {
 
-        $error = "Please fill all required fields.";
+        $error =
+            "Please fill all required fields.";
 
     }
 
 
     /*
     |--------------------------------------------------------------------------
-    | Cover Image
+    | COVER IMAGE REQUIRED
     |--------------------------------------------------------------------------
     */
 
@@ -80,10 +475,12 @@ if (isset($_POST['add_event'])) {
 
         if (
             !isset($_FILES['cover_image']) ||
-            $_FILES['cover_image']['error'] !== UPLOAD_ERR_OK
+            $_FILES['cover_image']['error']
+            !== UPLOAD_ERR_OK
         ) {
 
-            $error = "Please select a cover image.";
+            $error =
+                "Please select a cover image.";
 
         }
 
@@ -92,74 +489,103 @@ if (isset($_POST['add_event'])) {
 
     /*
     |--------------------------------------------------------------------------
-    | Upload Directory
+    | COVER IMAGE VALIDATION
     |--------------------------------------------------------------------------
     */
 
     if (!isset($error)) {
 
-        $uploadDir = "../../uploads/events/";
 
-        if (!is_dir($uploadDir)) {
-
-            mkdir($uploadDir, 0777, true);
-
-        }
-
-    }
+        $coverTmpName =
+            $_FILES['cover_image']['tmp_name'];
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | Upload Cover Image
-    |--------------------------------------------------------------------------
-    */
-
-    if (!isset($error)) {
-
-        $coverOriginalName = $_FILES['cover_image']['name'];
-
-        $coverExtension = strtolower(
-            pathinfo(
-                $coverOriginalName,
-                PATHINFO_EXTENSION
-            )
-        );
+        $coverOriginalName =
+            basename(
+                $_FILES['cover_image']['name']
+            );
 
 
-        $allowedExtensions = [
-            'jpg',
-            'jpeg',
-            'png',
-            'webp'
-        ];
+        $coverOriginalSize =
+            (int)
+            $_FILES['cover_image']['size'];
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Size
+        |--------------------------------------------------------------------------
+        */
 
         if (
-            !in_array(
-                $coverExtension,
-                $allowedExtensions
-            )
+            $coverOriginalSize >
+            $maxOriginalSize
         ) {
 
-            $error = "Invalid cover image format.";
+            $error =
+                "Cover image is too large. "
+                . "Maximum allowed size is 25 MB.";
 
-        } else {
+        }
 
-            $coverImage =
-                uniqid('event_', true)
-                . '.'
-                . $coverExtension;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Detect MIME
+        |--------------------------------------------------------------------------
+        */
+
+        if (!isset($error)) {
+
+            $finfo =
+                finfo_open(
+                    FILEINFO_MIME_TYPE
+                );
+
+
+            $coverMimeType =
+                finfo_file(
+                    $finfo,
+                    $coverTmpName
+                );
+
+
+            finfo_close($finfo);
 
 
             if (
-                !move_uploaded_file(
-                    $_FILES['cover_image']['tmp_name'],
-                    $uploadDir . $coverImage
+                !in_array(
+                    $coverMimeType,
+                    $allowedMimeTypes,
+                    true
                 )
             ) {
 
-                $error = "Failed to upload cover image.";
+                $error =
+                    "Invalid cover image format. "
+                    . "Only JPG, PNG and WebP images are allowed.";
+
+            }
+
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Check Actual Image
+        |--------------------------------------------------------------------------
+        */
+
+        if (!isset($error)) {
+
+            if (
+                @getimagesize(
+                    $coverTmpName
+                ) === false
+            ) {
+
+                $error =
+                    "The selected cover file is not a valid image.";
 
             }
 
@@ -170,70 +596,358 @@ if (isset($_POST['add_event'])) {
 
     /*
     |--------------------------------------------------------------------------
-    | Insert Event
+    | DATABASE TRANSACTION
     |--------------------------------------------------------------------------
     */
 
     if (!isset($error)) {
 
-        $sql = "
-            INSERT INTO events
-            (
-                category_id,
-                title,
-                event_date,
-                location,
-                description,
-                cover_image
-            )
-            VALUES (?, ?, ?, ?, ?, ?)
-        ";
 
-
-        $stmt = mysqli_prepare(
-            $conn,
-            $sql
+        mysqli_begin_transaction(
+            $conn
         );
 
 
-        mysqli_stmt_bind_param(
-            $stmt,
-            "isssss",
-            $category_id,
-            $title,
-            $event_date,
-            $location,
-            $description,
-            $coverImage
-        );
-
-
-        if (mysqli_stmt_execute($stmt)) {
-
-            $event_id = mysqli_insert_id($conn);
+        try {
 
 
             /*
             |--------------------------------------------------------------------------
-            | Gallery Images
+            | INSERT EVENT
+            |--------------------------------------------------------------------------
+            */
+
+            $sql = "
+                INSERT INTO events
+                (
+                    category_id,
+                    title,
+                    event_date,
+                    location,
+                    description
+                )
+                VALUES (?, ?, ?, ?, ?)
+            ";
+
+
+            $stmt =
+                mysqli_prepare(
+                    $conn,
+                    $sql
+                );
+
+
+            if (!$stmt) {
+
+                throw new Exception(
+                    "Failed to prepare event query."
+                );
+
+            }
+
+
+            mysqli_stmt_bind_param(
+                $stmt,
+                "issss",
+                $category_id,
+                $title,
+                $event_date,
+                $location,
+                $description
+            );
+
+
+            if (
+                !mysqli_stmt_execute(
+                    $stmt
+                )
+            ) {
+
+                throw new Exception(
+                    "Failed to create event: "
+                    . mysqli_stmt_error($stmt)
+                );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | EVENT ID
+            |--------------------------------------------------------------------------
+            */
+
+            $event_id =
+                mysqli_insert_id(
+                    $conn
+                );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | PROCESS COVER IMAGE
+            |--------------------------------------------------------------------------
+            */
+
+            $coverImage =
+                processUploadedImage(
+                    $coverTmpName,
+                    $coverMimeType,
+                    $coverOriginalSize,
+                    $maxWidth,
+                    $maxHeight
+                );
+
+
+            $coverImageData =
+                $coverImage['data'];
+
+
+            $coverStoredMime =
+                $coverImage['mime'];
+
+
+            $coverStoredSize =
+                $coverImage['size'];
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | HASH OPTIMIZED IMAGE
+            |--------------------------------------------------------------------------
+            */
+
+            $coverHash =
+                hash(
+                    'sha256',
+                    $coverImageData
+                );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | CHECK DUPLICATE
+            |--------------------------------------------------------------------------
+            */
+
+            $duplicateSql = "
+                SELECT id
+                FROM images
+                WHERE image_hash = ?
+                LIMIT 1
+            ";
+
+
+            $duplicateStmt =
+                mysqli_prepare(
+                    $conn,
+                    $duplicateSql
+                );
+
+
+            mysqli_stmt_bind_param(
+                $duplicateStmt,
+                "s",
+                $coverHash
+            );
+
+
+            mysqli_stmt_execute(
+                $duplicateStmt
+            );
+
+
+            $duplicateResult =
+                mysqli_stmt_get_result(
+                    $duplicateStmt
+                );
+
+
+            if (
+                mysqli_num_rows(
+                    $duplicateResult
+                ) > 0
+            ) {
+
+                throw new Exception(
+                    "This cover image already exists in the database."
+                );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | INSERT IMAGE
+            |--------------------------------------------------------------------------
+            */
+
+            $imageSql = "
+                INSERT INTO images
+                (
+                    event_id,
+                    image_data,
+                    image_name,
+                    image_type,
+                    image_size,
+                    image_hash,
+                    image_category,
+                    image_role
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ";
+
+
+            $imageStmt =
+                mysqli_prepare(
+                    $conn,
+                    $imageSql
+                );
+
+
+            if (!$imageStmt) {
+
+                throw new Exception(
+                    "Failed to prepare cover image query."
+                );
+
+            }
+
+
+            $imageCategory =
+                "event";
+
+
+            $imageRole =
+                "cover";
+
+
+            $nullImage =
+                null;
+
+
+            mysqli_stmt_bind_param(
+                $imageStmt,
+                "ibssisss",
+                $event_id,
+                $nullImage,
+                $coverOriginalName,
+                $coverStoredMime,
+                $coverStoredSize,
+                $coverHash,
+                $imageCategory,
+                $imageRole
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SEND BINARY DATA
             |--------------------------------------------------------------------------
             */
 
             if (
-                isset($_FILES['gallery_images']) &&
-                isset($_FILES['gallery_images']['name']) &&
-                is_array($_FILES['gallery_images']['name'])
+                !mysqli_stmt_send_long_data(
+                    $imageStmt,
+                    1,
+                    $coverImageData
+                )
+            ) {
+
+                throw new Exception(
+                    "Failed to send cover image data."
+                );
+
+            }
+
+
+            if (
+                !mysqli_stmt_execute(
+                    $imageStmt
+                )
+            ) {
+
+                throw new Exception(
+                    "Failed to save cover image: "
+                    . mysqli_stmt_error($imageStmt)
+                );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | GALLERY IMAGES
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                isset(
+                    $_FILES['gallery_images']
+                ) &&
+                isset(
+                    $_FILES['gallery_images']['name']
+                ) &&
+                is_array(
+                    $_FILES['gallery_images']['name']
+                )
             ) {
 
 
+                $galleryNames =
+                    $_FILES['gallery_images']['name'];
+
+
+                $galleryTmpNames =
+                    $_FILES['gallery_images']['tmp_name'];
+
+
+                $galleryErrors =
+                    $_FILES['gallery_images']['error'];
+
+
+                $gallerySizes =
+                    $_FILES['gallery_images']['size'];
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | LOOP GALLERY
+                |--------------------------------------------------------------------------
+                */
+
                 foreach (
-                    $_FILES['gallery_images']['name']
+                    $galleryNames
                     as $key => $originalName
                 ) {
 
 
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Skip Empty
+                    |--------------------------------------------------------------------------
+                    */
+
                     if (
-                        $_FILES['gallery_images']['error'][$key]
+                        empty($originalName)
+                    ) {
+
+                        continue;
+
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Skip Failed Upload
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (
+                        !isset(
+                            $galleryErrors[$key]
+                        ) ||
+                        $galleryErrors[$key]
                         !== UPLOAD_ERR_OK
                     ) {
 
@@ -242,18 +956,60 @@ if (isset($_POST['add_event'])) {
                     }
 
 
-                    $extension = strtolower(
-                        pathinfo(
-                            $originalName,
-                            PATHINFO_EXTENSION
-                        )
+                    $tmpName =
+                        $galleryTmpNames[$key];
+
+
+                    $originalSize =
+                        (int)
+                        $gallerySizes[$key];
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Size
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (
+                        $originalSize >
+                        $maxOriginalSize
+                    ) {
+
+                        continue;
+
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | MIME
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $finfo =
+                        finfo_open(
+                            FILEINFO_MIME_TYPE
+                        );
+
+
+                    $mimeType =
+                        finfo_file(
+                            $finfo,
+                            $tmpName
+                        );
+
+
+                    finfo_close(
+                        $finfo
                     );
 
 
                     if (
                         !in_array(
-                            $extension,
-                            $allowedExtensions
+                            $mimeType,
+                            $allowedMimeTypes,
+                            true
                         )
                     ) {
 
@@ -262,49 +1018,174 @@ if (isset($_POST['add_event'])) {
                     }
 
 
-                    $imageName =
-                        uniqid('gallery_', true)
-                        . '.'
-                        . $extension;
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Validate Image
+                    |--------------------------------------------------------------------------
+                    */
+
+                    if (
+                        @getimagesize(
+                            $tmpName
+                        ) === false
+                    ) {
+
+                        continue;
+
+                    }
 
 
-                    $imageUploaded =
-                        move_uploaded_file(
-                            $_FILES['gallery_images']['tmp_name'][$key],
-                            $uploadDir . $imageName
+                    /*
+                    |--------------------------------------------------------------------------
+                    | Process Image
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $galleryImage =
+                        processUploadedImage(
+                            $tmpName,
+                            $mimeType,
+                            $originalSize,
+                            $maxWidth,
+                            $maxHeight
                         );
 
 
-                    if ($imageUploaded) {
+                    $imageData =
+                        $galleryImage['data'];
 
 
-                        $imageSql = "
-                            INSERT INTO event_images
-                            (
-                                event_id,
-                                image_path
-                            )
-                            VALUES (?, ?)
-                        ";
+                    $storedMime =
+                        $galleryImage['mime'];
 
 
-                        $imageStmt =
-                            mysqli_prepare(
-                                $conn,
-                                $imageSql
-                            );
+                    $storedSize =
+                        $galleryImage['size'];
 
 
-                        mysqli_stmt_bind_param(
+                    /*
+                    |--------------------------------------------------------------------------
+                    | HASH
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $imageHash =
+                        hash(
+                            'sha256',
+                            $imageData
+                        );
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | DUPLICATE CHECK
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $duplicateStmt =
+                        mysqli_prepare(
+                            $conn,
+                            $duplicateSql
+                        );
+
+
+                    mysqli_stmt_bind_param(
+                        $duplicateStmt,
+                        "s",
+                        $imageHash
+                    );
+
+
+                    mysqli_stmt_execute(
+                        $duplicateStmt
+                    );
+
+
+                    $duplicateResult =
+                        mysqli_stmt_get_result(
+                            $duplicateStmt
+                        );
+
+
+                    if (
+                        mysqli_num_rows(
+                            $duplicateResult
+                        ) > 0
+                    ) {
+
+                        continue;
+
+                    }
+
+
+                    /*
+                    |--------------------------------------------------------------------------
+                    | INSERT GALLERY IMAGE
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $imageRole =
+                        "gallery";
+
+
+                    $imageStmt =
+                        mysqli_prepare(
+                            $conn,
+                            $imageSql
+                        );
+
+
+                    if (!$imageStmt) {
+
+                        throw new Exception(
+                            "Failed to prepare gallery image query."
+                        );
+
+                    }
+
+
+                    $nullImage =
+                        null;
+
+
+                    mysqli_stmt_bind_param(
+                        $imageStmt,
+                        "ibssisss",
+                        $event_id,
+                        $nullImage,
+                        $originalName,
+                        $storedMime,
+                        $storedSize,
+                        $imageHash,
+                        $imageCategory,
+                        $imageRole
+                    );
+
+
+                    if (
+                        !mysqli_stmt_send_long_data(
                             $imageStmt,
-                            "is",
-                            $event_id,
-                            $imageName
+                            1,
+                            $imageData
+                        )
+                    ) {
+
+                        throw new Exception(
+                            "Failed to send gallery image data."
                         );
 
+                    }
 
-                        mysqli_stmt_execute(
+
+                    if (
+                        !mysqli_stmt_execute(
                             $imageStmt
+                        )
+                    ) {
+
+                        throw new Exception(
+                            "Failed to save gallery image: "
+                            . mysqli_stmt_error($imageStmt)
                         );
 
                     }
@@ -316,7 +1197,7 @@ if (isset($_POST['add_event'])) {
 
             /*
             |--------------------------------------------------------------------------
-            | Additional Custom Fields
+            | ADDITIONAL INFORMATION
             |--------------------------------------------------------------------------
             */
 
@@ -326,13 +1207,17 @@ if (isset($_POST['add_event'])) {
             ) {
 
 
-                $fieldNames = $_POST['field_name'];
+                $fieldNames =
+                    $_POST['field_name'];
 
-                $fieldValues = $_POST['field_value'];
+
+                $fieldValues =
+                    $_POST['field_value'];
 
 
                 foreach (
-                    $fieldNames as $key => $fieldName
+                    $fieldNames
+                    as $key => $fieldName
                 ) {
 
 
@@ -345,10 +1230,6 @@ if (isset($_POST['add_event'])) {
                             $fieldValues[$key] ?? ''
                         );
 
-
-                    /*
-                    | Skip completely empty rows
-                    */
 
                     if (
                         empty($fieldName) ||
@@ -387,9 +1268,17 @@ if (isset($_POST['add_event'])) {
                     );
 
 
-                    mysqli_stmt_execute(
-                        $detailStmt
-                    );
+                    if (
+                        !mysqli_stmt_execute(
+                            $detailStmt
+                        )
+                    ) {
+
+                        throw new Exception(
+                            "Failed to save additional information."
+                        );
+
+                    }
 
                 }
 
@@ -398,9 +1287,14 @@ if (isset($_POST['add_event'])) {
 
             /*
             |--------------------------------------------------------------------------
-            | Success
+            | COMMIT
             |--------------------------------------------------------------------------
             */
+
+            mysqli_commit(
+                $conn
+            );
+
 
             header(
                 "Location: index.php?success=1"
@@ -409,9 +1303,28 @@ if (isset($_POST['add_event'])) {
             exit();
 
 
-        } else {
+        } catch (Exception $e) {
 
-            $error = "Failed to add event.";
+
+            /*
+            |--------------------------------------------------------------------------
+            | SAFE ROLLBACK
+            |--------------------------------------------------------------------------
+            */
+
+            if (
+                mysqli_ping($conn)
+            ) {
+
+                mysqli_rollback(
+                    $conn
+                );
+
+            }
+
+
+            $error =
+                $e->getMessage();
 
         }
 
@@ -428,144 +1341,149 @@ if (isset($_POST['add_event'])) {
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Add Event | Admin</title>
-
-
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-rel="stylesheet"
->
+    <title>
+        Add Event | Admin
+    </title>
 
 
-<style>
+    <!-- Bootstrap -->
 
-body {
-
-    background: #f5f6fa;
-
-}
-
-
-.admin-container {
-
-    max-width: 1000px;
-
-    margin: 50px auto;
-
-}
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
 
-.card {
+    <!-- Font Awesome -->
 
-    border: none;
-
-    border-radius: 12px;
-
-}
-
-
-.form-label {
-
-    font-weight: 600;
-
-}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
 
 
-.required {
+    <!-- Admin CSS -->
 
-    color: red;
-
-}
-
-
-.detail-row {
-
-    background: #f8f9fa;
-
-    border: 1px solid #dee2e6;
-
-    border-radius: 8px;
-
-    padding: 15px;
-
-    margin-bottom: 10px;
-
-}
-
-
-.remove-detail {
-
-    height: 38px;
-
-}
-
-
-.image-note {
-
-    font-size: 13px;
-
-    color: #6c757d;
-
-}
-
-</style>
+    <link
+        rel="stylesheet"
+        href="../../css/admin/admin.css"
+    >
 
 </head>
 
 
-<body>
+<body class="admin-dashboard">
 
 
-<div class="admin-container">
+<!-- =========================================================
+     ADMIN NAVBAR
+========================================================== -->
+
+<nav class="admin-navbar">
+
+    <div class="container-fluid px-4">
+
+        <a
+            class="admin-brand"
+            href="../dashboard.php"
+        >
+
+            Sevartha Foundation
+
+            <span class="text-muted">
+                | Admin
+            </span>
+
+        </a>
 
 
-    <!-- Header -->
+        <div class="admin-user">
 
-    <div
-    class="d-flex justify-content-between align-items-center mb-4"
-    >
+            <span>
+
+                <i class="fa-solid fa-user me-1"></i>
+
+                <?= htmlspecialchars(
+                    $_SESSION['admin_name']
+                ); ?>
+
+            </span>
+
+
+            <a
+                href="../logout.php"
+                class="admin-logout"
+            >
+
+                <i
+                    class="fa-solid fa-right-from-bracket"
+                ></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     PAGE
+========================================================== -->
+
+<main class="admin-container">
+
+
+    <!-- HEADER -->
+
+    <div class="admin-header">
 
         <div>
 
-            <h2 class="fw-bold">
-
+            <h1>
                 Add New Event
+            </h1>
 
-            </h2>
-
-            <p class="text-muted mb-0">
-
+            <p>
                 Add an event to your NGO website.
-
             </p>
 
         </div>
 
 
         <a
-        href="index.php"
-        class="btn btn-secondary"
+            href="index.php"
+            class="admin-btn-secondary"
         >
 
-            ← Back
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back
 
         </a>
 
     </div>
 
 
-    <!-- Error -->
+    <!-- ERROR -->
 
     <?php if (isset($error)) { ?>
 
-        <div class="alert alert-danger">
+        <div class="admin-alert">
+
+            <i
+                class="fa-solid fa-circle-exclamation me-2"
+            ></i>
 
             <?= htmlspecialchars($error); ?>
 
@@ -574,307 +1492,337 @@ body {
     <?php } ?>
 
 
-    <!-- Form Card -->
+    <!-- FORM -->
 
-    <div class="card shadow-sm">
+    <div class="admin-form-card">
 
-        <div class="card-body p-4">
-
-
-            <form
+        <form
             method="POST"
             enctype="multipart/form-data"
-            >
+        >
 
 
-                <!-- Category -->
+            <!-- CATEGORY -->
 
-                <div class="mb-4">
+            <div class="mb-4">
 
-                    <label class="form-label">
+                <label class="admin-form-label">
 
-                        Category
+                    Category
 
-                        <span class="required">*</span>
+                    <span class="admin-required">
+                        *
+                    </span>
 
-                    </label>
+                </label>
 
 
-                    <select
+                <select
                     name="category_id"
                     class="form-select"
                     required
-                    >
+                >
 
-                        <option value="">
+                    <option value="">
+                        Select Category
+                    </option>
 
-                            Select Category
+
+                    <?php while (
+                        $category =
+                        mysqli_fetch_assoc(
+                            $categories
+                        )
+                    ) { ?>
+
+                        <option
+                            value="<?= $category['id']; ?>"
+                            <?= (
+                                isset(
+                                    $_POST['category_id']
+                                ) &&
+                                $_POST['category_id']
+                                ==
+                                $category['id']
+                            )
+                                ? 'selected'
+                                : ''
+                            ?>
+                        >
+
+                            <?= htmlspecialchars(
+                                $category['name']
+                            ); ?>
 
                         </option>
 
+                    <?php } ?>
 
-                        <?php while (
-                            $category =
-                            mysqli_fetch_assoc($categories)
-                        ) { ?>
+                </select>
 
-                            <option
-                            value="<?= $category['id']; ?>"
-                            >
-
-                                <?= htmlspecialchars(
-                                    $category['name']
-                                ); ?>
-
-                            </option>
-
-                        <?php } ?>
-
-                    </select>
-
-                </div>
+            </div>
 
 
-                <!-- Event Name -->
+            <!-- EVENT NAME -->
 
-                <div class="mb-4">
+            <div class="mb-4">
 
-                    <label class="form-label">
+                <label class="admin-form-label">
 
-                        Event Name
+                    Event Name
 
-                        <span class="required">*</span>
+                    <span class="admin-required">
+                        *
+                    </span>
+
+                </label>
+
+
+                <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    placeholder="Enter event name"
+                    value="<?= htmlspecialchars(
+                        $_POST['title'] ?? ''
+                    ); ?>"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DATE + LOCATION -->
+
+            <div class="row">
+
+
+                <div class="col-md-6 mb-4">
+
+                    <label class="admin-form-label">
+
+                        Event Date
 
                     </label>
 
 
                     <input
-                    type="text"
-                    name="title"
-                    class="form-control"
-                    placeholder="Enter event name"
-                    required
+                        type="date"
+                        name="event_date"
+                        class="form-control"
+                        value="<?= htmlspecialchars(
+                            $_POST['event_date'] ?? ''
+                        ); ?>"
                     >
 
                 </div>
 
 
-                <!-- Date + Location -->
+                <div class="col-md-6 mb-4">
 
-                <div class="row">
+                    <label class="admin-form-label">
 
+                        Location
 
-                    <div class="col-md-6 mb-4">
-
-                        <label class="form-label">
-
-                            Event Date
-
-                        </label>
-
-
-                        <input
-                        type="date"
-                        name="event_date"
-                        class="form-control"
-                        >
-
-                    </div>
-
-
-                    <div class="col-md-6 mb-4">
-
-                        <label class="form-label">
-
-                            Location
-
-                            <span class="required">*</span>
-
-                        </label>
-
-
-                        <input
-                        type="text"
-                        name="location"
-                        class="form-control"
-                        placeholder="Mumbai, Maharashtra"
-                        required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <!-- Description -->
-
-                <div class="mb-4">
-
-                    <label class="form-label">
-
-                        Description
-
-                        <span class="required">*</span>
+                        <span class="admin-required">
+                            *
+                        </span>
 
                     </label>
 
 
-                    <textarea
+                    <input
+                        type="text"
+                        name="location"
+                        class="form-control"
+                        placeholder="Mumbai, Maharashtra"
+                        value="<?= htmlspecialchars(
+                            $_POST['location'] ?? ''
+                        ); ?>"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="mb-4">
+
+                <label class="admin-form-label">
+
+                    Description
+
+                    <span class="admin-required">
+                        *
+                    </span>
+
+                </label>
+
+
+                <textarea
                     name="description"
                     class="form-control"
                     rows="7"
                     placeholder="Enter complete event description..."
                     required
-                    ></textarea>
+                ><?= htmlspecialchars(
+                    $_POST['description'] ?? ''
+                ); ?></textarea>
 
-                </div>
-
-
-                <!-- Cover Image -->
-
-                <div class="mb-4">
-
-                    <label class="form-label">
-
-                        Cover Image
-
-                        <span class="required">*</span>
-
-                    </label>
+            </div>
 
 
-                    <input
+            <!-- COVER IMAGE -->
+
+            <div class="mb-4">
+
+                <label class="admin-form-label">
+
+                    Cover Image
+
+                    <span class="admin-required">
+                        *
+                    </span>
+
+                </label>
+
+
+                <input
                     type="file"
                     name="cover_image"
                     class="form-control"
                     accept=".jpg,.jpeg,.png,.webp"
                     required
-                    >
+                >
 
 
-                    <div class="image-note mt-2">
+                <div class="admin-image-note">
 
-                        This image will appear on the event card
-                        and as the main event image.
+                    JPG, PNG and WebP are supported.
+                    Images are automatically resized and
+                    compressed before being stored in the database.
 
-                    </div>
+                    Maximum original upload size: 25 MB.
 
                 </div>
 
-
-                <!-- Gallery -->
-
-                <div class="mb-4">
-
-                    <label class="form-label">
-
-                        Gallery Images
-
-                    </label>
+            </div>
 
 
-                    <input
+            <!-- GALLERY -->
+
+            <div class="mb-4">
+
+                <label class="admin-form-label">
+
+                    Gallery Images
+
+                </label>
+
+
+                <input
                     type="file"
                     name="gallery_images[]"
                     class="form-control"
                     accept=".jpg,.jpeg,.png,.webp"
                     multiple
-                    >
-
-
-                    <div class="image-note mt-2">
-
-                        You can select multiple images.
-
-                    </div>
-
-                </div>
-
-
-                <hr class="my-4">
-
-
-                <!-- Additional Information -->
-
-                <div class="mb-4">
-
-
-                    <div
-                    class="d-flex justify-content-between align-items-center mb-3"
-                    >
-
-                        <div>
-
-                            <h5 class="fw-bold mb-1">
-
-                                Additional Information
-
-                            </h5>
-
-                            <small class="text-muted">
-
-                                Add any extra information specific
-                                to this event.
-
-                            </small>
-
-                        </div>
-
-
-                        <button
-                        type="button"
-                        class="btn btn-outline-primary"
-                        id="addDetail"
-                        >
-
-                            + Add Another Field
-
-                        </button>
-
-                    </div>
-
-
-                    <!-- Dynamic Fields -->
-
-                    <div id="detailsContainer">
-
-                    </div>
-
-
-                </div>
-
-
-                <hr class="my-4">
-
-
-                <!-- Submit -->
-
-                <div
-                class="d-flex justify-content-end"
                 >
 
+
+                <div class="admin-image-note">
+
+                    You can select multiple images.
+                    Images are automatically resized and
+                    compressed before being stored in the database.
+
+                </div>
+
+            </div>
+
+
+            <hr class="my-4">
+
+
+            <!-- ADDITIONAL INFORMATION -->
+
+            <div class="mb-4">
+
+                <div class="admin-section-header">
+
+                    <div>
+
+                        <h3>
+                            Additional Information
+                        </h3>
+
+                        <p>
+                            Add any extra information specific
+                            to this event.
+                        </p>
+
+                    </div>
+
+
                     <button
-                    type="submit"
-                    name="add_event"
-                    class="btn btn-primary px-5"
+                        type="button"
+                        class="admin-btn-secondary"
+                        id="addDetail"
                     >
 
-                        Add Event
+                        <i class="fa-solid fa-plus"></i>
+
+                        Add Another Field
 
                     </button>
 
                 </div>
 
 
-            </form>
+                <div
+                    id="detailsContainer"
+                ></div>
+
+            </div>
 
 
-        </div>
+            <hr class="my-4">
+
+
+            <!-- SUBMIT -->
+
+            <div class="admin-form-actions">
+
+                <button
+                    type="submit"
+                    name="add_event"
+                    class="admin-btn-primary"
+                >
+
+                    <i
+                        class="fa-solid fa-plus"
+                    ></i>
+
+                    Add Event
+
+                </button>
+
+            </div>
+
+
+        </form>
 
     </div>
 
-</div>
 
+</main>
+
+
+<!-- =========================================================
+     DYNAMIC FIELDS
+========================================================== -->
 
 <script>
 
@@ -890,13 +1838,12 @@ addDetailButton.addEventListener(
     function()
     {
 
-
         const row =
             document.createElement("div");
 
 
         row.className =
-            "detail-row";
+            "admin-detail-row";
 
 
         row.innerHTML = `
@@ -906,10 +1853,10 @@ addDetailButton.addEventListener(
                 <div class="col-md-5 mb-2 mb-md-0">
 
                     <input
-                    type="text"
-                    name="field_name[]"
-                    class="form-control"
-                    placeholder="Field name"
+                        type="text"
+                        name="field_name[]"
+                        class="form-control"
+                        placeholder="Field name"
                     >
 
                 </div>
@@ -918,10 +1865,10 @@ addDetailButton.addEventListener(
                 <div class="col-md-6 mb-2 mb-md-0">
 
                     <input
-                    type="text"
-                    name="field_value[]"
-                    class="form-control"
-                    placeholder="Field value"
+                        type="text"
+                        name="field_value[]"
+                        class="form-control"
+                        placeholder="Field value"
                     >
 
                 </div>
@@ -930,11 +1877,13 @@ addDetailButton.addEventListener(
                 <div class="col-md-1 text-end">
 
                     <button
-                    type="button"
-                    class="btn btn-outline-danger remove-detail"
+                        type="button"
+                        class="admin-delete-detail"
                     >
 
-                        ×
+                        <i
+                            class="fa-solid fa-xmark"
+                        ></i>
 
                     </button>
 
@@ -945,11 +1894,15 @@ addDetailButton.addEventListener(
         `;
 
 
-        detailsContainer.appendChild(row);
+        detailsContainer.appendChild(
+            row
+        );
 
 
         const removeButton =
-            row.querySelector(".remove-detail");
+            row.querySelector(
+                ".admin-delete-detail"
+            );
 
 
         removeButton.addEventListener(
