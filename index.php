@@ -15,10 +15,8 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-
     <!-- Navbar CSS -->
     <link rel="stylesheet" href="css/navbar.css">
-
 
     <!-- Font Awesome -->
     <link
@@ -87,12 +85,43 @@
                 <div class="hero-orbit orbit-one"></div>
                 <div class="hero-orbit orbit-two"></div>
 
+                <!-- =================================================
+                     HERO IMAGE SLIDESHOW
+                     Replace image2.png ... image5.png with your
+                     actual image filenames.
+                ================================================== -->
+
                 <div class="hero-image-frame">
 
-                <img
-                    src="static_image.php?name=shivshram_cover.png"
-                    alt="Sevartha Foundation"
-                >
+                    <img
+                        class="hero-slide active"
+                        src="static_image.php?name=homepage_image1.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image2.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image3.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image4.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image5.png"
+                        alt="Sevartha Foundation"
+                    >
 
                 </div>
 
@@ -115,7 +144,6 @@
     <div class="story-band__inner fade-in-up">
 
         <div class="story-intro">
-
 
             <h2 class="story-band__title">
                 Empowering Lives,
@@ -230,10 +258,13 @@
 
 </section>
 
-<!-- Footer php and css -->
-     <?php include 'includes/footer.php'; ?>
-     <link rel="stylesheet" href="css/footer.css">
 
+<!-- Footer PHP -->
+<?php include 'includes/footer.php'; ?>
+
+
+<!-- Footer CSS -->
+<link rel="stylesheet" href="css/footer.css">
 
 
 <!-- =========================================================
@@ -309,6 +340,47 @@ document.addEventListener("DOMContentLoaded", function () {
     counters.forEach(counter => {
         observer.observe(counter);
     });
+
+});
+
+</script>
+
+
+
+<!-- =========================================================
+     HERO IMAGE SLIDESHOW
+     Changes image every 2 seconds
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const slides = document.querySelectorAll(".hero-slide");
+
+    if (slides.length <= 1) {
+        return;
+    }
+
+    let currentSlide = 0;
+
+    setInterval(function () {
+
+        /* Hide current image */
+        slides[currentSlide].classList.remove("active");
+
+        /* Move to next image */
+        currentSlide++;
+
+        /* Restart after the fifth image */
+        if (currentSlide >= slides.length) {
+            currentSlide = 0;
+        }
+
+        /* Show next image */
+        slides[currentSlide].classList.add("active");
+
+    }, 2000);
 
 });
 
