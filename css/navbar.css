@@ -1,5 +1,1920 @@
 /* =========================================================
    SEVARTHA FOUNDATION
+   PREMIUM NAVBAR
+   SAND BEIGE • DARK GREY • OLIVE DRAB • OFF WHITE
+========================================================= */
+
+:root {
+    --nav-off-white: #F6F2E8;
+    --nav-white: #FFFFFF;
+    --nav-sand: #D0C8B6;
+    --nav-sand-light: #E8E2D5;
+    --nav-sand-soft: #F0ECE4;
+
+    --nav-olive: #545247;
+    --nav-olive-dark: #45433A;
+    --nav-olive-light: #706D60;
+
+    --nav-dark: #1A1A1A;
+    --nav-grey: #68665E;
+    --nav-grey-light: #929087;
+
+    --nav-border: rgba(84, 82, 71, .18);
+    --nav-border-light: rgba(84, 82, 71, .10);
+
+    --nav-shadow:
+        0 10px 35px rgba(26, 26, 26, .07);
+
+    --nav-shadow-lg:
+        0 20px 55px rgba(26, 26, 26, .13);
+
+    --nav-radius: 14px;
+    --nav-radius-lg: 20px;
+
+    --nav-transition:
+        all .28s cubic-bezier(.2, .7, .2, 1);
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    position: relative;
+    z-index: 1000;
+
+    min-height: 82px;
+    padding: 7px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(246,242,232,.98),
+            rgba(255,255,255,.98)
+        );
+
+    border-bottom:
+        1px solid var(--nav-border);
+
+    box-shadow:
+        0 4px 20px rgba(26,26,26,.045);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    transition:
+        background .3s ease,
+        box-shadow .3s ease;
+}
+
+
+/* Subtle premium line at the bottom */
+
+.navbar::after {
+    content: "";
+
+    position: absolute;
+
+    left: 4%;
+    right: 4%;
+    bottom: -1px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(84,82,71,.25),
+            transparent
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   NAVBAR CONTAINER
+========================================================= */
+
+.navbar .container-fluid {
+    position: relative;
+
+    width: 100%;
+    max-width: 1450px;
+
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.ngo-brand {
+    position: relative;
+
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    width: max-content;
+
+    margin: 0;
+    padding: 4px 0;
+
+    color: #1A1A1A;
+
+    text-decoration: none;
+
+    line-height: 1;
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+}
+
+
+/* Small decorative mark */
+
+.ngo-brand::before {
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    right: -15px;
+    top: 9px;
+
+    border-radius: 50%;
+
+    background: var(--nav-sand);
+
+    box-shadow:
+        0 0 0 4px rgba(208,200,182,.18);
+}
+
+.ngo-brand::after {
+    content: "";
+
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    top: 8px;
+    right: -15px;
+
+    border-radius: 50%;
+
+    background: #D0C8B6;
+
+    box-shadow:
+        0 0 0 4px rgba(208, 200, 182, .18);
+}
+
+
+.ngo-brand:hover {
+    color: #545247;
+
+    text-decoration: none;
+
+    transform: translateY(-1px);
+}
+
+.ngo-brand:hover .brand-title {
+    color: #545247;
+}
+
+.ngo-brand:hover .brand-subtitle {
+    color: #545247;
+}
+
+/* =========================================================
+   BRAND TITLE
+========================================================= */
+
+.brand-title {
+    display: block;
+
+    margin: 0;
+
+    color: #1A1A1A;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 2rem;
+    font-weight: 700;
+
+    line-height: .95;
+
+    letter-spacing: -1.2px;
+
+    white-space: nowrap;
+}
+
+
+/* Olive accent on brand hover */
+
+.ngo-brand:hover .brand-title {
+    color: var(--nav-olive);
+}
+
+
+/* =========================================================
+   BRAND SUBTITLE
+========================================================= */
+
+.brand-subtitle {
+    display: block;
+
+    margin-top: 7px;
+
+    padding-top: 5px;
+
+    border-top:
+        1.5px solid #545247;
+
+    color: #545247;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: .72rem;
+    font-weight: 800;
+
+    letter-spacing: 2.2px;
+
+    line-height: 1;
+
+    text-transform: none;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+.navbar .navbar-nav {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+}
+
+.navbar .nav-item {
+    position: relative;
+
+    animation: none !important;
+}
+
+
+/* =========================================================
+   NAV LINKS
+========================================================= */
+
+.navbar .nav-link {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+
+    padding: 11px 14px;
+
+    margin: 0;
+
+    color: var(--nav-grey);
+
+    background: transparent;
+
+    border: 0;
+    border-radius: 11px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 13.5px;
+    font-weight: 750;
+
+    letter-spacing: .15px;
+
+    line-height: 1;
+
+    text-decoration: none;
+    white-space: nowrap;
+
+    transition:
+        color .25s ease,
+        background .25s ease,
+        transform .25s ease;
+}
+
+
+/* Soft hover background */
+
+.navbar .nav-link:hover {
+    color: var(--nav-dark);
+
+    background:
+        rgba(208,200,182,.22);
+
+    transform: translateY(-1px);
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   ACTIVE / HOVER ACCENT
+========================================================= */
+
+.navbar .nav-link::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    bottom: 4px;
+
+    width: 22px;
+    height: 2px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--nav-olive),
+            var(--nav-sand)
+        );
+
+    transform:
+        translateX(-50%)
+        scaleX(0);
+
+    transform-origin: center;
+
+    transition:
+        transform .28s ease;
+}
+
+.navbar .nav-link:hover::after,
+.navbar .nav-link:focus-visible::after {
+    transform:
+        translateX(-50%)
+        scaleX(1);
+}
+
+
+/* =========================================================
+   REMOVE BOOTSTRAP CARET
+========================================================= */
+
+.navbar .nav-link.dropdown-toggle::after {
+    display: block !important;
+
+    position: static;
+
+    width: 7px;
+    height: 7px;
+
+    margin-left: 8px;
+
+    border:
+        0 solid transparent;
+
+    border-right:
+        1.5px solid var(--nav-olive);
+
+    border-bottom:
+        1.5px solid var(--nav-olive);
+
+    border-radius: 0;
+
+    background: transparent;
+
+    transform:
+        rotate(45deg)
+        translateY(-2px);
+
+    transition:
+        transform .25s ease;
+}
+
+.navbar .nav-dropdown:hover > .nav-link.dropdown-toggle::after,
+.navbar .nav-dropdown:focus-within > .nav-link.dropdown-toggle::after {
+    transform:
+        rotate(225deg)
+        translateY(-1px);
+}
+
+
+/* =========================================================
+   DROPDOWN WRAPPER
+========================================================= */
+
+.navbar .nav-dropdown {
+    position: relative;
+}
+
+
+/* =========================================================
+   DROPDOWN MENU
+========================================================= */
+
+.navbar .nav-dropdown-menu {
+    position: absolute;
+
+    top:
+        calc(100% + 12px);
+
+    left: 50%;
+
+    width: 300px;
+    max-width:
+        calc(100vw - 30px);
+
+    padding: 13px;
+
+    background:
+        rgba(255,255,255,.97);
+
+    border:
+        1px solid var(--nav-border);
+
+    border-radius:
+        var(--nav-radius-lg);
+
+    box-shadow:
+        var(--nav-shadow-lg);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transform:
+        translate(-50%, -10px)
+        scale(.97);
+
+    transform-origin:
+        top center;
+
+    transition:
+        opacity .22s ease,
+        transform .22s ease,
+        visibility .22s ease;
+
+    z-index: 2000;
+}
+
+
+/* Small olive/sand accent on dropdown */
+
+.navbar .nav-dropdown-menu::after {
+    content: "";
+
+    position: absolute;
+
+    left: 20px;
+    top: -1px;
+
+    width: 45px;
+    height: 2px;
+
+    border-radius: 999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--nav-olive),
+            var(--nav-sand)
+        );
+}
+
+
+/* Hover bridge */
+
+.navbar .nav-dropdown-menu::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    top: -15px;
+
+    height: 16px;
+
+    background: transparent;
+}
+
+
+/* =========================================================
+   OPEN DROPDOWN
+========================================================= */
+
+.navbar .nav-dropdown:hover
+.nav-dropdown-menu,
+
+.navbar .nav-dropdown:focus-within
+.nav-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+
+    transform:
+        translate(-50%, 0)
+        scale(1);
+}
+
+
+/* =========================================================
+   DROPDOWN HEADER
+========================================================= */
+
+.dropdown-header {
+    padding:
+        6px 9px 13px;
+
+    margin-bottom: 4px;
+
+    border-bottom:
+        1px solid var(--nav-border-light);
+
+    color:
+        var(--nav-olive);
+
+    font-size:
+        .67rem;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        2px;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =========================================================
+   ABOUT US MENU
+========================================================= */
+
+.navbar .about-menu {
+    width: 500px;
+    padding: 17px;
+}
+
+
+/* =========================================================
+   DROPDOWN LIST
+========================================================= */
+
+.dropdown-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    padding-top: 6px;
+}
+
+
+/* =========================================================
+   DROPDOWN ITEM
+========================================================= */
+
+.dropdown-item-custom {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 57px;
+
+    padding:
+        9px 11px;
+
+    border-radius:
+        12px;
+
+    color:
+        var(--nav-grey);
+
+    background:
+        transparent;
+
+    text-decoration:
+        none;
+
+    transition:
+        background .22s ease,
+        color .22s ease,
+        transform .22s ease,
+        box-shadow .22s ease;
+}
+
+.dropdown-item-custom:hover {
+    background:
+        linear-gradient(
+            100deg,
+            rgba(208,200,182,.26),
+            rgba(246,242,232,.68)
+        );
+
+    color:
+        var(--nav-dark);
+
+    transform:
+        translateX(4px);
+
+    box-shadow:
+        inset 3px 0 0 var(--nav-olive);
+
+    text-decoration:
+        none;
+}
+
+
+/* =========================================================
+   DROPDOWN ICON
+========================================================= */
+
+.dropdown-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex:
+        0 0 41px;
+
+    width: 41px;
+    height: 41px;
+
+    margin-right: 11px;
+
+    border-radius:
+        12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--nav-off-white),
+            var(--nav-sand-soft)
+        );
+
+    border:
+        1px solid var(--nav-border);
+
+    color:
+        var(--nav-olive);
+
+    font-size: 15px;
+
+    box-shadow:
+        0 4px 12px rgba(84,82,71,.05);
+
+    transition:
+        background .22s ease,
+        color .22s ease,
+        transform .22s ease;
+}
+
+.dropdown-item-custom:hover
+.dropdown-icon {
+    background:
+        var(--nav-olive);
+
+    color:
+        var(--nav-white);
+
+    transform:
+        scale(1.06)
+        rotate(-2deg);
+
+    border-color:
+        var(--nav-olive);
+}
+
+
+/* =========================================================
+   DROPDOWN TEXT
+========================================================= */
+
+.dropdown-content {
+    display: flex;
+
+    flex-direction: column;
+    justify-content: center;
+
+    min-width: 0;
+
+    line-height: 1.2;
+}
+
+.dropdown-content strong {
+    display: block;
+
+    color:
+        var(--nav-dark);
+
+    font-size:
+        .94rem;
+
+    font-weight:
+        800;
+
+    line-height:
+        1.3;
+}
+
+.dropdown-content small {
+    display: block;
+
+    margin-top:
+        3px;
+
+    color:
+        var(--nav-grey-light);
+
+    font-size:
+        .75rem;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.3;
+}
+
+.dropdown-item-custom:hover
+.dropdown-content strong {
+    color:
+        var(--nav-olive-dark);
+}
+
+.dropdown-item-custom:hover
+.dropdown-content small {
+    color:
+        var(--nav-grey);
+}
+
+
+/* =========================================================
+   OUR WORK MENU
+========================================================= */
+
+.navbar .work-menu {
+    width: 540px;
+    padding: 19px;
+}
+
+
+/* =========================================================
+   OUR WORK GRID
+========================================================= */
+
+.work-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    gap:
+        5px 10px;
+}
+
+
+/* =========================================================
+   OUR WORK ITEM
+========================================================= */
+
+.work-item {
+    position: relative;
+
+    display: block;
+
+    padding:
+        12px 14px 12px 27px;
+
+    border-radius:
+        11px;
+
+    color:
+        var(--nav-grey);
+
+    font-size:
+        13.5px;
+
+    font-weight:
+        650;
+
+    line-height:
+        1.35;
+
+    text-decoration:
+        none;
+
+    white-space:
+        normal;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+
+/* Tiny olive indicator */
+
+.work-item::before {
+    content: "";
+
+    position: absolute;
+
+    left: 13px;
+    top: 50%;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background:
+        var(--nav-sand);
+
+    transform:
+        translateY(-50%);
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.work-item:hover {
+    background:
+        rgba(208,200,182,.23);
+
+    color:
+        var(--nav-dark);
+
+    transform:
+        translateX(3px);
+
+    text-decoration:
+        none;
+}
+
+.work-item:hover::before {
+    background:
+        var(--nav-olive);
+
+    transform:
+        translateY(-50%)
+        scale(1.4);
+}
+
+
+/* =========================================================
+   SIMPLE DROPDOWNS
+========================================================= */
+
+.simple-dropdown-item {
+    display: block;
+
+    position: relative;
+
+    width: 100%;
+
+    padding:
+        12px 14px 12px 27px;
+
+    border-radius:
+        11px;
+
+    color:
+        var(--nav-grey);
+
+    background:
+        transparent;
+
+    font-size:
+        14px;
+
+    font-weight:
+        650;
+
+    line-height:
+        1.3;
+
+    text-decoration:
+        none;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease;
+}
+
+.simple-dropdown-item::before {
+    content: "";
+
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background:
+        var(--nav-sand);
+
+    transform:
+        translateY(-50%);
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+.simple-dropdown-item:hover {
+    background:
+        rgba(208,200,182,.23);
+
+    color:
+        var(--nav-dark);
+
+    transform:
+        translateX(3px);
+
+    text-decoration:
+        none;
+}
+
+.simple-dropdown-item:hover::before {
+    background:
+        var(--nav-olive);
+
+    transform:
+        translateY(-50%)
+        scale(1.4);
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+.login-item {
+    margin-left:
+        6px;
+}
+
+.login-link {
+    color:
+        var(--nav-grey) !important;
+}
+
+.login-link:hover {
+    color:
+        var(--nav-dark) !important;
+}
+
+
+/* =========================================================
+   DONATE BUTTON
+========================================================= */
+
+.donate-item {
+    margin-left:
+        9px;
+}
+
+.donate-button {
+    position: relative;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    min-height: 44px;
+
+    padding:
+        10px 20px;
+
+    border:
+        1px solid var(--nav-olive);
+
+    border-radius:
+        12px;
+
+    background:
+        var(--nav-olive);
+
+    color:
+        var(--nav-white);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:
+        13.5px;
+
+    font-weight:
+        850;
+
+    letter-spacing:
+        .25px;
+
+    line-height:
+        1;
+
+    text-decoration:
+        none;
+
+    white-space:
+        nowrap;
+
+    box-shadow:
+        0 8px 20px rgba(84,82,71,.16);
+
+    overflow:
+        hidden;
+
+    transition:
+        transform .28s ease,
+        background .28s ease,
+        color .28s ease,
+        box-shadow .28s ease;
+}
+
+
+/* Shine animation */
+
+.donate-button::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -110%;
+
+    width: 65%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.18),
+            transparent
+        );
+
+    transform:
+        skewX(-20deg);
+
+    transition:
+        left .55s ease;
+}
+
+.donate-button:hover::before {
+    left:
+        140%;
+}
+
+.donate-button:hover {
+    background:
+        var(--nav-dark);
+
+    border-color:
+        var(--nav-dark);
+
+    color:
+        var(--nav-white);
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        0 12px 28px rgba(26,26,26,.16);
+
+    text-decoration:
+        none;
+}
+
+.donate-button i {
+    font-size:
+        12px;
+
+    transition:
+        transform .25s ease;
+}
+
+.donate-button:hover i {
+    transform:
+        translateX(3px);
+}
+
+
+/* =========================================================
+   MOBILE TOGGLER
+========================================================= */
+
+.navbar-toggler {
+    width:
+        44px;
+
+    height:
+        42px;
+
+    padding:
+        8px;
+
+    border:
+        1px solid var(--nav-border);
+
+    border-radius:
+        12px;
+
+    background:
+        var(--nav-white);
+
+    box-shadow:
+        0 5px 15px rgba(26,26,26,.05);
+
+    transition:
+        var(--nav-transition);
+}
+
+.navbar-toggler:hover {
+    background:
+        var(--nav-sand-soft);
+
+    border-color:
+        var(--nav-olive);
+
+    transform:
+        translateY(-1px);
+}
+
+.navbar-toggler:focus {
+    box-shadow:
+        0 0 0 4px rgba(84,82,71,.12);
+}
+
+.navbar-toggler-icon {
+    width:
+        22px;
+
+    height:
+        22px;
+
+    background-image:
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23545247' stroke-linecap='round' stroke-width='2.2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 992px) {
+
+        .brand-title {
+        font-size: 2.05rem;
+    }
+
+    .brand-subtitle {
+        font-size: .74rem;
+        letter-spacing: 2.3px;
+    }
+
+    .ngo-brand {
+        margin-right: 60px;
+    }
+
+    .navbar .navbar-collapse {
+        display:
+            flex !important;
+
+        flex-basis:
+            auto !important;
+    }
+
+    .navbar .navbar-nav {
+        display:
+            flex !important;
+
+        flex-direction:
+            row !important;
+
+        align-items:
+            center !important;
+
+        width:
+            auto !important;
+    }
+
+    .navbar .nav-item {
+        width:
+            auto !important;
+    }
+
+    .navbar .navbar-toggler {
+        display:
+            none !important;
+    }
+
+    .login-item {
+        margin-left:
+            6px !important;
+    }
+
+    .donate-item {
+        margin-left:
+            9px !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .brand-title {
+        font-size: 1.55rem;
+        letter-spacing: -.7px;
+    }
+
+    .brand-subtitle {
+        margin-top: 5px;
+        padding-top: 4px;
+
+        font-size: .66rem;
+        letter-spacing: 1.5px;
+    }
+
+    .ngo-brand::after {
+        width: 6px;
+        height: 6px;
+
+        right: -11px;
+        top: 6px;
+    }
+
+    .navbar {
+        min-height:
+            72px;
+    }
+
+    .navbar .container-fluid {
+        padding-left:
+            18px;
+
+        padding-right:
+            18px;
+    }
+
+    .navbar .navbar-toggler {
+        display:
+            block;
+    }
+
+    .navbar .navbar-collapse {
+        width:
+            100%;
+
+        margin-top:
+            10px;
+
+        padding:
+            8px;
+
+        background:
+            rgba(255,255,255,.96);
+
+        border:
+            1px solid var(--nav-border);
+
+        border-radius:
+            16px;
+
+        box-shadow:
+            var(--nav-shadow);
+
+        backdrop-filter:
+            blur(14px);
+    }
+
+    .navbar .navbar-nav {
+        display:
+            flex;
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch !important;
+
+        width:
+            100%;
+
+        gap:
+            3px;
+    }
+
+    .navbar .nav-item {
+        width:
+            100%;
+    }
+
+    .navbar .nav-link {
+        width:
+            100%;
+
+        justify-content:
+            flex-start;
+
+        min-height:
+            45px;
+
+        padding:
+            12px 12px;
+    }
+
+    .navbar .nav-link::after {
+        left:
+            12px;
+
+        right:
+            auto;
+
+        bottom:
+            7px;
+
+        width:
+            25px;
+
+        transform:
+            scaleX(0);
+    }
+
+    .navbar .nav-link:hover::after {
+        transform:
+            scaleX(1);
+    }
+
+
+    /* Mobile dropdowns */
+
+    .navbar .nav-dropdown-menu {
+        position:
+            static;
+
+        width:
+            100%;
+
+        max-width:
+            none;
+
+        margin:
+            3px 0 8px;
+
+        padding:
+            10px;
+
+        border-radius:
+            14px;
+
+        box-shadow:
+            0 8px 25px rgba(26,26,26,.07);
+
+        transform:
+            none;
+
+        opacity:
+            0;
+
+        visibility:
+            hidden;
+
+        pointer-events:
+            none;
+    }
+
+    .navbar .nav-dropdown:hover
+    .nav-dropdown-menu {
+        opacity:
+            0;
+
+        visibility:
+            hidden;
+
+        pointer-events:
+            none;
+    }
+
+    .navbar .nav-dropdown:focus-within
+    .nav-dropdown-menu {
+        opacity:
+            1;
+
+        visibility:
+            visible;
+
+        pointer-events:
+            auto;
+
+        transform:
+            none;
+    }
+
+    .navbar .about-menu,
+    .navbar .work-menu {
+        width:
+            100%;
+    }
+
+    .work-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .login-item {
+        margin-left:
+            0;
+    }
+
+    .donate-item {
+        margin:
+            8px 0 0;
+    }
+
+    .donate-button {
+        width:
+            100%;
+    }
+}
+
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+========================================================= */
+
+@media (min-width: 992px)
+and (max-width: 1199px) {
+
+    .navbar .container-fluid {
+        padding-left:
+            22px;
+
+        padding-right:
+            22px;
+    }
+
+    .ngo-brand {
+        margin-right:
+            20px;
+    }
+
+    .brand-title {
+        font-size:
+            1.8rem;
+    }
+
+    .navbar .navbar-nav {
+        gap:
+            1px;
+    }
+
+    .navbar .nav-link {
+        padding:
+            11px 9px;
+
+        font-size:
+            12.5px;
+    }
+
+    .donate-button {
+        padding:
+            10px 15px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .navbar .container-fluid {
+        padding-left:
+            14px;
+
+        padding-right:
+            14px;
+    }
+
+    .ngo-brand {
+        margin-right:
+            0;
+    }
+
+    .ngo-brand::before {
+        display:
+            none;
+    }
+
+    .brand-title {
+        font-size:
+            1.5rem;
+
+        letter-spacing:
+            -.5px;
+    }
+
+    .brand-subtitle {
+        font-size:
+            .72rem;
+
+        margin-top:
+            4px;
+
+        padding-top:
+            4px;
+
+        letter-spacing:
+            1.5px;
+    }
+
+    .navbar .navbar-collapse {
+        margin-top:
+            8px;
+
+        padding:
+            7px;
+    }
+
+    .about-menu {
+        padding:
+            8px;
+    }
+
+    .dropdown-content strong {
+        font-size:
+            .88rem;
+    }
+
+    .dropdown-content small {
+        font-size:
+            .70rem;
+    }
+
+    .dropdown-icon {
+        flex-basis:
+            36px;
+
+        width:
+            36px;
+
+        height:
+            36px;
+
+        margin-right:
+            9px;
+    }
+
+    .work-item,
+    .simple-dropdown-item {
+        font-size:
+            13px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.navbar a:focus-visible,
+.navbar button:focus-visible {
+    outline:
+        2px solid var(--nav-olive);
+
+    outline-offset:
+        3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .navbar *,
+    .navbar *::before,
+    .navbar *::after {
+        transition-duration:
+            .01ms !important;
+
+        animation-duration:
+            .01ms !important;
+
+        animation-iteration-count:
+            1 !important;
+    }
+}
+
+
+/* =========================================================
+   FINAL NAVBAR SPACING / TYPOGRAPHY REFINEMENT
+   Wider • Larger • Better Balanced
+========================================================= */
+
+/* Give the navbar a little more breathing room */
+.navbar {
+    min-height: 86px;
+    padding: 8px 0;
+}
+
+/* Use more of the available horizontal space */
+.navbar .container-fluid {
+    max-width: 1500px;
+    padding-left: 42px;
+    padding-right: 42px;
+}
+
+/* Brand slightly larger and more prominent */
+.ngo-brand {
+    margin-right: 55px;
+    min-width: 185px;
+}
+
+.brand-title {
+    font-size: 2.15rem;
+    letter-spacing: -1px;
+}
+
+.brand-subtitle {
+    margin-top: 8px;
+    font-size: .82rem;
+    letter-spacing: 2.2px;
+}
+
+/* Let the navigation occupy the remaining space */
+.navbar .navbar-collapse {
+    flex: 1 1 auto;
+}
+
+.navbar .navbar-nav {
+    width: 100%;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+/* Larger, easier-to-read navigation */
+.navbar .nav-link {
+    min-height: 50px;
+    padding: 13px 16px;
+
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .1px;
+}
+
+/* Slightly wider hover underline */
+.navbar .nav-link::after {
+    bottom: 3px;
+    width: 28px;
+}
+
+/* Login gets a little more separation */
+.login-item {
+    margin-left: 12px !important;
+}
+
+/* Donate gets its own visual breathing room */
+.donate-item {
+    margin-left: 13px !important;
+}
+
+.donate-button {
+    min-height: 46px;
+    padding: 12px 22px;
+    font-size: 14.5px;
+}
+
+/* =========================================================
+   DESKTOP BALANCE
+========================================================= */
+
+@media (min-width: 1200px) {
+
+    .navbar .container-fluid {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+
+    .navbar .navbar-nav {
+        gap: 10px;
+    }
+
+    .navbar .nav-link {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+    .ngo-brand {
+        margin-right: 65px;
+    }
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1400px) {
+
+    .navbar .container-fluid {
+        max-width: 1560px;
+    }
+
+    .navbar .navbar-nav {
+        gap: 12px;
+    }
+
+    .navbar .nav-link {
+        padding-left: 18px;
+        padding-right: 18px;
+        font-size: 15.5px;
+    }
+
+    .donate-button {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+    .navbar .container-fluid {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .ngo-brand {
+        margin-right: 28px;
+        min-width: 165px;
+    }
+
+    .brand-title {
+        font-size: 1.85rem;
+    }
+
+    .navbar .navbar-nav {
+        gap: 3px;
+    }
+
+    .navbar .nav-link {
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 13.5px;
+    }
+
+    .donate-button {
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 13.5px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .navbar {
+        min-height: 74px;
+    }
+
+    .navbar .container-fluid {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .ngo-brand {
+        margin-right: 0;
+        min-width: auto;
+    }
+
+    .brand-title {
+        font-size: 1.8rem;
+    }
+
+    .brand-subtitle {
+        font-size: .75rem;
+    }
+
+    .navbar .navbar-collapse {
+        flex: none;
+    }
+
+    .navbar .navbar-nav {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 3px;
+    }
+
+    .navbar .nav-link {
+        font-size: 15px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 576px) {
+
+    .navbar .container-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .brand-title {
+        font-size: 1.55rem;
+    }
+
+    .brand-subtitle {
+        font-size: .70rem;
+        letter-spacing: 1.4px;
+    }
+
+    .navbar .nav-link {
+        font-size: 14.5px;
+    }
+}
+/* =========================================================
+   SEVARTHA FOUNDATION
    NAVBAR
    White / Black / Neutral Theme
 ========================================================= */
