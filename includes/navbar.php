@@ -111,7 +111,7 @@ if (!$categories) {
 
 
                             <a
-                                href="mission-vision-focus.php"
+                                href="/ngo-website/about-us/mission-vision-focus.php"
                                 class="dropdown-item-custom"
                             >
 
@@ -137,7 +137,7 @@ if (!$categories) {
 
 
                             <a
-                                href="founders.php"
+                                href="/ngo-website/about-us/founders.php"
                                 class="dropdown-item-custom"
                             >
 
@@ -163,7 +163,7 @@ if (!$categories) {
 
 
                             <a
-                                href="our-teams.php"
+                                href="/ngo-website/about-us/our-teams.php"
                                 class="dropdown-item-custom"
                             >
 
@@ -189,7 +189,7 @@ if (!$categories) {
 
 
                             <a
-                                href="accountability-transparency.php"
+                                href="/ngo-website/about-us/accountability-transparency.php"
                                 class="dropdown-item-custom"
                             >
 

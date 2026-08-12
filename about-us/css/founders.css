@@ -1,0 +1,683 @@
+/* =========================================================
+   SEVARTHA FOUNDATION
+   OUR FOUNDERS
+   MATCHES CURRENT WEBSITE UI
+========================================================= */
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.founders-container {
+
+    width: 100%;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding-left: 40px;
+
+    padding-right: 40px;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.founders-hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 105px 0 90px;
+
+    background:
+        radial-gradient(
+            circle at 82% 25%,
+            rgba(208, 200, 182, .32),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            var(--off-white) 0%,
+            var(--white) 55%,
+            #E9E3D8 100%
+        );
+
+    border-bottom:
+        1px solid var(--border-light);
+
+}
+
+
+.founders-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+
+    height: 520px;
+
+    right: -230px;
+
+    top: -300px;
+
+    border:
+        1px solid rgba(84,82,71,.16);
+
+    border-radius: 50%;
+
+}
+
+
+.founders-eyebrow {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 24px;
+
+    color: var(--olive);
+
+    font-size: .78rem;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+}
+
+
+.founders-eyebrow span {
+
+    width: 38px;
+
+    height: 2px;
+
+    background: var(--olive);
+
+}
+
+
+/* =========================================================
+   HERO TITLE
+========================================================= */
+
+.founders-title {
+
+    margin: 0;
+
+    color: var(--dark-grey);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(3.5rem, 7vw, 6.8rem);
+
+    font-weight: 700;
+
+    line-height: .95;
+
+    letter-spacing: -3px;
+
+}
+
+
+.founders-title span {
+
+    color: var(--olive);
+
+}
+
+
+.founders-intro {
+
+    margin-top: 25px;
+
+    color: var(--grey);
+
+    font-size: 1.05rem;
+
+}
+
+
+/* =========================================================
+   FOUNDERS SECTION
+========================================================= */
+
+.founders-section {
+
+    padding: 105px 0;
+
+    background: var(--off-white-2);
+
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.founders-section-heading {
+
+    margin-bottom: 50px;
+
+}
+
+
+.founders-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+
+    color: var(--olive);
+
+    font-size: .76rem;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+}
+
+
+.founders-label span {
+
+    width: 32px;
+
+    height: 2px;
+
+    background: var(--olive);
+
+}
+
+
+.founders-section-heading h2 {
+
+    margin: 0;
+
+    color: var(--dark-grey);
+
+    font-size:
+        clamp(2.4rem, 4.5vw, 4rem);
+
+    font-weight: 900;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+}
+
+
+.founders-section-heading h2 span {
+
+    color: var(--olive);
+
+}
+
+
+/* =========================================================
+   FOUNDERS GRID
+========================================================= */
+
+.founders-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 25px;
+
+}
+
+
+/* =========================================================
+   FOUNDER CARD
+========================================================= */
+
+.founder-card {
+
+    overflow: hidden;
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-sm);
+
+    transition:
+        transform .28s ease,
+        box-shadow .28s ease;
+
+}
+
+
+.founder-card:hover {
+
+    transform:
+        translateY(-7px);
+
+    box-shadow:
+        var(--shadow-md);
+
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.founder-image {
+
+    height: 300px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--sand-soft),
+            var(--off-white)
+        );
+
+}
+
+
+.founder-placeholder {
+
+    width: 115px;
+
+    height: 115px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--border);
+
+    color:
+        var(--olive);
+
+    font-size:
+        3rem;
+
+    box-shadow:
+        var(--shadow-sm);
+
+}
+
+
+/* =========================================================
+   CARD CONTENT
+========================================================= */
+
+.founder-content {
+
+    position: relative;
+
+    padding:
+        35px;
+
+}
+
+
+.founder-number {
+
+    position: absolute;
+
+    right: 25px;
+
+    top: 25px;
+
+    color:
+        rgba(84,82,71,.09);
+
+    font-size:
+        3rem;
+
+    font-weight:
+        900;
+
+}
+
+
+.founder-content h3 {
+
+    position: relative;
+
+    margin-bottom:
+        10px;
+
+    padding-right:
+        50px;
+
+    color:
+        var(--dark-grey);
+
+    font-size:
+        1.45rem;
+
+    font-weight:
+        850;
+
+}
+
+
+.founder-role {
+
+    margin-bottom:
+        20px;
+
+    color:
+        var(--olive);
+
+    font-size:
+        .82rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        .5px;
+
+}
+
+
+.founder-content p {
+
+    margin:
+        0;
+
+    color:
+        var(--grey);
+
+    font-size:
+        .96rem;
+
+    line-height:
+        1.75;
+
+}
+
+
+/* =========================================================
+   VISION / STORY
+========================================================= */
+
+.founders-vision {
+
+    padding:
+        105px 0;
+
+    background:
+        var(--white);
+
+}
+
+
+.founders-vision-box {
+
+    display: grid;
+
+    grid-template-columns:
+        120px 1fr;
+
+    gap:
+        55px;
+
+    padding:
+        65px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--off-white),
+            var(--white)
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-sm);
+
+}
+
+
+.founders-vision-icon {
+
+    width: 92px;
+
+    height: 92px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--border);
+
+    color:
+        var(--olive);
+
+    font-size:
+        1.8rem;
+
+    box-shadow:
+        var(--shadow-sm);
+
+}
+
+
+.founders-vision-content p {
+
+    max-width:
+        900px;
+
+    margin-bottom:
+        20px;
+
+    color:
+        var(--grey);
+
+    font-size:
+        1.05rem;
+
+    line-height:
+        1.8;
+
+}
+
+
+.founders-vision-content p:last-child {
+
+    margin-bottom:
+        0;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .founders-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .founders-container {
+
+        padding-left:
+            22px;
+
+        padding-right:
+            22px;
+
+    }
+
+
+    .founders-hero {
+
+        padding:
+            75px 0;
+
+    }
+
+
+    .founders-title {
+
+        font-size:
+            clamp(3rem, 14vw, 5rem);
+
+        letter-spacing:
+            -2px;
+
+    }
+
+
+    .founders-section,
+    .founders-vision {
+
+        padding:
+            75px 0;
+
+    }
+
+
+    .founders-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .founder-image {
+
+        height:
+            260px;
+
+    }
+
+
+    .founders-vision-box {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            30px;
+
+        padding:
+            38px 28px;
+
+    }
+
+
+    .founders-vision-icon {
+
+        width:
+            78px;
+
+        height:
+            78px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .founder-content {
+
+        padding:
+            28px;
+
+    }
+
+
+    .founder-image {
+
+        height:
+            230px;
+
+    }
+
+
+    .founders-eyebrow {
+
+        font-size:
+            .68rem;
+
+        letter-spacing:
+            2px;
+
+    }
+
+}
