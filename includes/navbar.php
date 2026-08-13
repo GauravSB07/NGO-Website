@@ -144,7 +144,13 @@
 
                 <!-- DONATE -->
                 <li class="nav-item donate-item">
-                    <a href="contact.php" class="donate-button">
+
+
+                    <a
+                        href="donate/donate.php"
+                        class="donate-button"
+                    >
+
                         Donate
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>
