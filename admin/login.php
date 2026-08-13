@@ -209,7 +209,6 @@ if (isset($_POST['login'])) {
 
 </head>
 
-
 <body class="admin-login-page">
 
 
@@ -222,12 +221,12 @@ if (isset($_POST['login'])) {
              LOGIN IMAGE
         ================================================== -->
 
-        <div class="col-lg-7 d-none d-lg-block p-0">
+        <div class="col-lg-6 d-none d-lg-block p-0">
 
             <div class="login-image">
 
                 <img
-                    src="../images/login.jpg"
+                    src="../static_image.php?name=loginpage.png"
                     alt="Sevartha Foundation"
                 >
 
@@ -241,7 +240,7 @@ if (isset($_POST['login'])) {
         ================================================== -->
 
         <div
-            class="col-lg-5 d-flex align-items-center justify-content-center"
+            class="col-lg-6 d-flex align-items-center justify-content-center"
         >
 
             <div class="login-card">

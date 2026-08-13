@@ -340,39 +340,46 @@ body {
 
 .admin-navbar {
 
-    position:
-        sticky;
+    position: sticky;
 
-    top:
-        0;
+    top: 0;
 
-    z-index:
-        1000;
+    z-index: 1000;
 
-    display:
-        flex;
+    width: 100%;
 
-    align-items:
-        center;
+    min-height: 72px;
 
-    justify-content:
-        space-between;
+    padding: 0 35px;
 
-    min-height:
-        72px;
+    background: #ffffff;
 
-    padding:
-        0 35px;
-
-    background:
-        #ffffff;
-
-    border-bottom:
-        1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 
     box-shadow:
         0 3px 12px
-        rgba(0, 0, 0, .04);
+        rgba(0, 0, 0, 0.04);
+
+}
+
+
+/* =========================================================
+   NAVBAR CONTAINER
+========================================================= */
+
+.admin-navbar .container-fluid {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    min-height: 72px;
+
+    margin: 0;
 
 }
 
@@ -383,30 +390,31 @@ body {
 
 .admin-brand {
 
-    color:
-        #111111;
+    display: inline-flex;
+
+    align-items: center;
+
+    flex-shrink: 0;
+
+    color: #111111;
 
     font-family:
         Georgia,
         "Times New Roman",
         serif;
 
-    font-size:
-        1.5rem;
+    font-size: 1.5rem;
 
-    font-weight:
-        800;
+    font-weight: 800;
 
-    text-decoration:
-        none;
+    text-decoration: none;
 
 }
 
 
 .admin-brand:hover {
 
-    color:
-        #111111;
+    color: #111111;
 
 }
 
@@ -417,23 +425,36 @@ body {
 
 .admin-user {
 
-    display:
-        flex;
+    display: flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    gap:
-        15px;
+    justify-content: flex-end;
 
-    color:
-        #444444;
+    gap: 18px;
 
-    font-size:
-        14px;
+    margin-left: auto;
 
-    font-weight:
-        600;
+    color: #444444;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+/* =========================================================
+   ADMINISTRATOR NAME
+========================================================= */
+
+.admin-user > span {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    white-space: nowrap;
 
 }
 
@@ -444,60 +465,52 @@ body {
 
 .admin-logout {
 
-    display:
-        inline-flex;
+    display: inline-flex;
 
-    align-items:
-        center;
+    align-items: center;
 
-    justify-content:
-        center;
+    justify-content: center;
 
-    gap:
-        7px;
+    gap: 7px;
 
-    padding:
-        9px 17px;
+    padding: 10px 18px;
 
-    border:
-        1px solid #111111;
+    border: 1px solid #111111;
 
-    border-radius:
-        999px;
+    border-radius: 999px;
 
-    background:
-        #111111;
+    background: #111111;
 
-    color:
-        #ffffff;
+    color: #ffffff;
 
-    font-size:
-        13px;
+    font-size: 13px;
 
-    font-weight:
-        700;
+    font-weight: 700;
 
-    text-decoration:
-        none;
+    text-decoration: none;
+
+    white-space: nowrap;
 
     transition:
         background .2s ease,
         color .2s ease,
-        transform .2s ease;
+        transform .2s ease,
+        box-shadow .2s ease;
 
 }
 
 
 .admin-logout:hover {
 
-    background:
-        #ffffff;
+    background: #ffffff;
 
-    color:
-        #111111;
+    color: #111111;
 
-    transform:
-        translateY(-1px);
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px
+        rgba(0, 0, 0, 0.08);
 
 }
 
