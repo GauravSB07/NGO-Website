@@ -330,7 +330,7 @@ $result = mysqli_query(
                                 ) { ?>
 
                                     <img
-                                        src="../../image.php?id=<?= (int) $event['cover_image_id']; ?>"
+                                        src="../../event_image.php?id=<?= (int) $event['cover_image_id']; ?>"
                                         class="event-image"
                                         alt="<?= htmlspecialchars($event['title']); ?>"
                                     >

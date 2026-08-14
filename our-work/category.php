@@ -28,6 +28,10 @@ $categoryQuery = "
 
 $stmt = mysqli_prepare($conn, $categoryQuery);
 
+if (!$stmt) {
+    die("Category query failed.");
+}
+
 mysqli_stmt_bind_param(
     $stmt,
     "s",
@@ -36,34 +40,62 @@ mysqli_stmt_bind_param(
 
 mysqli_stmt_execute($stmt);
 
-$categoryResult =
-    mysqli_stmt_get_result($stmt);
+$categoryResult = mysqli_stmt_get_result($stmt);
 
 
-if (mysqli_num_rows($categoryResult) == 0) {
+if (!$categoryResult || mysqli_num_rows($categoryResult) == 0) {
 
     die("Category not found.");
 
 }
 
 
-$category =
-    mysqli_fetch_assoc($categoryResult);
+$category = mysqli_fetch_assoc($categoryResult);
 
 
 /* =========================================================
-   GET EVENTS
+   GET EVENTS + COVER IMAGE
 ========================================================= */
 
+/*
+    Admin-uploaded event images are stored in:
+
+        images
+
+    Relationship:
+
+        images.event_id = events.id
+
+    Cover image is identified using:
+
+        images.image_role = 'cover'
+
+    We retrieve the image ID only.
+    The actual BLOB is served by event_image.php.
+*/
+
 $eventQuery = "
-    SELECT *
-    FROM events
-    WHERE category_id = ?
-    AND status = 'Active'
-    ORDER BY event_date DESC
+    SELECT
+        e.*,
+        i.id AS cover_image_id
+    FROM events AS e
+
+    LEFT JOIN images AS i
+        ON i.event_id = e.id
+        AND i.image_role = 'cover'
+
+    WHERE e.category_id = ?
+    AND e.status = 'Active'
+
+    ORDER BY e.event_date DESC
 ";
 
+
 $stmt = mysqli_prepare($conn, $eventQuery);
+
+if (!$stmt) {
+    die("Event query failed.");
+}
 
 mysqli_stmt_bind_param(
     $stmt,
@@ -73,8 +105,7 @@ mysqli_stmt_bind_param(
 
 mysqli_stmt_execute($stmt);
 
-$events =
-    mysqli_stmt_get_result($stmt);
+$events = mysqli_stmt_get_result($stmt);
 
 ?>
 
@@ -136,7 +167,6 @@ $events =
         rel="stylesheet"
         href="../css/our-work/our_work.css"
     >
-
 
 </head>
 
@@ -220,7 +250,10 @@ $events =
     </div>
 
 
-    <?php if (mysqli_num_rows($events) > 0) { ?>
+    <?php if (
+        $events &&
+        mysqli_num_rows($events) > 0
+    ) { ?>
 
 
         <div class="row g-4">
@@ -238,21 +271,19 @@ $events =
 
 
                         <!-- =================================================
-                             IMAGE
+                             EVENT IMAGE
                         ================================================== -->
 
                         <div class="event-image-wrapper">
 
 
                             <?php if (
-                                !empty($event['cover_image'])
+                                !empty($event['cover_image_id'])
                             ) { ?>
 
 
                                 <img
-                                    src="../uploads/events/<?= htmlspecialchars(
-                                        $event['cover_image']
-                                    ); ?>"
+                                    src="../event_image.php?id=<?= (int) $event['cover_image_id']; ?>"
                                     alt="<?= htmlspecialchars(
                                         $event['title']
                                     ); ?>"
@@ -281,7 +312,7 @@ $events =
 
 
                         <!-- =================================================
-                             BODY
+                             EVENT BODY
                         ================================================== -->
 
                         <div class="event-body">
@@ -304,13 +335,21 @@ $events =
                                 !empty($event['description'])
                             ) { ?>
 
+                                <?php
+
+                                $eventDescription =
+                                    strip_tags(
+                                        $event['description']
+                                    );
+
+                                ?>
+
+
                                 <p class="event-description">
 
                                     <?= htmlspecialchars(
                                         substr(
-                                            strip_tags(
-                                                $event['description']
-                                            ),
+                                            $eventDescription,
                                             0,
                                             150
                                         )
@@ -319,9 +358,7 @@ $events =
 
                                     <?php if (
                                         strlen(
-                                            strip_tags(
-                                                $event['description']
-                                            )
+                                            $eventDescription
                                         ) > 150
                                     ) { ?>
 
@@ -390,7 +427,7 @@ $events =
                             <!-- VIEW EVENT -->
 
                             <a
-                                href="event.php?id=<?= $event['id']; ?>"
+                                href="event.php?id=<?= (int) $event['id']; ?>"
                                 class="event-button"
                             >
 
