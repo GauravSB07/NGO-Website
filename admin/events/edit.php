@@ -1254,7 +1254,6 @@ $gallery =
 
 </head>
 
-
 <body class="admin-dashboard">
 
 
@@ -1537,7 +1536,7 @@ $gallery =
                     <div class="admin-current-image">
 
                         <img
-                            src="../../image.php?id=<?= (int) $currentCover['id']; ?>"
+                            src="../../event_image.php?id=<?= (int) $currentCover['id']; ?>"
                             alt="Current cover image"
                         >
 
@@ -1620,7 +1619,7 @@ $gallery =
 
 
                                     <img
-                                        src="../../image.php?id=<?= (int) $image['id']; ?>"
+                                        src="../../event_image.php?id=<?= (int) $image['id']; ?>"
                                         alt="Gallery image"
                                     >
 

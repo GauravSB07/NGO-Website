@@ -28,6 +28,12 @@ $sql = "
 
 $stmt = mysqli_prepare($conn, $sql);
 
+if (!$stmt) {
+
+    die("Event query failed.");
+
+}
+
 mysqli_stmt_bind_param(
     $stmt,
     "i",
@@ -39,7 +45,7 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 
-if (mysqli_num_rows($result) == 0) {
+if (!$result || mysqli_num_rows($result) == 0) {
 
     die("Event not found.");
 
@@ -50,27 +56,126 @@ $event = mysqli_fetch_assoc($result);
 
 
 /* =========================================================
-   GET GALLERY IMAGES
+   GET COVER IMAGE
 ========================================================= */
 
-$sql2 = "
-    SELECT *
-    FROM event_images
+/*
+    Cover image is stored in the images table.
+
+    Relationship:
+
+        images.event_id = events.id
+
+    Cover is identified by:
+
+        image_role = 'cover'
+*/
+
+$coverQuery = "
+    SELECT
+        id,
+        image_name,
+        image_type
+    FROM images
     WHERE event_id = ?
+    AND image_role = 'cover'
     ORDER BY id ASC
+    LIMIT 1
 ";
 
-$stmt2 = mysqli_prepare($conn, $sql2);
+
+$coverStmt = mysqli_prepare(
+    $conn,
+    $coverQuery
+);
+
+
+if (!$coverStmt) {
+
+    die("Cover image query failed.");
+
+}
+
 
 mysqli_stmt_bind_param(
-    $stmt2,
+    $coverStmt,
     "i",
     $id
 );
 
-mysqli_stmt_execute($stmt2);
 
-$gallery = mysqli_stmt_get_result($stmt2);
+mysqli_stmt_execute($coverStmt);
+
+
+$coverResult =
+    mysqli_stmt_get_result($coverStmt);
+
+
+$coverImage = null;
+
+
+if (
+    $coverResult &&
+    mysqli_num_rows($coverResult) > 0
+) {
+
+    $coverImage =
+        mysqli_fetch_assoc($coverResult);
+
+}
+
+
+/* =========================================================
+   GET GALLERY IMAGES
+========================================================= */
+
+/*
+    Gallery images are also stored in:
+
+        images
+
+    but have:
+
+        image_role = 'gallery'
+*/
+
+$galleryQuery = "
+    SELECT
+        id,
+        image_name,
+        image_type
+    FROM images
+    WHERE event_id = ?
+    AND image_role = 'gallery'
+    ORDER BY id ASC
+";
+
+
+$galleryStmt = mysqli_prepare(
+    $conn,
+    $galleryQuery
+);
+
+
+if (!$galleryStmt) {
+
+    die("Gallery query failed.");
+
+}
+
+
+mysqli_stmt_bind_param(
+    $galleryStmt,
+    "i",
+    $id
+);
+
+
+mysqli_stmt_execute($galleryStmt);
+
+
+$gallery =
+    mysqli_stmt_get_result($galleryStmt);
 
 ?>
 
@@ -89,7 +194,10 @@ $gallery = mysqli_stmt_get_result($stmt2);
     >
 
     <title>
-        <?= htmlspecialchars($event['title']); ?>
+        <?= htmlspecialchars(
+            $event['title']
+        ); ?>
+
         | Sevartha Foundation
     </title>
 
@@ -172,18 +280,23 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
 <section class="hero">
 
-    <?php if (!empty($event['cover_image'])) { ?>
+
+    <?php if (
+        $coverImage &&
+        !empty($coverImage['id'])
+    ) { ?>
+
 
         <img
-            src="../uploads/events/<?= htmlspecialchars(
-                $event['cover_image']
-            ); ?>"
+            src="../event_image.php?id=<?= (int) $coverImage['id']; ?>"
             alt="<?= htmlspecialchars(
                 $event['title']
             ); ?>"
         >
 
+
     <?php } else { ?>
+
 
         <div class="event-cover-placeholder">
 
@@ -191,7 +304,9 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
         </div>
 
+
     <?php } ?>
+
 
 </section>
 
@@ -234,7 +349,10 @@ $gallery = mysqli_stmt_get_result($stmt2);
             </h3>
 
 
-            <?php if (!empty($event['description'])) { ?>
+            <?php if (
+                !empty($event['description'])
+            ) { ?>
+
 
                 <div class="event-description">
 
@@ -246,7 +364,9 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
                 </div>
 
+
             <?php } else { ?>
+
 
                 <p class="event-description">
 
@@ -254,7 +374,9 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
                 </p>
 
+
             <?php } ?>
+
 
         </div>
 
@@ -268,11 +390,12 @@ $gallery = mysqli_stmt_get_result($stmt2);
             <div class="info-box">
 
 
-                <!-- LOCATION
-                     Core field
-                -->
+                <!-- LOCATION -->
 
-                <?php if (!empty($event['location'])) { ?>
+                <?php if (
+                    !empty($event['location'])
+                ) { ?>
+
 
                     <p>
 
@@ -283,21 +406,25 @@ $gallery = mysqli_stmt_get_result($stmt2);
                         </strong>
 
                         <span>
+
                             <?= htmlspecialchars(
                                 $event['location']
                             ); ?>
+
                         </span>
 
                     </p>
 
+
                 <?php } ?>
 
 
-                <!-- DATE
-                     Optional field
-                -->
+                <!-- DATE -->
 
-                <?php if (!empty($event['event_date'])) { ?>
+                <?php if (
+                    !empty($event['event_date'])
+                ) { ?>
+
 
                     <p>
 
@@ -320,16 +447,16 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
                     </p>
 
+
                 <?php } ?>
 
 
-                <!-- SUPPORTED BY
-                     Optional field
-                -->
+                <!-- SUPPORTED BY -->
 
                 <?php if (
                     !empty($event['supported_by'])
                 ) { ?>
+
 
                     <p>
 
@@ -349,16 +476,16 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
                     </p>
 
+
                 <?php } ?>
 
 
-                <!-- BENEFICIARIES
-                     Optional field
-                -->
+                <!-- BENEFICIARIES -->
 
                 <?php if (
                     !empty($event['beneficiaries'])
                 ) { ?>
+
 
                     <p>
 
@@ -378,13 +505,9 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
                     </p>
 
+
                 <?php } ?>
 
-
-                <!--
-                    If no optional information exists,
-                    the box still contains the core location.
-                -->
 
             </div>
 
@@ -397,15 +520,17 @@ $gallery = mysqli_stmt_get_result($stmt2);
          GALLERY
     ====================================================== -->
 
-    <?php if (mysqli_num_rows($gallery) > 0) { ?>
+    <?php if (
+        $gallery &&
+        mysqli_num_rows($gallery) > 0
+    ) { ?>
+
 
         <hr class="my-5">
 
 
         <h2 class="mb-4">
-
             Gallery
-
         </h2>
 
 
@@ -421,18 +546,18 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
 
                     <?php if (
-                        !empty($image['image_path'])
+                        !empty($image['id'])
                     ) { ?>
 
+
                         <img
-                            src="../uploads/events/<?= htmlspecialchars(
-                                $image['image_path']
-                            ); ?>"
+                            src="../event_image.php?id=<?= (int) $image['id']; ?>"
                             alt="<?= htmlspecialchars(
                                 $event['title']
                             ); ?>"
                             class="img-fluid"
                         >
+
 
                     <?php } ?>
 
@@ -444,6 +569,7 @@ $gallery = mysqli_stmt_get_result($stmt2);
 
 
         </div>
+
 
     <?php } ?>
 

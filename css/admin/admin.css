@@ -1421,40 +1421,84 @@ body {
    IMAGE PREVIEW
 ========================================================= */
 
-.admin-image-preview {
+/* =========================================================
+   MANAGE EVENTS - EVENT IMAGE
+========================================================= */
 
-    width:
-        180px;
+.admin-table .event-image {
+    width: 90px;
+    height: 65px;
 
-    height:
-        120px;
+    object-fit: cover;
 
-    overflow:
-        hidden;
+    display: block;
 
-    border:
-        1px solid #dddddd;
+    border-radius: 10px;
 
-    border-radius:
-        10px;
+    border: 1px solid #d8d2c4;
 
-    background:
-        #f5f5f5;
-
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
 }
 
 
-.admin-image-preview img {
+/* Keep the image column compact */
 
-    width:
-        100%;
+.admin-table td:first-child {
+    width: 110px;
+    min-width: 110px;
+    max-width: 110px;
 
-    height:
-        100%;
+    text-align: center;
 
-    object-fit:
-        cover;
+    vertical-align: middle;
+}
 
+
+/* Keep action buttons visible and aligned */
+
+.admin-table-actions {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    white-space: nowrap;
+}
+
+
+/* Make action buttons consistent */
+
+.admin-action-btn {
+    width: 38px;
+    height: 38px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+}
+
+
+/* Prevent table columns from becoming excessively wide */
+
+.admin-table {
+    width: 100%;
+    table-layout: auto;
+}
+
+
+/* Keep event title readable without pushing everything */
+
+.admin-table td strong {
+    display: inline-block;
+
+    max-width: 280px;
+
+    line-height: 1.4;
 }
 
 
@@ -1743,6 +1787,115 @@ body {
         transition:
             none !important;
 
+    }
+
+}
+
+/* =========================================================
+   EDIT EVENT - CURRENT GALLERY IMAGES
+========================================================= */
+
+.admin-gallery-item {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    overflow: hidden;
+
+    border-radius: 12px;
+    border: 1px solid #ddd7ca;
+
+    background: #f5f2eb;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.admin-gallery-item img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* Delete button */
+
+.admin-gallery-item .admin-delete-btn {
+    position: absolute;
+
+    bottom: 10px;
+    left: 10px;
+
+    z-index: 2;
+
+    padding: 7px 12px;
+
+    background: #1a1a1a;
+    color: #ffffff;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-decoration: none;
+
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.20);
+}
+
+
+.admin-gallery-item .admin-delete-btn:hover {
+    background: #5a584f;
+    color: #ffffff;
+}
+
+
+/* Current cover image */
+
+.admin-current-image {
+    width: 320px;
+    height: 210px;
+
+    overflow: hidden;
+
+    border-radius: 12px;
+
+    border: 1px solid #ddd7ca;
+
+    background: #f5f2eb;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+
+.admin-current-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .admin-gallery-item {
+        height: 180px;
+    }
+
+    .admin-current-image {
+        width: 100%;
+        max-width: 320px;
+        height: 210px;
     }
 
 }

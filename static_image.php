@@ -5,14 +5,20 @@ include "config/db.php";
 
 /*
 |--------------------------------------------------------------------------
-| GET IMAGE NAME
+| CHECK IMAGE REQUEST
 |--------------------------------------------------------------------------
 */
 
-if (
-    !isset($_GET['name']) ||
-    trim($_GET['name']) === ''
-) {
+$imageId = isset($_GET['id'])
+    ? (int) $_GET['id']
+    : 0;
+
+$imageName = isset($_GET['name'])
+    ? trim($_GET['name'])
+    : '';
+
+
+if ($imageId <= 0 && $imageName === '') {
 
     http_response_code(404);
     exit();
@@ -20,36 +26,83 @@ if (
 }
 
 
-$imageName =
-    basename(
-        trim($_GET['name'])
+/*
+|--------------------------------------------------------------------------
+| FIND IMAGE BY ID
+|--------------------------------------------------------------------------
+*/
+
+if ($imageId > 0) {
+
+    $sql = "
+        SELECT
+            image_data,
+            image_type
+        FROM static_images
+        WHERE id = ?
+        LIMIT 1
+    ";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if (!$stmt) {
+
+        http_response_code(500);
+        exit();
+
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "i",
+        $imageId
     );
 
 
 /*
 |--------------------------------------------------------------------------
-| FIND IMAGE
+| FIND IMAGE BY NAME
 |--------------------------------------------------------------------------
 */
 
-$sql = "
-    SELECT
-        image_data,
-        image_type
-    FROM static_images
-    WHERE image_name = ?
-    LIMIT 1
-";
+} else {
 
+    $imageName = basename($imageName);
 
-$stmt =
-    mysqli_prepare(
-        $conn,
-        $sql
+    $sql = "
+        SELECT
+            image_data,
+            image_type
+        FROM static_images
+        WHERE image_name = ?
+        LIMIT 1
+    ";
+
+    $stmt = mysqli_prepare($conn, $sql);
+
+    if (!$stmt) {
+
+        http_response_code(500);
+        exit();
+
+    }
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        "s",
+        $imageName
     );
 
+}
 
-if (!$stmt) {
+
+/*
+|--------------------------------------------------------------------------
+| EXECUTE
+|--------------------------------------------------------------------------
+*/
+
+if (!mysqli_stmt_execute($stmt)) {
 
     http_response_code(500);
     exit();
@@ -57,22 +110,7 @@ if (!$stmt) {
 }
 
 
-mysqli_stmt_bind_param(
-    $stmt,
-    "s",
-    $imageName
-);
-
-
-mysqli_stmt_execute(
-    $stmt
-);
-
-
-$result =
-    mysqli_stmt_get_result(
-        $stmt
-    );
+$result = mysqli_stmt_get_result($stmt);
 
 
 /*
@@ -81,9 +119,7 @@ $result =
 |--------------------------------------------------------------------------
 */
 
-if (
-    mysqli_num_rows($result) === 0
-) {
+if (!$result || mysqli_num_rows($result) === 0) {
 
     http_response_code(404);
     exit();
@@ -91,10 +127,7 @@ if (
 }
 
 
-$image =
-    mysqli_fetch_assoc(
-        $result
-    );
+$image = mysqli_fetch_assoc($result);
 
 
 /*
@@ -104,15 +137,16 @@ $image =
 */
 
 header(
-    "Content-Type: "
-    . $image['image_type']
+    "Content-Type: " . $image['image_type']
 );
 
+header(
+    "Content-Length: " . strlen($image['image_data'])
+);
 
 header(
     "Cache-Control: public, max-age=31536000"
 );
-
 
 echo $image['image_data'];
 
