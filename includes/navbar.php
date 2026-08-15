@@ -343,31 +343,31 @@ if (!$categories) {
                     <div class="nav-dropdown-menu">
 
                         <a
-                            href="testimonials.php"
+                            href="/ngo-website/testimonials/institutional.php"
                             class="simple-dropdown-item"
                         >
 
-                            All Testimonials
+                            Institutional Appreciation
 
                         </a>
 
 
                         <a
-                            href="beneficiary-testimonials.php"
+                            href="/ngo-website/testimonials/community.php"
                             class="simple-dropdown-item"
                         >
 
-                            Beneficiaries
+                            Community & Partner Voices
 
                         </a>
 
 
                         <a
-                            href="volunteer-testimonials.php"
+                            href="/ngo-website/testimonials/news.php"
                             class="simple-dropdown-item"
                         >
 
-                            Volunteers
+                            In the News
 
                         </a>
 
