@@ -151,7 +151,11 @@
 
                     <div class="founder-placeholder">
 
-                        <i class="fa-solid fa-user"></i>
+                        <img
+                            src="../static_image.php?name=amit_korde.png"
+                            alt="Dr. Amit Korde"
+                            class="founder-photo"
+                        >
 
                     </div>
 
@@ -209,7 +213,11 @@
 
                     <div class="founder-placeholder">
 
-                        <i class="fa-solid fa-user"></i>
+                        <img
+                            src="../static_image.php?name=manisha_korde.png"
+                            alt="Mrs. Manisha Korde"
+                            class="founder-photo"
+                        >
 
                     </div>
 
@@ -268,7 +276,11 @@
 
                     <div class="founder-placeholder">
 
-                        <i class="fa-solid fa-user"></i>
+                        <img
+                            src="../static_image.php?name=nishant_sanap.png"
+                            alt="Adv. Nishant Sanap"
+                            class="founder-photo"
+                        >
 
                     </div>
 

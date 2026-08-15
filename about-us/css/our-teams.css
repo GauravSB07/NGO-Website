@@ -4,6 +4,7 @@ OUR TEAM
 MATCHES CURRENT WEBSITE UI
 ========================================================= */
 
+
 /* =========================================================
 CONTAINER
 ========================================================= */
@@ -22,6 +23,7 @@ CONTAINER
 
 }
 
+
 /* =========================================================
 HERO
 ========================================================= */
@@ -36,21 +38,22 @@ HERO
 
     background:
     radial-gradient(
-    circle at 82% 25%,
-    rgba(208, 200, 182, .32),
-    transparent 30%
+        circle at 82% 25%,
+        rgba(208, 200, 182, .32),
+        transparent 30%
     ),
     linear-gradient(
-    135deg,
-    var(--off-white) 0%,
-    var(--white) 55%,
-    #E9E3D8 100%
+        135deg,
+        var(--off-white) 0%,
+        var(--white) 55%,
+        #E9E3D8 100%
     );
 
     border-bottom:
     1px solid var(--border-light);
 
 }
+
 
 .team-hero::before {
 
@@ -73,6 +76,7 @@ HERO
 
 }
 
+
 .team-eyebrow {
 
     display: flex;
@@ -93,6 +97,7 @@ HERO
 
 }
 
+
 .team-eyebrow span {
 
     width: 38px;
@@ -102,6 +107,7 @@ HERO
     background: var(--olive);
 
 }
+
 
 /* =========================================================
 TITLE
@@ -129,11 +135,13 @@ TITLE
 
 }
 
+
 .team-title span {
 
     color: var(--olive);
 
 }
+
 
 .team-intro {
 
@@ -144,6 +152,7 @@ TITLE
     font-size: 1.05rem;
 
 }
+
 
 /* =========================================================
 TEAM SECTION
@@ -157,6 +166,7 @@ TEAM SECTION
 
 }
 
+
 /* =========================================================
 SECTION HEADING
 ========================================================= */
@@ -168,6 +178,7 @@ SECTION HEADING
     margin-bottom: 50px;
 
 }
+
 
 .team-label {
 
@@ -189,6 +200,7 @@ SECTION HEADING
 
 }
 
+
 .team-label span {
 
     width: 32px;
@@ -198,6 +210,7 @@ SECTION HEADING
     background: var(--olive);
 
 }
+
 
 .team-section-heading h2 {
 
@@ -216,11 +229,13 @@ SECTION HEADING
 
 }
 
+
 .team-section-heading h2 span {
 
     color: var(--olive);
 
 }
+
 
 .team-section-heading > p {
 
@@ -236,6 +251,7 @@ SECTION HEADING
 
 }
 
+
 /* =========================================================
 TEAM GRID
 ========================================================= */
@@ -250,6 +266,7 @@ TEAM GRID
     gap: 25px;
 
 }
+
 
 /* =========================================================
 TEAM CARD
@@ -277,6 +294,7 @@ TEAM CARD
 
 }
 
+
 .team-card:hover {
 
     transform:
@@ -290,13 +308,14 @@ TEAM CARD
 
 }
 
+
 /* =========================================================
 IMAGE AREA
 ========================================================= */
 
 .team-image {
 
-    height: 300px;
+    height: 360px;
 
     display: flex;
 
@@ -306,18 +325,25 @@ IMAGE AREA
 
     background:
     linear-gradient(
-    135deg,
-    var(--sand-soft),
-    var(--off-white)
+        135deg,
+        var(--sand-soft),
+        var(--off-white)
     );
 
 }
 
+
+/* =========================================================
+TEAM PHOTO
+========================================================= */
+
 .team-placeholder {
 
-    width: 115px;
+    width:
+    calc(100% - 16px);
 
-    height: 115px;
+    height:
+    calc(100% - 16px);
 
     display: flex;
 
@@ -325,24 +351,76 @@ IMAGE AREA
 
     justify-content: center;
 
-    border-radius: 50%;
+    overflow: hidden;
+
+    border-radius:
+    12px;
 
     background:
-    var(--white);
+    transparent;
 
     border:
-    1px solid var(--border);
-
-    color:
-    var(--olive);
-
-    font-size:
-    3rem;
+    none;
 
     box-shadow:
-    var(--shadow-sm);
+    none;
 
 }
+
+
+/* =========================================================
+TEAM PHOTO IMAGE
+========================================================= */
+
+.team-placeholder .team-photo {
+
+    width:
+    100%;
+
+    height:
+    100%;
+
+    display:
+    block;
+
+    object-fit:
+    cover;
+
+    object-position:
+    center;
+
+    border-radius:
+    10px;
+
+    transition:
+    transform .4s ease;
+
+}
+
+
+/* =========================================================
+PHOTO HOVER EFFECT
+========================================================= */
+
+.team-card:hover .team-photo {
+
+    transform:
+    scale(1.04);
+
+}
+
+
+/* =========================================================
+HIDE OLD PLACEHOLDER ICON
+========================================================= */
+
+.team-placeholder .fa-user {
+
+    display:
+    none;
+
+}
+
 
 /* =========================================================
 CARD CONTENT
@@ -356,6 +434,7 @@ CARD CONTENT
     35px;
 
 }
+
 
 .team-number {
 
@@ -375,6 +454,7 @@ CARD CONTENT
     900;
 
 }
+
 
 .team-content h3 {
 
@@ -397,6 +477,7 @@ CARD CONTENT
 
 }
 
+
 .team-role {
 
     margin-bottom:
@@ -416,6 +497,7 @@ CARD CONTENT
 
 }
 
+
 .team-content p {
 
     margin:
@@ -432,6 +514,7 @@ CARD CONTENT
 
 }
 
+
 /* =========================================================
 MESSAGE SECTION
 ========================================================= */
@@ -445,6 +528,7 @@ MESSAGE SECTION
     var(--white);
 
 }
+
 
 .team-message-box {
 
@@ -461,9 +545,9 @@ MESSAGE SECTION
 
     background:
     linear-gradient(
-    135deg,
-    var(--off-white),
-    var(--white)
+        135deg,
+        var(--off-white),
+        var(--white)
     );
 
     border:
@@ -476,6 +560,7 @@ MESSAGE SECTION
     var(--shadow-sm);
 
 }
+
 
 .team-message-icon {
 
@@ -513,6 +598,7 @@ MESSAGE SECTION
 
 }
 
+
 .team-message-content h2 {
 
     margin:
@@ -535,12 +621,14 @@ MESSAGE SECTION
 
 }
 
+
 .team-message-content h2 span {
 
     color:
     var(--olive);
 
 }
+
 
 .team-message-content p {
 
@@ -561,6 +649,7 @@ MESSAGE SECTION
 
 }
 
+
 /* =========================================================
 TABLET
 ========================================================= */
@@ -575,6 +664,7 @@ TABLET
     }
 
 }
+
 
 /* =========================================================
 MOBILE
@@ -592,12 +682,14 @@ MOBILE
 
     }
 
+
     .team-hero {
 
         padding:
         75px 0;
 
     }
+
 
     .team-title {
 
@@ -609,6 +701,7 @@ MOBILE
 
     }
 
+
     .team-section,
     .team-message {
 
@@ -617,44 +710,50 @@ MOBILE
 
     }
 
+
     .team-grid {
 
-        display: grid;
+        display:
+        grid;
 
-        grid-template-columns: repeat(6, 1fr);
-
-        gap: 25px;
+        grid-template-columns:
+        1fr;
 
     }
 
-    /* First three cards */
+
     .team-card:nth-child(1),
     .team-card:nth-child(2),
-    .team-card:nth-child(3) {
-
-        grid-column: span 2;
-
-    }
-
-    /* Last two cards centered */
-    .team-card:nth-child(4) {
-
-        grid-column: 2 / span 2;
-
-    }
-
+    .team-card:nth-child(3),
+    .team-card:nth-child(4),
     .team-card:nth-child(5) {
 
-        grid-column: 4 / span 2;
+        grid-column:
+        auto;
 
     }
+
+
+    /* Larger mobile photo area */
 
     .team-image {
 
         height:
-        260px;
+        300px;
 
     }
+
+
+    .team-placeholder {
+
+        width:
+        calc(100% - 16px);
+
+        height:
+        calc(100% - 16px);
+
+    }
+
 
     .team-message-box {
 
@@ -669,6 +768,7 @@ MOBILE
 
     }
 
+
     .team-message-icon {
 
         width:
@@ -681,52 +781,50 @@ MOBILE
 
 }
 
+
 /* =========================================================
 SMALL MOBILE
 ========================================================= */
 
-@media (max-width: 1100px) {
-
-    .team-grid {
-
-        grid-template-columns: repeat(2, 1fr);
-
-    }
-
-    .team-card:nth-child(1),
-    .team-card:nth-child(2),
-    .team-card:nth-child(3),
-    .team-card:nth-child(4),
-    .team-card:nth-child(5) {
-
-        grid-column: auto;
-
-    }
-
-}
-
-@media (max-width: 768px) {
+@media (max-width: 480px) {
 
     .team-container {
 
-        padding-left: 22px;
-        padding-right: 22px;
+        padding-left:
+        18px;
+
+        padding-right:
+        18px;
 
     }
 
-    .team-grid {
 
-        grid-template-columns: 1fr;
+    .team-image {
+
+        height:
+        270px;
 
     }
 
-    .team-card:nth-child(1),
-    .team-card:nth-child(2),
-    .team-card:nth-child(3),
-    .team-card:nth-child(4),
-    .team-card:nth-child(5) {
 
-        grid-column: auto;
+    .team-placeholder {
+
+        width:
+        calc(100% - 12px);
+
+        height:
+        calc(100% - 12px);
+
+        border-radius:
+        10px;
+
+    }
+
+
+    .team-placeholder .team-photo {
+
+        border-radius:
+        8px;
 
     }
 
