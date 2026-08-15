@@ -1,0 +1,634 @@
+/* =========================================================
+   DETAILED EVENT PAGE
+   Sevartha Foundation
+   White / Black / Neutral Theme
+========================================================= */
+
+
+/* =========================================================
+   EVENT HERO
+========================================================= */
+
+.hero {
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    height: 520px;
+
+    margin: 0 auto;
+
+    overflow: hidden;
+
+    background: #f5f5f5;
+
+}
+
+
+.hero img {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+}
+
+
+/* =========================================================
+   EVENT MAIN CONTENT
+========================================================= */
+
+.container.py-5 {
+
+    max-width: 1200px;
+
+}
+
+
+/* =========================================================
+   EVENT TITLE
+========================================================= */
+
+.container.py-5 > h1 {
+
+    margin: 0;
+
+    color: #111111;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(
+            2.5rem,
+            5vw,
+            4.2rem
+        );
+
+    font-weight: 800;
+
+    line-height: 1.08;
+
+}
+
+
+/* =========================================================
+   EVENT CONTENT AREA
+========================================================= */
+
+.container.py-5 .row.mt-4 {
+
+    margin-top: 45px !important;
+
+}
+
+
+/* =========================================================
+   ABOUT EVENT
+========================================================= */
+
+.container.py-5 .col-lg-8 {
+
+    padding-right: 45px;
+
+}
+
+
+.container.py-5 .col-lg-8 h3 {
+
+    margin-bottom: 20px;
+
+    color: #111111;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 2rem;
+
+    font-weight: 800;
+
+}
+
+
+.container.py-5 .col-lg-8 p {
+
+    margin: 0;
+
+    color: #555555;
+
+    font-size: 16px;
+
+    line-height: 1.85;
+
+}
+
+
+/* =========================================================
+   EVENT INFORMATION BOX
+========================================================= */
+
+.info-box {
+
+    padding: 28px;
+
+    background: #ffffff;
+
+    border:
+        1px solid #e2e2e2;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 6px 20px
+        rgba(0, 0, 0, 0.05);
+
+}
+
+
+/* =========================================================
+   INFORMATION ITEMS
+========================================================= */
+
+.info-box p {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 7px;
+
+    margin: 0;
+
+    padding: 14px 0;
+
+    color: #555555;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+    border-bottom:
+        1px solid #eeeeee;
+
+}
+
+
+.info-box p:first-child {
+
+    padding-top: 0;
+
+}
+
+
+.info-box p:last-child {
+
+    padding-bottom: 0;
+
+    border-bottom: none;
+
+}
+
+
+.info-box strong {
+
+    color: #111111;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   ICONS / EMOJIS
+========================================================= */
+
+.info-box p:first-child::first-letter,
+.info-box p:nth-child(2)::first-letter,
+.info-box p:nth-child(3)::first-letter,
+.info-box p:nth-child(4)::first-letter {
+
+    font-size: 16px;
+
+}
+
+
+/* =========================================================
+   DIVIDER
+========================================================= */
+
+.container.py-5 hr {
+
+    margin-top: 60px !important;
+
+    margin-bottom: 45px !important;
+
+    border:
+        0;
+
+    border-top:
+        1px solid #e3e3e3;
+
+    opacity: 1;
+
+}
+
+
+/* =========================================================
+   GALLERY HEADING
+========================================================= */
+
+.container.py-5 > h2 {
+
+    margin-bottom: 30px !important;
+
+    color: #111111;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 2.2rem;
+
+    font-weight: 800;
+
+}
+
+
+/* =========================================================
+   GALLERY
+========================================================= */
+
+.gallery {
+
+    margin-left: -8px;
+
+    margin-right: -8px;
+
+}
+
+
+/* =========================================================
+   GALLERY COLUMNS
+========================================================= */
+
+.gallery > div {
+
+    padding-left: 8px;
+
+    padding-right: 8px;
+
+}
+
+
+/* =========================================================
+   GALLERY IMAGES
+========================================================= */
+
+.gallery img {
+
+    display: block;
+
+    width: 100%;
+
+    height: 280px;
+
+    object-fit: cover;
+
+    border:
+        1px solid #e2e2e2;
+
+    border-radius: 14px;
+
+    background: #f5f5f5;
+
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+
+}
+
+
+.gallery img:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        0 10px 25px
+        rgba(0, 0, 0, 0.10);
+
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.container.py-5 > .btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 35px !important;
+
+    padding:
+        11px 22px;
+
+    border:
+        1px solid #111111;
+
+    border-radius:
+        999px;
+
+    background:
+        #111111;
+
+    color:
+        #ffffff;
+
+    font-size:
+        14px;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        transform .2s ease,
+        box-shadow .2s ease;
+
+}
+
+
+/* Remove Bootstrap primary styling */
+
+.container.py-5 > .btn.btn-primary {
+
+    --bs-btn-bg: #111111;
+
+    --bs-btn-border-color: #111111;
+
+    --bs-btn-hover-bg: #ffffff;
+
+    --bs-btn-hover-border-color: #111111;
+
+    --bs-btn-hover-color: #111111;
+
+}
+
+
+.container.py-5 > .btn:hover {
+
+    background:
+        #ffffff;
+
+    color:
+        #111111;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 6px 18px
+        rgba(0, 0, 0, 0.10);
+
+}
+
+
+/* =========================================================
+   EMPTY GALLERY
+========================================================= */
+
+.gallery:empty {
+
+    display: none;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .hero {
+
+        height: 430px;
+
+    }
+
+
+    .container.py-5 .col-lg-8 {
+
+        padding-right: 12px;
+
+    }
+
+
+    .container.py-5 .col-lg-4 {
+
+        margin-top: 30px;
+
+    }
+
+
+    .gallery img {
+
+        height: 250px;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .hero {
+
+        height: 330px;
+
+    }
+
+
+    .container.py-5 {
+
+        padding-top: 45px !important;
+
+        padding-bottom: 60px !important;
+
+    }
+
+
+    .container.py-5 > h1 {
+
+        font-size:
+            2.4rem;
+
+    }
+
+
+    .container.py-5 .row.mt-4 {
+
+        margin-top:
+            35px !important;
+
+    }
+
+
+    .container.py-5 .col-lg-8 h3 {
+
+        font-size:
+            1.7rem;
+
+    }
+
+
+    .container.py-5 .col-lg-8 p {
+
+        font-size:
+            15px;
+
+    }
+
+
+    .info-box {
+
+        padding:
+            22px;
+
+    }
+
+
+    .container.py-5 hr {
+
+        margin-top:
+            45px !important;
+
+        margin-bottom:
+            35px !important;
+
+    }
+
+
+    .container.py-5 > h2 {
+
+        font-size:
+            1.9rem;
+
+    }
+
+
+    .gallery img {
+
+        height:
+            220px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .hero {
+
+        height:
+            250px;
+
+    }
+
+
+    .container.py-5 {
+
+        padding-left:
+            15px !important;
+
+        padding-right:
+            15px !important;
+
+    }
+
+
+    .container.py-5 > h1 {
+
+        font-size:
+            2rem;
+
+    }
+
+
+    .info-box {
+
+        padding:
+            18px;
+
+        border-radius:
+            12px;
+
+    }
+
+
+    .gallery img {
+
+        height:
+            200px;
+
+        border-radius:
+            10px;
+
+    }
+
+
+    .container.py-5 > .btn {
+
+        width:
+            100%;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .gallery img,
+    .container.py-5 > .btn {
+
+        transition:
+            none !important;
+
+    }
+
+}

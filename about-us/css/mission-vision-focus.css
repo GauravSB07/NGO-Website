@@ -1,0 +1,902 @@
+/* =========================================================
+   SEVARTHA FOUNDATION
+   MISSION • VISION • FOCUS
+   MATCHES CURRENT WEBSITE UI
+   SAND BEIGE • OLIVE • DARK GREY
+========================================================= */
+
+
+/* =========================================================
+   PAGE CONTAINER
+========================================================= */
+
+.about-page-container {
+
+    width: 100%;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding-left: 40px;
+    padding-right: 40px;
+
+}
+
+
+/* =========================================================
+   PAGE HERO
+========================================================= */
+
+.about-page-hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 105px 0 95px;
+
+    background:
+        radial-gradient(
+            circle at 82% 30%,
+            rgba(208, 200, 182, .32),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            var(--off-white) 0%,
+            var(--white) 55%,
+            #E9E3D8 100%
+        );
+
+    border-bottom:
+        1px solid var(--border-light);
+
+}
+
+
+/* Decorative circle */
+
+.about-page-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+    height: 520px;
+
+    right: -230px;
+    top: -300px;
+
+    border:
+        1px solid rgba(84,82,71,.16);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(208,200,182,.30),
+            transparent 68%
+        );
+
+    pointer-events: none;
+
+}
+
+
+/* Bottom decorative circle */
+
+.about-page-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    left: -180px;
+    bottom: -230px;
+
+    border:
+        1px solid rgba(84,82,71,.12);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.about-page-hero .about-page-container {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.about-page-eyebrow {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 24px;
+
+    color: var(--olive);
+
+    font-size: .78rem;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+}
+
+
+.about-page-eyebrow span {
+
+    width: 38px;
+
+    height: 2px;
+
+    background: var(--olive);
+
+}
+
+
+/* =========================================================
+   HERO TITLE
+========================================================= */
+
+.about-page-title {
+
+    max-width: 900px;
+
+    margin: 0;
+
+    color: var(--dark-grey);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(3.2rem, 7vw, 6.8rem);
+
+    font-weight: 700;
+
+    line-height: .95;
+
+    letter-spacing: -3px;
+
+}
+
+
+.about-page-title span {
+
+    color: var(--olive);
+
+}
+
+
+/* =========================================================
+   FOCUS SECTION
+========================================================= */
+
+.focus-section {
+
+    padding: 100px 0;
+
+    background: var(--off-white-2);
+
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.section-heading-custom {
+
+    margin-bottom: 50px;
+
+}
+
+
+.section-label-custom {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+
+    color: var(--olive);
+
+    font-size: .76rem;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+}
+
+
+.section-label-custom span {
+
+    width: 32px;
+
+    height: 2px;
+
+    background: var(--olive);
+
+}
+
+
+.section-heading-custom h2 {
+
+    margin: 0;
+
+    color: var(--dark-grey);
+
+    font-size:
+        clamp(2.4rem, 4.5vw, 4rem);
+
+    font-weight: 900;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+}
+
+
+.section-heading-custom h2 span {
+
+    color: var(--olive);
+
+}
+
+
+/* =========================================================
+   FOCUS GRID
+========================================================= */
+
+.focus-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 24px;
+
+}
+
+
+/* =========================================================
+   FOCUS CARD
+========================================================= */
+
+.focus-card {
+
+    position: relative;
+
+    min-height: 430px;
+
+    padding: 38px;
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-sm);
+
+    overflow: hidden;
+
+    transition:
+        transform .28s ease,
+        box-shadow .28s ease,
+        border-color .28s ease;
+
+}
+
+
+/* Bottom accent */
+
+.focus-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: 0;
+
+    height: 3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--olive),
+            var(--sand)
+        );
+
+    transform:
+        scaleX(0);
+
+    transform-origin:
+        left;
+
+    transition:
+        transform .3s ease;
+
+}
+
+
+.focus-card:hover {
+
+    transform:
+        translateY(-6px);
+
+    box-shadow:
+        var(--shadow-md);
+
+    border-color:
+        rgba(84,82,71,.32);
+
+}
+
+
+.focus-card:hover::after {
+
+    transform:
+        scaleX(1);
+
+}
+
+
+/* =========================================================
+   NUMBER
+========================================================= */
+
+.focus-number {
+
+    position: absolute;
+
+    top: 20px;
+    right: 25px;
+
+    color:
+        rgba(84,82,71,.09);
+
+    font-size: 4rem;
+
+    font-weight: 900;
+
+    line-height: 1;
+
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.focus-icon {
+
+    width: 62px;
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 27px;
+
+    background:
+        var(--sand-soft);
+
+    border:
+        1px solid var(--border-light);
+
+    border-radius:
+        var(--radius-md);
+
+    color:
+        var(--olive);
+
+    font-size: 1.35rem;
+
+    transition:
+        background .28s ease,
+        color .28s ease,
+        transform .28s ease;
+
+}
+
+
+.focus-card:hover .focus-icon {
+
+    background:
+        var(--olive);
+
+    color:
+        var(--white);
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+/* =========================================================
+   CARD TITLE
+========================================================= */
+
+.focus-card h3 {
+
+    position: relative;
+
+    z-index: 2;
+
+    margin-bottom: 12px;
+
+    padding-right: 45px;
+
+    color:
+        var(--dark-grey);
+
+    font-size:
+        1.35rem;
+
+    font-weight:
+        850;
+
+    line-height:
+        1.25;
+
+}
+
+
+/* =========================================================
+   CARD TAGLINE
+========================================================= */
+
+.focus-card h4 {
+
+    margin-bottom: 17px;
+
+    color:
+        var(--olive);
+
+    font-size:
+        .94rem;
+
+    font-weight:
+        750;
+
+    line-height:
+        1.5;
+
+}
+
+
+/* =========================================================
+   CARD DESCRIPTION
+========================================================= */
+
+.focus-card p {
+
+    margin: 0;
+
+    color:
+        var(--grey);
+
+    font-size:
+        .96rem;
+
+    line-height:
+        1.75;
+
+}
+
+
+/* =========================================================
+   VISION SECTION
+========================================================= */
+
+.vision-section {
+
+    padding:
+        105px 0;
+
+    background:
+        var(--white);
+
+}
+
+
+/* =========================================================
+   VISION BOX
+========================================================= */
+
+.vision-box {
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        120px 1fr;
+
+    gap:
+        55px;
+
+    padding:
+        65px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--off-white),
+            var(--white)
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-sm);
+
+    overflow: hidden;
+
+}
+
+
+/* Decorative circle */
+
+.vision-box::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 350px;
+    height: 350px;
+
+    right: -190px;
+    bottom: -230px;
+
+    border:
+        1px solid rgba(84,82,71,.12);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+}
+
+
+/* =========================================================
+   VISION ICON
+========================================================= */
+
+.vision-icon {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 92px;
+    height: 92px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        50%;
+
+    color:
+        var(--olive);
+
+    font-size:
+        1.8rem;
+
+    box-shadow:
+        var(--shadow-sm);
+
+}
+
+
+/* =========================================================
+   VISION CONTENT
+========================================================= */
+
+.vision-content {
+
+    position: relative;
+
+    z-index: 2;
+
+}
+
+
+.vision-content h2 {
+
+    margin-bottom: 30px;
+
+    color:
+        var(--dark-grey);
+
+    font-size:
+        clamp(2.4rem, 4.5vw, 4rem);
+
+    font-weight:
+        900;
+
+    line-height:
+        1.05;
+
+    letter-spacing:
+        -2px;
+
+}
+
+
+.vision-content h2 span {
+
+    color:
+        var(--olive);
+
+}
+
+
+.vision-content p {
+
+    max-width:
+        900px;
+
+    margin-bottom:
+        20px;
+
+    color:
+        var(--grey);
+
+    font-size:
+        1.03rem;
+
+    line-height:
+        1.8;
+
+}
+
+
+/* =========================================================
+   QUOTE
+========================================================= */
+
+.vision-content blockquote {
+
+    max-width:
+        900px;
+
+    margin:
+        35px 0 0;
+
+    padding:
+        22px 28px;
+
+    background:
+        var(--white);
+
+    border-left:
+        4px solid var(--olive);
+
+    border-radius:
+        0 var(--radius-md) var(--radius-md) 0;
+
+    color:
+        var(--dark-grey);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        1.08rem;
+
+    font-style:
+        italic;
+
+    line-height:
+        1.7;
+
+    box-shadow:
+        var(--shadow-sm);
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .focus-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 768px) {
+
+    .about-page-container {
+
+        padding-left:
+            22px;
+
+        padding-right:
+            22px;
+
+    }
+
+
+    .about-page-hero {
+
+        padding:
+            75px 0;
+
+    }
+
+
+    .about-page-title {
+
+        font-size:
+            clamp(3rem, 14vw, 5rem);
+
+        letter-spacing:
+            -2px;
+
+    }
+
+
+    .focus-section,
+    .vision-section {
+
+        padding:
+            75px 0;
+
+    }
+
+
+    .focus-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .focus-card {
+
+        min-height:
+            auto;
+
+        padding:
+            32px;
+
+    }
+
+
+    .vision-box {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            30px;
+
+        padding:
+            38px 28px;
+
+    }
+
+
+    .vision-icon {
+
+        width: 78px;
+        height: 78px;
+
+        font-size:
+            1.5rem;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .about-page-hero {
+
+        padding:
+            60px 0;
+
+    }
+
+
+    .about-page-eyebrow {
+
+        font-size:
+            .68rem;
+
+        letter-spacing:
+            2px;
+
+    }
+
+
+    .focus-card {
+
+        padding:
+            28px;
+
+    }
+
+
+    .focus-number {
+
+        font-size:
+            3rem;
+
+    }
+
+
+    .vision-content p {
+
+        font-size:
+            .98rem;
+
+    }
+
+}

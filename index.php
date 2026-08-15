@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="css/navbar.css">
 
 
+    <!-- Navbar CSS -->
+    <link rel="stylesheet" href="css/navbar.css">
+
     <!-- Font Awesome -->
     <link
         rel="stylesheet"
@@ -66,11 +69,13 @@
             <div class="hero-button-row">
 
                 <a href="contact.php" class="hero-cta">
+                <a href="/ngo-website/connect-with-us/volunteer.php" class="hero-cta">
                     Join The Movement
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
                 <a href="programs.php" class="hero-learn">
+                <a href="/ngo-website/programs.php" class="hero-learn">
                     Explore Programs
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -94,6 +99,42 @@
                         src="css/images/children.jpg"
                         alt="Children learning"
                         class="hero-image"
+                <!-- =================================================
+                     HERO IMAGE SLIDESHOW
+                     Replace image2.png ... image5.png with your
+                     actual image filenames.
+                ================================================== -->
+
+                <div class="hero-image-frame">
+
+                    <img
+                        class="hero-slide active"
+                        src="static_image.php?name=homepage_image1.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image2.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image3.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image4.png"
+                        alt="Sevartha Foundation"
+                    >
+
+                    <img
+                        class="hero-slide"
+                        src="static_image.php?name=homepage_image5.png"
+                        alt="Sevartha Foundation"
                     >
 
                 </div>
@@ -237,6 +278,13 @@
      <link rel="stylesheet" href="css/footer.css">
 
 
+<!-- Footer PHP -->
+<?php include 'includes/footer.php'; ?>
+
+
+<!-- Footer CSS -->
+<link rel="stylesheet" href="css/footer.css">
+
 
 <!-- =========================================================
      BOOTSTRAP JS
@@ -311,6 +359,47 @@ document.addEventListener("DOMContentLoaded", function () {
     counters.forEach(counter => {
         observer.observe(counter);
     });
+
+});
+
+</script>
+
+
+
+<!-- =========================================================
+     HERO IMAGE SLIDESHOW
+     Changes image every 2 seconds
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const slides = document.querySelectorAll(".hero-slide");
+
+    if (slides.length <= 1) {
+        return;
+    }
+
+    let currentSlide = 0;
+
+    setInterval(function () {
+
+        /* Hide current image */
+        slides[currentSlide].classList.remove("active");
+
+        /* Move to next image */
+        currentSlide++;
+
+        /* Restart after the fifth image */
+        if (currentSlide >= slides.length) {
+            currentSlide = 0;
+        }
+
+        /* Show next image */
+        slides[currentSlide].classList.add("active");
+
+    }, 2000);
 
 });
 
