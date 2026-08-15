@@ -2,85 +2,30 @@
 
 session_start();
 
-
 /*
- * Accept donation details from the first page.
- */
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $name =
-        trim($_POST['donor_name'] ?? '');
-
-    $email =
-        trim($_POST['donor_email'] ?? '');
-
-    $phone =
-        trim($_POST['donor_phone'] ?? '');
-
-    $purpose =
-        trim($_POST['donation_purpose'] ?? '');
-
-    $amount =
-        filter_input(
-            INPUT_POST,
-            'donation_amount',
-            FILTER_VALIDATE_INT
-        );
-
-
-    /*
-     * Basic validation.
-     */
-
-    if (
-        $name === '' ||
-        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-        $purpose === '' ||
-        !$amount ||
-        $amount < 1
-    ) {
-
-        header('Location: donate.php');
-
-        exit;
-
-    }
-
-
-    /*
-     * Store the donation information temporarily
-     * for the payment page.
-     */
-
-    $_SESSION['donation_name'] =
-        $name;
-
-    $_SESSION['donation_email'] =
-        $email;
-
-    $_SESSION['donation_phone'] =
-        $phone;
-
-    $_SESSION['donation_purpose'] =
-        $purpose;
-
-    $_SESSION['donation_amount'] =
-        $amount;
-
-}
+|--------------------------------------------------------------------------
+| PAYMENT PAGE
+|--------------------------------------------------------------------------
+|
+| This page:
+|
+| 1. Accepts the donation information from donate.php
+| 2. Validates the submitted information
+| 3. Verifies the CSRF token
+| 4. Loads payment settings from the database
+| 5. Creates a pending donation record
+| 6. Displays the payment information
+|
+*/
 
 
 /*
- * If there is no active donation,
- * return to the donation page.
- */
+|--------------------------------------------------------------------------
+| Only allow POST requests
+|--------------------------------------------------------------------------
+*/
 
-if (
-    empty($_SESSION['donation_name']) ||
-    empty($_SESSION['donation_email']) ||
-    empty($_SESSION['donation_amount'])
-) {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
     header('Location: donate.php');
 
@@ -89,17 +34,462 @@ if (
 }
 
 
-$name =
-    $_SESSION['donation_name'];
+/*
+|--------------------------------------------------------------------------
+| Database connection
+|--------------------------------------------------------------------------
+*/
 
-$email =
-    $_SESSION['donation_email'];
+require_once __DIR__ . '/../config/database.php';
 
-$purpose =
-    $_SESSION['donation_purpose'];
 
-$amount =
-    (int) $_SESSION['donation_amount'];
+/*
+|--------------------------------------------------------------------------
+| Donation rules
+|--------------------------------------------------------------------------
+*/
+
+$allowedPurposes = [
+
+    'Education',
+
+    'Hunger and Poverty',
+
+    'Healthcare and Medical Relief',
+
+    'Elders',
+
+    'Disaster Relief and Emergency Assistance'
+
+];
+
+$minimumDonation = 1;
+
+$maximumDonation = 10000000;
+
+
+/*
+|--------------------------------------------------------------------------
+| CSRF VALIDATION
+|--------------------------------------------------------------------------
+*/
+
+$submittedCsrfToken = $_POST['csrf_token'] ?? '';
+
+$sessionCsrfToken = $_SESSION['csrf_token'] ?? '';
+
+
+if (
+    empty($submittedCsrfToken) ||
+    empty($sessionCsrfToken) ||
+    !hash_equals(
+        $sessionCsrfToken,
+        $submittedCsrfToken
+    )
+) {
+
+    die('Invalid request. Please return to the donation page and try again.');
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Retrieve submitted information
+|--------------------------------------------------------------------------
+*/
+
+$donorName = trim(
+    $_POST['donor_name'] ?? ''
+);
+
+$donorEmail = trim(
+    $_POST['donor_email'] ?? ''
+);
+
+$donorPhone = trim(
+    $_POST['donor_phone'] ?? ''
+);
+
+$donationPurpose = trim(
+    $_POST['donation_purpose'] ?? ''
+);
+
+$donationAmount = $_POST['donation_amount'] ?? '';
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate donor name
+|--------------------------------------------------------------------------
+*/
+
+if (
+    $donorName === '' ||
+    mb_strlen($donorName) > 100
+) {
+
+    die('Please enter a valid full name.');
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate email
+|--------------------------------------------------------------------------
+*/
+
+if (
+    $donorEmail === '' ||
+    mb_strlen($donorEmail) > 150 ||
+    !filter_var(
+        $donorEmail,
+        FILTER_VALIDATE_EMAIL
+    )
+) {
+
+    die('Please enter a valid email address.');
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate phone number
+|--------------------------------------------------------------------------
+|
+| Phone number is optional.
+|
+*/
+
+if (
+    $donorPhone !== '' &&
+    (
+        mb_strlen($donorPhone) > 20 ||
+        !preg_match(
+            '/^[0-9+\-\s()]+$/',
+            $donorPhone
+        )
+    )
+) {
+
+    die('Please enter a valid phone number.');
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate donation purpose
+|--------------------------------------------------------------------------
+*/
+
+if (
+    !in_array(
+        $donationPurpose,
+        $allowedPurposes,
+        true
+    )
+) {
+
+    die('Invalid donation purpose.');
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Validate donation amount
+|--------------------------------------------------------------------------
+*/
+
+if (
+    $donationAmount === '' ||
+    !is_numeric($donationAmount)
+) {
+
+    die('Please enter a valid donation amount.');
+
+}
+
+
+$donationAmount = (float) $donationAmount;
+
+
+if (
+    $donationAmount < $minimumDonation ||
+    $donationAmount > $maximumDonation
+) {
+
+    die('The donation amount is outside the allowed range.');
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Format amount for database
+|--------------------------------------------------------------------------
+*/
+
+$donationAmount = number_format(
+    $donationAmount,
+    2,
+    '.',
+    ''
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| Load active payment settings
+|--------------------------------------------------------------------------
+*/
+
+$paymentSettingsQuery = "
+    SELECT
+        id,
+        upi_id,
+        qr_code
+    FROM payment_settings
+    WHERE is_active = 1
+    ORDER BY id DESC
+    LIMIT 1
+";
+
+
+$paymentSettingsResult = mysqli_query(
+    $conn,
+    $paymentSettingsQuery
+);
+
+
+if (!$paymentSettingsResult) {
+
+    die(
+        'Unable to load payment settings.'
+    );
+
+}
+
+
+$paymentSettings = mysqli_fetch_assoc(
+    $paymentSettingsResult
+);
+
+
+if (!$paymentSettings) {
+
+    die(
+        'Payment settings have not been configured yet.'
+    );
+
+}
+
+
+$upiId = trim(
+    $paymentSettings['upi_id']
+);
+
+$qrCode = trim(
+    $paymentSettings['qr_code']
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| Make sure payment settings are usable
+|--------------------------------------------------------------------------
+*/
+
+if (
+    $upiId === '' ||
+    $qrCode === ''
+) {
+
+    die(
+        'Payment information is incomplete.'
+    );
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| Prevent duplicate donation records
+|--------------------------------------------------------------------------
+|
+| If the visitor refreshes payment.php, we don't want to
+| automatically create another pending donation.
+|
+*/
+
+if (
+    isset($_SESSION['donation']['id']) &&
+    isset($_SESSION['donation']['csrf_token']) &&
+    hash_equals(
+        $_SESSION['donation']['csrf_token'],
+        $submittedCsrfToken
+    )
+) {
+
+    $existingDonationId =
+        (int) $_SESSION['donation']['id'];
+
+} else {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create pending donation
+    |--------------------------------------------------------------------------
+    */
+
+    $insertQuery = "
+        INSERT INTO donations (
+            donor_name,
+            donor_email,
+            donor_phone,
+            donation_purpose,
+            donation_amount,
+            payment_status
+        )
+        VALUES (?, ?, ?, ?, ?, 'pending')
+    ";
+
+
+    $stmt = mysqli_prepare(
+        $conn,
+        $insertQuery
+    );
+
+
+    if (!$stmt) {
+
+        die(
+            'Unable to prepare donation record.'
+        );
+
+    }
+
+
+    mysqli_stmt_bind_param(
+        $stmt,
+        'ssssd',
+        $donorName,
+        $donorEmail,
+        $donorPhone,
+        $donationPurpose,
+        $donationAmount
+    );
+
+
+    if (!mysqli_stmt_execute($stmt)) {
+
+        mysqli_stmt_close($stmt);
+
+        die(
+            'Unable to create donation record.'
+        );
+
+    }
+
+
+    $existingDonationId =
+        mysqli_insert_id($conn);
+
+
+    mysqli_stmt_close($stmt);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Store donation information in session
+    |--------------------------------------------------------------------------
+    */
+
+    $_SESSION['donation'] = [
+
+        'id' => $existingDonationId,
+
+        'donor_name' => $donorName,
+
+        'donor_email' => $donorEmail,
+
+        'donor_phone' => $donorPhone,
+
+        'donation_purpose' => $donationPurpose,
+
+        'donation_amount' => $donationAmount,
+
+        'csrf_token' => $submittedCsrfToken
+
+    ];
+
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| QR code path
+|--------------------------------------------------------------------------
+|
+| The database stores the QR image path.
+|
+| Example:
+|
+| uploads/payment/upi-qr.png
+|
+*/
+
+$qrCodePath = '../' . ltrim(
+    $qrCode,
+    '/'
+);
+
+
+/*
+|--------------------------------------------------------------------------
+| Escape values before displaying them
+|--------------------------------------------------------------------------
+*/
+
+$safeDonorName = htmlspecialchars(
+    $donorName,
+    ENT_QUOTES,
+    'UTF-8'
+);
+
+$safeDonorEmail = htmlspecialchars(
+    $donorEmail,
+    ENT_QUOTES,
+    'UTF-8'
+);
+
+$safeDonorPhone = htmlspecialchars(
+    $donorPhone,
+    ENT_QUOTES,
+    'UTF-8'
+);
+
+$safeDonationPurpose = htmlspecialchars(
+    $donationPurpose,
+    ENT_QUOTES,
+    'UTF-8'
+);
+
+$safeUpiId = htmlspecialchars(
+    $upiId,
+    ENT_QUOTES,
+    'UTF-8'
+);
+
+$safeQrCodePath = htmlspecialchars(
+    $qrCodePath,
+    ENT_QUOTES,
+    'UTF-8'
+);
 
 ?>
 
@@ -115,8 +505,10 @@ $amount =
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Make Your Payment | Sevartha Foundation</title>
+    <title>Payment | Sevartha Foundation</title>
 
+
+    <!-- Bootstrap -->
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
@@ -124,15 +516,39 @@ $amount =
     >
 
 
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- Main CSS -->
 
-    <link rel="stylesheet" href="../css/navbar.css">
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
 
-    <link rel="stylesheet" href="donate.css">
 
-    <link rel="stylesheet" href="../css/footer.css">
+    <!-- Navbar CSS -->
+
+    <link
+        rel="stylesheet"
+        href="../css/navbar.css"
+    >
 
 
+    <!-- Donation CSS -->
+
+    <link
+        rel="stylesheet"
+        href="donate.css"
+    >
+
+
+    <!-- Footer CSS -->
+
+    <link
+        rel="stylesheet"
+        href="../css/footer.css"
+    >
+
+
+    <!-- Font Awesome -->
 
     <link
         rel="stylesheet"
@@ -152,335 +568,429 @@ $amount =
      PAYMENT PAGE
 ========================================================= -->
 
-<section class="payment-page">
+<section class="donation-page">
 
-    <div class="payment-container">
+    <div class="donation-page-container">
 
 
-        <!-- TOP -->
+        <!-- =================================================
+             LEFT INFORMATION
+        ================================================== -->
 
-        <div class="payment-heading">
+        <div class="donation-introduction">
+
 
             <div class="donation-small-heading">
 
                 <span></span>
 
-                PAYMENT
+                SECURE YOUR CONTRIBUTION
 
             </div>
 
 
             <h1>
-                You're almost there.
+
+                Review your
+                <span>support.</span>
+
             </h1>
 
 
-            <p>
-                Review your contribution below and complete your
-                payment using UPI.
+            <p class="donation-lead">
+
+                Thank you,
+                <?= $safeDonorName ?>.
+
+                Your contribution details have been recorded
+                and are ready for payment.
+
             </p>
+
+
+            <p class="donation-description">
+
+                Please review the information below and complete
+                your contribution using the payment details provided.
+
+            </p>
+
+
+            <!-- =================================================
+                 DONATION SUMMARY
+            ================================================== -->
+
+            <div class="donation-impact-heading">
+
+                <span>
+                    YOUR CONTRIBUTION
+                </span>
+
+            </div>
+
+
+            <div class="donation-area">
+
+                <div class="donation-area-icon">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        <?= $safeDonationPurpose ?>
+                    </strong>
+
+                    <span>
+                        Selected area of support
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="donation-area">
+
+                <div class="donation-area-icon">
+
+                    <i class="fa-solid fa-indian-rupee-sign"></i>
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        ₹<?= number_format(
+                            (float) $donationAmount,
+                            2
+                        ) ?>
+                    </strong>
+
+                    <span>
+                        Contribution amount
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="donation-trust-row">
+
+
+                <div class="donation-trust-item">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span>
+                        Secure process
+                    </span>
+
+                </div>
+
+
+                <div class="donation-trust-item">
+
+                    <i class="fa-solid fa-receipt"></i>
+
+                    <span>
+                        Donation record
+                    </span>
+
+                </div>
+
+
+                <div class="donation-trust-item">
+
+                    <i class="fa-solid fa-heart"></i>
+
+                    <span>
+                        Purpose-led giving
+                    </span>
+
+                </div>
+
+
+            </div>
+
 
         </div>
 
 
 
-        <!-- PAYMENT LAYOUT -->
+        <!-- =================================================
+             PAYMENT CARD
+        ================================================== -->
 
-        <div class="payment-layout">
-
-
-            <!-- LEFT SUMMARY -->
-
-            <div class="payment-details">
+        <div class="donation-form-card">
 
 
-                <div class="payment-details-heading">
+            <div class="donation-form-top">
 
-                    <span>
-                        YOUR CONTRIBUTION
-                    </span>
+                <span class="donation-form-kicker">
+                    PAYMENT
+                </span>
 
-                    <i class="fa-solid fa-receipt"></i>
+                <h2>
+                    Complete your contribution
+                </h2>
 
-                </div>
+                <p>
+                    Scan the QR code or use the UPI ID below.
+                </p>
 
-
-                <div class="payment-person">
-
-                    <div class="payment-avatar">
-
-                        <?php
-                        echo strtoupper(
-                            htmlspecialchars(
-                                substr($name, 0, 1)
-                            )
-                        );
-                        ?>
-
-                    </div>
+            </div>
 
 
-                    <div>
+            <!-- =================================================
+                 QR CODE
+            ================================================== -->
 
-                        <strong>
-                            <?php
-                            echo htmlspecialchars($name);
-                            ?>
-                        </strong>
+            <div
+                style="
+                    text-align:center;
+                    margin:25px 0;
+                "
+            >
 
-                        <span>
-                            <?php
-                            echo htmlspecialchars($email);
-                            ?>
-                        </span>
+                <div
+                    style="
+                        display:inline-flex;
+                        align-items:center;
+                        justify-content:center;
+                        padding:18px;
+                        background:#ffffff;
+                        border:1px solid #ddd;
+                        border-radius:12px;
+                    "
+                >
 
-                    </div>
-
-                </div>
-
-
-                <div class="payment-summary-list">
-
-
-                    <div>
-
-                        <span>
-                            Purpose
-                        </span>
-
-                        <strong>
-                            <?php
-                            echo htmlspecialchars($purpose);
-                            ?>
-                        </strong>
-
-                    </div>
-
-
-                    <div class="payment-total">
-
-                        <span>
-                            Donation amount
-                        </span>
-
-                        <strong>
-                            ₹<?php
-                            echo number_format(
-                                $amount
-                            );
-                            ?>
-                        </strong>
-
-                    </div>
-
-                </div>
-
-
-                <div class="payment-change">
-
-                    <a href="donate.php">
-
-                        <i class="fa-solid fa-arrow-left"></i>
-
-                        Change donation details
-
-                    </a>
+                    <img
+                        src="<?= $safeQrCodePath ?>"
+                        alt="Sevartha Foundation UPI QR Code"
+                        style="
+                            width:240px;
+                            height:240px;
+                            object-fit:contain;
+                            display:block;
+                        "
+                    >
 
                 </div>
 
             </div>
 
 
+            <!-- =================================================
+                 UPI ID
+            ================================================== -->
 
-            <!-- RIGHT PAYMENT -->
+            <div
+                style="
+                    text-align:center;
+                    margin-bottom:25px;
+                "
+            >
 
-            <div class="payment-card">
+                <span
+                    style="
+                        display:block;
+                        font-size:12px;
+                        letter-spacing:1.5px;
+                        color:#777;
+                        margin-bottom:7px;
+                    "
+                >
+                    UPI ID
+                </span>
 
 
-                <div class="payment-card-heading">
+                <strong
+                    style="
+                        font-size:18px;
+                        color:#333;
+                        word-break:break-word;
+                    "
+                >
+                    <?= $safeUpiId ?>
+                </strong>
+
+            </div>
+
+
+            <!-- =================================================
+                 DONOR INFORMATION
+            ================================================== -->
+
+            <div
+                style="
+                    border-top:1px solid #e5e5e5;
+                    padding-top:20px;
+                    margin-top:10px;
+                "
+            >
+
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        gap:20px;
+                        margin-bottom:12px;
+                    "
+                >
 
                     <span>
-                        STEP 2
+                        Donor
                     </span>
 
-                    <h2>
-                        Complete your payment
-                    </h2>
-
-                    <p>
-                        Scan the QR code using your UPI app.
-                    </p>
+                    <strong>
+                        <?= $safeDonorName ?>
+                    </strong>
 
                 </div>
 
 
-                <!-- QR -->
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        gap:20px;
+                        margin-bottom:12px;
+                    "
+                >
 
-                <div class="payment-qr-area">
+                    <span>
+                        Email
+                    </span>
 
-
-                    <div class="payment-qr">
-
-                        <img
-                            src="../images/donation-qr.png"
-                            alt="Sevartha Foundation UPI payment QR code"
-                        >
-
-                    </div>
-
-
-                    <p class="payment-qr-caption">
-
-                        Scan with Google Pay, PhonePe, Paytm
-                        or another supported UPI app.
-
-                    </p>
+                    <strong>
+                        <?= $safeDonorEmail ?>
+                    </strong>
 
                 </div>
 
 
+                <?php if ($donorPhone !== ''): ?>
 
-                <!-- UPI -->
-
-                <div class="payment-upi">
-
-                    <div>
-
-                        <span>
-                            UPI ID
-                        </span>
-
-                        <strong id="upiId">
-                            your-upi-id@upi
-                        </strong>
-
-                    </div>
-
-
-                    <button
-                        type="button"
-                        id="copyUpi"
+                    <div
+                        style="
+                            display:flex;
+                            justify-content:space-between;
+                            gap:20px;
+                            margin-bottom:12px;
+                        "
                     >
 
-                        <i class="fa-regular fa-copy"></i>
-
-                        Copy
-
-                    </button>
-
-                </div>
-
-
-                <p
-                    class="payment-copy-message"
-                    id="copyMessage"
-                >
-                    UPI ID copied.
-                </p>
-
-
-
-                <!-- SAFETY -->
-
-                <div class="payment-safety">
-
-                    <i class="fa-solid fa-shield-halved"></i>
-
-                    <div>
+                        <span>
+                            Phone
+                        </span>
 
                         <strong>
-                            Before you pay
+                            <?= $safeDonorPhone ?>
                         </strong>
-
-                        <p>
-
-                            Check that the recipient name shown
-                            in your UPI app belongs to Sevartha
-                            Foundation. Never share your UPI PIN,
-                            OTP or banking password with anyone.
-
-                        </p>
 
                     </div>
 
-                </div>
+                <?php endif; ?>
 
 
-
-                <!-- CONFIRM -->
-
-                <form
-                    action="../contact.php"
-                    method="POST"
+                <div
+                    style="
+                        display:flex;
+                        justify-content:space-between;
+                        gap:20px;
+                        margin-bottom:12px;
+                    "
                 >
 
-                    <input
-                        type="hidden"
-                        name="donor_name"
-                        value="<?php
-                        echo htmlspecialchars($name);
-                        ?>"
-                    >
+                    <span>
+                        Amount
+                    </span>
 
-                    <input
-                        type="hidden"
-                        name="donor_email"
-                        value="<?php
-                        echo htmlspecialchars($email);
-                        ?>"
-                    >
+                    <strong>
+                        ₹<?= number_format(
+                            (float) $donationAmount,
+                            2
+                        ) ?>
+                    </strong>
 
-                    <input
-                        type="hidden"
-                        name="donor_phone"
-                        value="<?php
-                        echo htmlspecialchars(
-                            $_SESSION['donation_phone'] ?? ''
-                        );
-                        ?>"
-                    >
+                </div>
 
-                    <input
-                        type="hidden"
-                        name="donation_purpose"
-                        value="<?php
-                        echo htmlspecialchars($purpose);
-                        ?>"
-                    >
-
-                    <input
-                        type="hidden"
-                        name="donation_amount"
-                        value="<?php
-                        echo $amount;
-                        ?>"
-                    >
+            </div>
 
 
-                    <button
-                        type="submit"
-                        class="payment-complete"
-                    >
+            <!-- =================================================
+                 PAYMENT NOTICE
+            ================================================== -->
 
-                        <span>
-                            I've Completed the Payment
-                        </span>
+            <div class="donation-form-notice">
 
-                        <i class="fa-solid fa-arrow-right"></i>
+                <i class="fa-solid fa-circle-info"></i>
 
-                    </button>
+                <p>
 
-                </form>
-
-
-                <p class="payment-final-note">
-
-                    Please use this button only after completing
-                    the payment in your UPI application.
+                    After completing the payment, you will need
+                    to confirm the transaction so that the donation
+                    can be verified.
 
                 </p>
 
             </div>
+
+
+            <!-- =================================================
+                 PAYMENT STATUS BUTTON
+            ================================================== -->
+
+            <form
+                action="payment-success.php"
+                method="POST"
+            >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars(
+                        $submittedCsrfToken,
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>"
+                >
+
+
+                <input
+                    type="hidden"
+                    name="donation_id"
+                    value="<?= (int) $existingDonationId ?>"
+                >
+
+
+                <button
+                    type="submit"
+                    class="donation-continue"
+                >
+
+                    <span>
+                        I Have Completed Payment
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+
+            <p class="donation-payment-note">
+
+                Your donation will remain pending until the
+                payment is verified.
+
+            </p>
+
 
         </div>
 
@@ -490,68 +1000,7 @@ $amount =
 
 
 
-<!-- Footer -->
-
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-
-
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-
-
-    const copyButton =
-        document.getElementById("copyUpi");
-
-    const upiId =
-        document.getElementById("upiId");
-
-    const copyMessage =
-        document.getElementById("copyMessage");
-
-
-    copyButton.addEventListener("click", async function () {
-
-
-        try {
-
-            await navigator.clipboard.writeText(
-                upiId.textContent.trim()
-            );
-
-
-            copyButton.innerHTML =
-                '<i class="fa-solid fa-check"></i> Copied';
-
-
-            copyMessage.classList.add("show");
-
-
-            setTimeout(function () {
-
-                copyButton.innerHTML =
-                    '<i class="fa-regular fa-copy"></i> Copy';
-
-                copyMessage.classList.remove("show");
-
-            }, 2000);
-
-
-        } catch (error) {
-
-            copyMessage.textContent =
-                "Please copy the UPI ID manually.";
-
-            copyMessage.classList.add("show");
-
-        }
-
-    });
-
-});
-
-</script>
 
 
 </body>

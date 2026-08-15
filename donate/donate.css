@@ -1,7 +1,7 @@
 /* =========================================================
    SEVARTHA FOUNDATION
    DONATION + PAYMENT
-   Premium / Human / Trustworthy
+   Refined Premium / Human / Trustworthy
 ========================================================= */
 
 
@@ -12,11 +12,14 @@
 :root {
 
     --donate-white: #ffffff;
+
     --donate-paper: #faf8f4;
-    --donate-paper-deep: #f4f0e9;
+    --donate-paper-soft: #f7f4ef;
+    --donate-paper-deep: #f0ebe3;
 
     --donate-beige: #eee7dd;
-    --donate-beige-dark: #d9cfc2;
+    --donate-beige-dark: #d8cec0;
+    --donate-beige-deep: #c9bdae;
 
     --donate-charcoal: #2d2b29;
     --donate-charcoal-soft: #3b3835;
@@ -26,13 +29,22 @@
     --donate-muted: #97918a;
 
     --donate-border: #e3ddd5;
-    --donate-border-dark: #d2c8bc;
+    --donate-border-dark: #d0c5b8;
 
     --donate-success-bg: #e9eee7;
     --donate-success: #667260;
 
-    --donate-radius: 10px;
+    --donate-radius: 12px;
     --donate-radius-small: 7px;
+
+    --donate-shadow-soft:
+        0 18px 50px rgba(55, 49, 42, .065);
+
+    --donate-shadow-card:
+        0 25px 70px rgba(55, 49, 42, .095);
+
+    --donate-transition:
+        220ms cubic-bezier(.22, .61, .36, 1);
 }
 
 
@@ -57,6 +69,16 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+.donation-page button,
+.payment-page button {
+    -webkit-font-smoothing: antialiased;
+}
+
+.donation-page input,
+.donation-page select {
+    -webkit-appearance: none;
+}
+
 
 /* =========================================================
    DONATION PAGE
@@ -66,10 +88,10 @@
 
     position: relative;
 
-    min-height: 650px;
+    min-height: 680px;
 
     padding:
-        82px 25px 95px;
+        clamp(72px, 8vw, 105px) 25px clamp(85px, 9vw, 110px);
 
     background:
         var(--donate-paper);
@@ -79,10 +101,9 @@
 
 
 /*
- * Very subtle background detail.
- * This prevents the page from feeling completely flat
- * without introducing decorative gradients or AI-like effects.
- */
+   Quiet architectural detail.
+   Kept extremely subtle so the page still feels human-designed.
+*/
 
 .donation-page::before {
 
@@ -90,14 +111,34 @@
 
     position: absolute;
 
-    width: 520px;
-    height: 520px;
+    width: 620px;
+    height: 620px;
 
-    top: -310px;
-    right: -230px;
+    top: -385px;
+    right: -280px;
 
     border:
-        1px solid rgba(217, 207, 194, .38);
+        1px solid rgba(205, 195, 182, .42);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.donation-page::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    left: -185px;
+    bottom: -180px;
+
+    border:
+        1px solid rgba(205, 195, 182, .24);
 
     border-radius: 50%;
 
@@ -108,10 +149,11 @@
 .donation-page-container {
 
     position: relative;
+
     z-index: 1;
 
     width:
-        min(1120px, 100%);
+        min(1140px, 100%);
 
     margin:
         0 auto;
@@ -123,7 +165,7 @@
         minmax(0, 1fr) minmax(430px, 500px);
 
     gap:
-        clamp(55px, 7vw, 100px);
+        clamp(55px, 7vw, 105px);
 
     align-items:
         center;
@@ -137,7 +179,7 @@
 .donation-introduction {
 
     max-width:
-        555px;
+        570px;
 
     padding:
         5px 0;
@@ -157,38 +199,44 @@
         center;
 
     gap:
-        10px;
+        11px;
 
     color:
         var(--donate-grey);
 
     font-size:
-        .67rem;
+        .64rem;
 
     font-weight:
         900;
 
     letter-spacing:
-        2.5px;
+        2.8px;
+
+    line-height:
+        1;
 
     margin-bottom:
-        17px;
+        19px;
+
+    text-transform:
+        uppercase;
 }
 
 
 .donation-small-heading span {
 
     width:
-        31px;
+        34px;
 
     height:
         1px;
 
     flex:
-        0 0 31px;
+        0 0 34px;
 
     background:
-        var(--donate-beige-dark);
+        var(--donate-beige-deep);
 }
 
 
@@ -205,16 +253,19 @@
         var(--donate-charcoal);
 
     font-size:
-        clamp(3rem, 5.3vw, 4.7rem);
+        clamp(3.25rem, 5.4vw, 5rem);
 
     line-height:
-        .96;
+        .93;
 
     letter-spacing:
-        -3px;
+        -3.8px;
 
     font-weight:
         900;
+
+    text-wrap:
+        balance;
 }
 
 
@@ -222,6 +273,9 @@
 
     display:
         block;
+
+    margin-top:
+        4px;
 
     color:
         #77716a;
@@ -238,19 +292,19 @@
 .donation-lead {
 
     max-width:
-        525px;
+        535px;
 
     margin:
-        25px 0 10px;
+        28px 0 11px;
 
     color:
         var(--donate-text);
 
     font-size:
-        1.05rem;
+        1.02rem;
 
     line-height:
-        1.72;
+        1.78;
 
     font-weight:
         500;
@@ -260,7 +314,7 @@
 .donation-description {
 
     max-width:
-        520px;
+        525px;
 
     margin:
         0;
@@ -269,10 +323,10 @@
         var(--donate-grey);
 
     font-size:
-        .88rem;
+        .86rem;
 
     line-height:
-        1.75;
+        1.78;
 }
 
 
@@ -292,17 +346,17 @@
         8px;
 
     max-width:
-        525px;
+        535px;
 
     margin-top:
-        27px;
+        29px;
 }
 
 
 .donation-area {
 
     min-height:
-        43px;
+        45px;
 
     display:
         flex;
@@ -311,13 +365,13 @@
         center;
 
     gap:
-        9px;
+        10px;
 
     padding:
-        9px 12px;
+        10px 13px;
 
     background:
-        rgba(255, 255, 255, .68);
+        rgba(255, 255, 255, .72);
 
     border:
         1px solid var(--donate-border);
@@ -329,15 +383,16 @@
         var(--donate-text);
 
     font-size:
-        .73rem;
+        .71rem;
 
     font-weight:
-        650;
+        700;
 
     transition:
-        background .2s ease,
-        border-color .2s ease,
-        transform .2s ease;
+        background var(--donate-transition),
+        border-color var(--donate-transition),
+        transform var(--donate-transition),
+        box-shadow var(--donate-transition);
 }
 
 
@@ -350,17 +405,20 @@
         var(--donate-border-dark);
 
     transform:
-        translateY(-1px);
+        translateY(-2px);
+
+    box-shadow:
+        0 7px 18px rgba(55, 49, 42, .045);
 }
 
 
 .donation-area i {
 
     width:
-        18px;
+        19px;
 
     flex:
-        0 0 18px;
+        0 0 19px;
 
     text-align:
         center;
@@ -369,7 +427,7 @@
         var(--donate-grey);
 
     font-size:
-        .78rem;
+        .76rem;
 }
 
 
@@ -386,13 +444,13 @@
         flex-start;
 
     gap:
-        10px;
+        11px;
 
     max-width:
-        525px;
+        535px;
 
     margin-top:
-        24px;
+        25px;
 
     padding-top:
         19px;
@@ -411,7 +469,7 @@
         var(--donate-grey);
 
     font-size:
-        .75rem;
+        .73rem;
 
     margin-top:
         3px;
@@ -427,10 +485,10 @@
         var(--donate-grey);
 
     font-size:
-        .69rem;
+        .67rem;
 
     line-height:
-        1.65;
+        1.7;
 }
 
 
@@ -440,8 +498,14 @@
 
 .donation-form-card {
 
+    position:
+        relative;
+
     width:
         100%;
+
+    padding:
+        34px;
 
     background:
         var(--donate-white);
@@ -452,21 +516,48 @@
     border-radius:
         var(--donate-radius);
 
-    padding:
-        32px;
-
     box-shadow:
-        0 22px 55px rgba(55, 49, 42, .09);
+        var(--donate-shadow-card);
 
     transition:
-        box-shadow .25s ease;
+        box-shadow var(--donate-transition);
+}
+
+
+.donation-form-card::before {
+
+    content: "";
+
+    position:
+        absolute;
+
+    top:
+        0;
+
+    left:
+        28px;
+
+    right:
+        28px;
+
+    height:
+        2px;
+
+    background:
+        var(--donate-beige-dark);
+
+    border-radius:
+        0 0 4px 4px;
+
+    opacity:
+        .72;
 }
 
 
 .donation-form-card:hover {
 
     box-shadow:
-        0 25px 60px rgba(55, 49, 42, .105);
+        0 28px 75px rgba(55, 49, 42, .105);
 }
 
 
@@ -480,10 +571,10 @@
         relative;
 
     padding-bottom:
-        21px;
+        22px;
 
     margin-bottom:
-        24px;
+        25px;
 
     border-bottom:
         1px solid var(--donate-border);
@@ -496,38 +587,44 @@
         inline-block;
 
     margin-bottom:
-        8px;
+        9px;
 
     color:
         var(--donate-muted);
 
     font-size:
-        .61rem;
+        .59rem;
 
     font-weight:
         900;
 
     letter-spacing:
-        1.7px;
+        1.8px;
+
+    text-transform:
+        uppercase;
 }
 
 
 .donation-form-top h2 {
 
     margin:
-        0 0 6px;
+        0 0 7px;
 
     color:
         var(--donate-charcoal);
 
     font-size:
-        1.3rem;
+        1.34rem;
 
     line-height:
-        1.28;
+        1.25;
 
     font-weight:
         900;
+
+    letter-spacing:
+        -.3px;
 }
 
 
@@ -543,10 +640,10 @@
         var(--donate-grey);
 
     font-size:
-        .72rem;
+        .71rem;
 
     line-height:
-        1.6;
+        1.65;
 }
 
 
@@ -572,7 +669,7 @@
         12px 13px;
 
     background:
-        var(--donate-paper);
+        var(--donate-paper-soft);
 
     border:
         1px solid var(--donate-border);
@@ -588,7 +685,7 @@
         var(--donate-grey);
 
     font-size:
-        .78rem;
+        .77rem;
 
     margin-top:
         2px;
@@ -604,7 +701,7 @@
         var(--donate-text);
 
     font-size:
-        .69rem;
+        .68rem;
 
     line-height:
         1.5;
@@ -625,7 +722,7 @@
 .donation-form-group {
 
     margin-bottom:
-        18px;
+        19px;
 }
 
 
@@ -641,7 +738,7 @@
         var(--donate-text);
 
     font-size:
-        .73rem;
+        .71rem;
 
     font-weight:
         800;
@@ -677,7 +774,7 @@
         var(--donate-muted);
 
     font-size:
-        .61rem;
+        .59rem;
 
     white-space:
         nowrap;
@@ -695,7 +792,7 @@
         100%;
 
     height:
-        46px;
+        47px;
 
     padding:
         0 13px;
@@ -716,12 +813,12 @@
         var(--donate-charcoal);
 
     font-size:
-        .81rem;
+        .79rem;
 
     transition:
-        border-color .2s ease,
-        box-shadow .2s ease,
-        background .2s ease;
+        border-color var(--donate-transition),
+        box-shadow var(--donate-transition),
+        background var(--donate-transition);
 }
 
 
@@ -750,7 +847,7 @@
         #fff;
 
     box-shadow:
-        0 0 0 3px rgba(170, 160, 149, .12);
+        0 0 0 3px rgba(170, 160, 149, .11);
 }
 
 
@@ -788,7 +885,7 @@
 .donation-amount-option {
 
     height:
-        43px;
+        44px;
 
     border:
         1px solid var(--donate-border);
@@ -803,7 +900,7 @@
         var(--donate-text);
 
     font-size:
-        .75rem;
+        .73rem;
 
     font-weight:
         800;
@@ -812,11 +909,11 @@
         pointer;
 
     transition:
-        background .2s ease,
-        border-color .2s ease,
-        color .2s ease,
-        transform .15s ease,
-        box-shadow .2s ease;
+        background var(--donate-transition),
+        border-color var(--donate-transition),
+        color var(--donate-transition),
+        transform var(--donate-transition),
+        box-shadow var(--donate-transition);
 }
 
 
@@ -826,7 +923,7 @@
         var(--donate-border-dark);
 
     background:
-        #f7f4ef;
+        var(--donate-paper-soft);
 
     transform:
         translateY(-1px);
@@ -855,7 +952,7 @@
         var(--donate-charcoal);
 
     box-shadow:
-        0 6px 14px rgba(45, 43, 41, .19);
+        0 7px 17px rgba(45, 43, 41, .18);
 }
 
 
@@ -872,7 +969,7 @@
         center;
 
     height:
-        46px;
+        47px;
 
     margin-top:
         8px;
@@ -887,8 +984,8 @@
         #fff;
 
     transition:
-        border-color .2s ease,
-        box-shadow .2s ease;
+        border-color var(--donate-transition),
+        box-shadow var(--donate-transition);
 }
 
 
@@ -898,7 +995,7 @@
         #aaa095;
 
     box-shadow:
-        0 0 0 3px rgba(170, 160, 149, .12);
+        0 0 0 3px rgba(170, 160, 149, .11);
 }
 
 
@@ -921,7 +1018,7 @@
         100%;
 
     height:
-        44px;
+        45px;
 
     border:
         0;
@@ -939,7 +1036,7 @@
         var(--donate-charcoal);
 
     font-size:
-        .81rem;
+        .79rem;
 }
 
 
@@ -990,7 +1087,7 @@
         22px 0 17px;
 
     background:
-        var(--donate-paper);
+        var(--donate-paper-soft);
 
     border:
         1px solid var(--donate-border);
@@ -1006,7 +1103,7 @@
         var(--donate-grey);
 
     font-size:
-        .74rem;
+        .73rem;
 
     margin-top:
         2px;
@@ -1022,10 +1119,10 @@
         var(--donate-grey);
 
     font-size:
-        .66rem;
+        .65rem;
 
     line-height:
-        1.58;
+        1.62;
 }
 
 
@@ -1035,11 +1132,14 @@
 
 .donation-continue {
 
+    position:
+        relative;
+
     width:
         100%;
 
     min-height:
-        50px;
+        51px;
 
     display:
         flex;
@@ -1066,18 +1166,21 @@
         #fff;
 
     font-size:
-        .78rem;
+        .77rem;
 
     font-weight:
         900;
+
+    letter-spacing:
+        .1px;
 
     cursor:
         pointer;
 
     transition:
-        background .2s ease,
-        transform .2s ease,
-        box-shadow .2s ease;
+        background var(--donate-transition),
+        transform var(--donate-transition),
+        box-shadow var(--donate-transition);
 }
 
 
@@ -1087,10 +1190,10 @@
         #45413d;
 
     transform:
-        translateY(-1px);
+        translateY(-2px);
 
     box-shadow:
-        0 8px 20px rgba(45, 43, 41, .16);
+        0 10px 23px rgba(45, 43, 41, .17);
 }
 
 
@@ -1114,7 +1217,7 @@
 .donation-continue i {
 
     transition:
-        transform .2s ease;
+        transform var(--donate-transition);
 }
 
 
@@ -1134,7 +1237,7 @@
         var(--donate-muted);
 
     font-size:
-        .6rem;
+        .59rem;
 
     line-height:
         1.5;
@@ -1151,10 +1254,13 @@
 .donation-bottom {
 
     padding:
-        31px 25px;
+        32px 25px;
 
     background:
         #302e2b;
+
+    border-top:
+        1px solid rgba(255, 255, 255, .035);
 }
 
 
@@ -1173,7 +1279,7 @@
         center;
 
     gap:
-        14px;
+        15px;
 }
 
 
@@ -1183,10 +1289,10 @@
         0 0 auto;
 
     width:
-        34px;
+        36px;
 
     height:
-        34px;
+        36px;
 
     display:
         flex;
@@ -1207,7 +1313,7 @@
         var(--donate-beige);
 
     font-size:
-        .8rem;
+        .78rem;
 }
 
 
@@ -1220,7 +1326,7 @@
         #fff;
 
     font-size:
-        .78rem;
+        .77rem;
 
     font-weight:
         800;
@@ -1236,10 +1342,10 @@
         #c9c4bd;
 
     font-size:
-        .67rem;
+        .66rem;
 
     line-height:
-        1.5;
+        1.55;
 }
 
 
@@ -1256,7 +1362,7 @@
         700px;
 
     padding:
-        72px 25px 95px;
+        75px 25px 100px;
 
     background:
         var(--donate-paper);
@@ -1275,16 +1381,16 @@
         absolute;
 
     width:
-        500px;
+        600px;
 
     height:
-        500px;
+        600px;
 
     right:
-        -270px;
+        -320px;
 
     top:
-        -290px;
+        -350px;
 
     border:
         1px solid rgba(217, 207, 194, .34);
@@ -1306,7 +1412,7 @@
         1;
 
     width:
-        min(1000px, 100%);
+        min(1040px, 100%);
 
     margin:
         auto;
@@ -1320,17 +1426,17 @@
 .payment-heading {
 
     max-width:
-        700px;
+        720px;
 
     margin-bottom:
-        34px;
+        36px;
 }
 
 
 .payment-heading .donation-small-heading {
 
     margin-bottom:
-        15px;
+        16px;
 }
 
 
@@ -1343,35 +1449,38 @@
         var(--donate-charcoal);
 
     font-size:
-        clamp(2.3rem, 5vw, 3.5rem);
+        clamp(2.5rem, 5vw, 3.7rem);
 
     line-height:
-        .99;
+        .96;
 
     letter-spacing:
-        -2px;
+        -2.5px;
 
     font-weight:
         900;
+
+    text-wrap:
+        balance;
 }
 
 
 .payment-heading p {
 
     max-width:
-        600px;
+        610px;
 
     margin:
-        14px 0 0;
+        15px 0 0;
 
     color:
         var(--donate-grey);
 
     line-height:
-        1.7;
+        1.72;
 
     font-size:
-        .88rem;
+        .86rem;
 }
 
 
@@ -1402,7 +1511,7 @@
 .payment-details {
 
     padding:
-        28px;
+        30px;
 
     background:
         #fff;
@@ -1414,9 +1523,13 @@
         var(--donate-radius);
 
     box-shadow:
-        0 14px 35px rgba(55, 49, 42, .045);
+        var(--donate-shadow-soft);
 }
 
+
+/* =========================================================
+   PAYMENT DETAILS HEADING
+========================================================= */
 
 .payment-details-heading {
 
@@ -1430,7 +1543,7 @@
         space-between;
 
     padding-bottom:
-        17px;
+        18px;
 
     border-bottom:
         1px solid var(--donate-border);
@@ -1443,13 +1556,16 @@
         var(--donate-muted);
 
     font-size:
-        .61rem;
+        .59rem;
 
     font-weight:
         900;
 
     letter-spacing:
-        1.6px;
+        1.7px;
+
+    text-transform:
+        uppercase;
 }
 
 
@@ -1459,7 +1575,7 @@
         var(--donate-grey);
 
     font-size:
-        .78rem;
+        .76rem;
 }
 
 
@@ -1479,20 +1595,20 @@
         12px;
 
     margin:
-        25px 0;
+        26px 0;
 }
 
 
 .payment-avatar {
 
     width:
-        43px;
+        45px;
 
     height:
-        43px;
+        45px;
 
     flex:
-        0 0 43px;
+        0 0 45px;
 
     display:
         flex;
@@ -1510,7 +1626,7 @@
         var(--donate-text);
 
     font-size:
-        .85rem;
+        .84rem;
 
     font-weight:
         900;
@@ -1529,7 +1645,7 @@
         var(--donate-charcoal);
 
     font-size:
-        .86rem;
+        .85rem;
 }
 
 
@@ -1545,7 +1661,7 @@
         var(--donate-grey);
 
     font-size:
-        .68rem;
+        .67rem;
 
     overflow-wrap:
         anywhere;
@@ -1588,7 +1704,7 @@
         var(--donate-grey);
 
     font-size:
-        .71rem;
+        .7rem;
 }
 
 
@@ -1601,7 +1717,7 @@
         var(--donate-text);
 
     font-size:
-        .71rem;
+        .7rem;
 
     line-height:
         1.45;
@@ -1615,6 +1731,12 @@
 
     align-items:
         center;
+
+    padding-top:
+        19px;
+
+    padding-bottom:
+        18px;
 }
 
 
@@ -1634,10 +1756,13 @@
         var(--donate-charcoal);
 
     font-size:
-        1.35rem;
+        1.4rem;
 
     font-weight:
         900;
+
+    letter-spacing:
+        -.3px;
 }
 
 
@@ -1648,7 +1773,7 @@
 .payment-change {
 
     margin-top:
-        18px;
+        19px;
 }
 
 
@@ -1667,13 +1792,13 @@
         none;
 
     font-size:
-        .67rem;
+        .66rem;
 
     font-weight:
         700;
 
     transition:
-        color .2s ease;
+        color var(--donate-transition);
 }
 
 
@@ -1698,7 +1823,7 @@
 .payment-card {
 
     padding:
-        30px;
+        31px;
 
     background:
         #fff;
@@ -1710,7 +1835,7 @@
         var(--donate-radius);
 
     box-shadow:
-        0 22px 55px rgba(55, 49, 42, .09);
+        var(--donate-shadow-card);
 }
 
 
@@ -1734,13 +1859,16 @@
         var(--donate-muted);
 
     font-size:
-        .6rem;
+        .59rem;
 
     font-weight:
         900;
 
     letter-spacing:
-        1.5px;
+        1.6px;
+
+    text-transform:
+        uppercase;
 }
 
 
@@ -1753,7 +1881,10 @@
         var(--donate-charcoal);
 
     font-size:
-        1.35rem;
+        1.36rem;
+
+    line-height:
+        1.25;
 
     font-weight:
         900;
@@ -1769,10 +1900,10 @@
         var(--donate-grey);
 
     font-size:
-        .71rem;
+        .7rem;
 
     line-height:
-        1.5;
+        1.55;
 }
 
 
@@ -1783,7 +1914,7 @@
 .payment-qr-area {
 
     padding:
-        24px 0 18px;
+        25px 0 19px;
 
     text-align:
         center;
@@ -1793,10 +1924,10 @@
 .payment-qr {
 
     width:
-        230px;
+        232px;
 
     height:
-        230px;
+        232px;
 
     margin:
         auto;
@@ -1811,10 +1942,10 @@
         1px solid var(--donate-border);
 
     border-radius:
-        8px;
+        9px;
 
     box-shadow:
-        0 8px 25px rgba(55, 49, 42, .05);
+        0 10px 28px rgba(55, 49, 42, .055);
 }
 
 
@@ -1837,7 +1968,7 @@
 .payment-qr-caption {
 
     max-width:
-        290px;
+        295px;
 
     margin:
         13px auto 0;
@@ -1846,10 +1977,10 @@
         var(--donate-grey);
 
     font-size:
-        .66rem;
+        .65rem;
 
     line-height:
-        1.5;
+        1.55;
 }
 
 
@@ -1875,7 +2006,7 @@
         12px;
 
     background:
-        var(--donate-paper);
+        var(--donate-paper-soft);
 
     border:
         1px solid var(--donate-border);
@@ -1901,13 +2032,16 @@
         var(--donate-muted);
 
     font-size:
-        .59rem;
+        .58rem;
 
     font-weight:
         800;
 
     letter-spacing:
         1px;
+
+    text-transform:
+        uppercase;
 }
 
 
@@ -1923,7 +2057,7 @@
         var(--donate-charcoal);
 
     font-size:
-        .75rem;
+        .74rem;
 
     overflow-wrap:
         anywhere;
@@ -1954,7 +2088,7 @@
         var(--donate-text);
 
     font-size:
-        .64rem;
+        .63rem;
 
     font-weight:
         800;
@@ -1963,8 +2097,8 @@
         pointer;
 
     transition:
-        background .2s ease,
-        border-color .2s ease;
+        background var(--donate-transition),
+        border-color var(--donate-transition);
 }
 
 
@@ -1974,7 +2108,7 @@
         var(--donate-beige);
 
     border-color:
-        #c7bcae;
+        var(--donate-beige-deep);
 }
 
 
@@ -1990,7 +2124,7 @@
         var(--donate-success);
 
     font-size:
-        .62rem;
+        .61rem;
 
     text-align:
         right;
@@ -2026,7 +2160,7 @@
         13px;
 
     background:
-        var(--donate-paper);
+        var(--donate-paper-soft);
 
     border:
         1px solid var(--donate-border);
@@ -2045,7 +2179,7 @@
         var(--donate-grey);
 
     font-size:
-        .77rem;
+        .76rem;
 
     margin-top:
         2px;
@@ -2061,7 +2195,7 @@
         var(--donate-charcoal);
 
     font-size:
-        .69rem;
+        .68rem;
 }
 
 
@@ -2074,10 +2208,10 @@
         var(--donate-grey);
 
     font-size:
-        .62rem;
+        .61rem;
 
     line-height:
-        1.55;
+        1.58;
 }
 
 
@@ -2091,7 +2225,7 @@
         100%;
 
     min-height:
-        49px;
+        50px;
 
     display:
         flex;
@@ -2118,7 +2252,7 @@
         #fff;
 
     font-size:
-        .76rem;
+        .75rem;
 
     font-weight:
         900;
@@ -2130,9 +2264,9 @@
         none;
 
     transition:
-        background .2s ease,
-        transform .2s ease,
-        box-shadow .2s ease;
+        background var(--donate-transition),
+        transform var(--donate-transition),
+        box-shadow var(--donate-transition);
 }
 
 
@@ -2145,10 +2279,10 @@
         #fff;
 
     transform:
-        translateY(-1px);
+        translateY(-2px);
 
     box-shadow:
-        0 8px 20px rgba(45, 43, 41, .15);
+        0 10px 23px rgba(45, 43, 41, .16);
 }
 
 
@@ -2172,7 +2306,7 @@
 .payment-complete i {
 
     transition:
-        transform .2s ease;
+        transform var(--donate-transition);
 }
 
 
@@ -2192,7 +2326,7 @@
         var(--donate-muted);
 
     font-size:
-        .6rem;
+        .59rem;
 
     line-height:
         1.5;
@@ -2219,12 +2353,16 @@
 }
 
 
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
 @media (max-width: 900px) {
 
     .donation-page {
 
         padding:
-            70px 22px 80px;
+            70px 22px 82px;
     }
 
     .donation-page-container {
@@ -2233,10 +2371,10 @@
             1fr;
 
         width:
-            min(650px, 100%);
+            min(670px, 100%);
 
         gap:
-            48px;
+            50px;
     }
 
     .donation-introduction {
@@ -2257,7 +2395,7 @@
     .donation-introduction h1 {
 
         font-size:
-            clamp(3rem, 8vw, 4rem);
+            clamp(3rem, 8vw, 4.2rem);
     }
 
     .donation-lead,
@@ -2318,7 +2456,7 @@
     .payment-page {
 
         padding:
-            60px 20px 75px;
+            62px 20px 78px;
     }
 
     .payment-layout {
@@ -2327,7 +2465,7 @@
             1fr;
 
         max-width:
-            600px;
+            620px;
 
         margin:
             auto;
@@ -2336,7 +2474,7 @@
     .payment-heading {
 
         max-width:
-            600px;
+            620px;
 
         margin-left:
             auto;
@@ -2359,19 +2497,13 @@
             600px;
 
         padding:
-            58px 17px 70px;
+            58px 17px 72px;
     }
 
     .donation-page-container {
 
         gap:
-            38px;
-    }
-
-    .donation-page-heading {
-
-        margin-bottom:
-            24px;
+            40px;
     }
 
     .donation-introduction {
@@ -2383,10 +2515,13 @@
     .donation-introduction h1 {
 
         font-size:
-            2.7rem;
+            2.75rem;
+
+        line-height:
+            .95;
 
         letter-spacing:
-            -1.8px;
+            -2.2px;
     }
 
     .donation-lead {
@@ -2395,13 +2530,19 @@
             20px;
 
         font-size:
-            .95rem;
+            .93rem;
+
+        line-height:
+            1.7;
     }
 
     .donation-description {
 
         font-size:
-            .82rem;
+            .81rem;
+
+        line-height:
+            1.7;
     }
 
     .donation-areas {
@@ -2419,7 +2560,7 @@
             flex-start;
 
         min-height:
-            42px;
+            43px;
     }
 
     .donation-note-left {
@@ -2434,10 +2575,19 @@
     .donation-form-card {
 
         padding:
-            23px 18px;
+            25px 18px;
 
         border-radius:
             9px;
+    }
+
+    .donation-form-card::before {
+
+        left:
+            20px;
+
+        right:
+            20px;
     }
 
     .donation-form-top h2 {
@@ -2449,7 +2599,7 @@
     .donation-form-top p {
 
         font-size:
-            .69rem;
+            .68rem;
     }
 
     .donation-amount-options {
@@ -2489,7 +2639,9 @@
     }
 
 
-    /* PAYMENT MOBILE */
+    /* =====================================================
+       PAYMENT MOBILE
+    ===================================================== */
 
     .payment-page {
 
@@ -2497,35 +2649,35 @@
             650px;
 
         padding:
-            55px 17px 70px;
+            56px 17px 72px;
     }
 
     .payment-heading {
 
         margin-bottom:
-            25px;
+            27px;
     }
 
     .payment-heading h1 {
 
         font-size:
-            2.35rem;
+            2.4rem;
 
         letter-spacing:
-            -1.4px;
+            -1.6px;
     }
 
     .payment-heading p {
 
         font-size:
-            .82rem;
+            .81rem;
     }
 
     .payment-details,
     .payment-card {
 
         padding:
-            22px 18px;
+            23px 18px;
 
         border-radius:
             9px;
@@ -2534,7 +2686,7 @@
     .payment-card-heading h2 {
 
         font-size:
-            1.25rem;
+            1.24rem;
     }
 
     .payment-qr {
@@ -2575,13 +2727,25 @@
     .donation-introduction h1 {
 
         font-size:
-            2.35rem;
+            2.38rem;
+
+        letter-spacing:
+            -1.8px;
     }
 
     .donation-form-card {
 
         padding:
-            20px 15px;
+            21px 15px;
+    }
+
+    .donation-form-card::before {
+
+        left:
+            17px;
+
+        right:
+            17px;
     }
 
     .donation-amount-options {
@@ -2627,7 +2791,11 @@
     .payment-upi button,
     .payment-complete,
     .payment-complete i,
-    .donation-continue i {
+    .donation-continue i,
+    .payment-change a,
+    .donation-form-group input,
+    .donation-form-group select,
+    .donation-custom-amount {
 
         transition:
             none;

@@ -1,17 +1,63 @@
 <?php
+
 session_start();
 
 /*
- * Clear any previous donation information when
- * the donor starts a new donation.
- */
-unset(
-    $_SESSION['donation_name'],
-    $_SESSION['donation_email'],
-    $_SESSION['donation_phone'],
-    $_SESSION['donation_purpose'],
-    $_SESSION['donation_amount']
+|--------------------------------------------------------------------------
+| START A FRESH DONATION SESSION
+|--------------------------------------------------------------------------
+|
+| Every visit to donate.php begins a new donation flow.
+|
+*/
+
+unset($_SESSION['donation']);
+
+/*
+|--------------------------------------------------------------------------
+| REGENERATE SESSION ID
+|--------------------------------------------------------------------------
+|
+| Helps prevent session fixation when a new donation flow begins.
+|
+*/
+
+session_regenerate_id(true);
+
+/*
+|--------------------------------------------------------------------------
+| CSRF PROTECTION
+|--------------------------------------------------------------------------
+*/
+
+$_SESSION['csrf_token'] = bin2hex(
+    random_bytes(32)
 );
+
+/*
+|--------------------------------------------------------------------------
+| DONATION RULES
+|--------------------------------------------------------------------------
+*/
+
+$allowedPurposes = [
+
+    'Education',
+
+    'Hunger and Poverty',
+
+    'Healthcare and Medical Relief',
+
+    'Elders',
+
+    'Disaster Relief and Emergency Assistance'
+
+];
+
+$minimumDonation = 1;
+
+$maximumDonation = 10000000;
+
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +76,7 @@ unset(
 
 
     <!-- Bootstrap -->
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
         rel="stylesheet"
@@ -37,6 +84,7 @@ unset(
 
 
     <!-- Main CSS -->
+
     <link
         rel="stylesheet"
         href="../css/style.css"
@@ -44,6 +92,7 @@ unset(
 
 
     <!-- Navbar CSS -->
+
     <link
         rel="stylesheet"
         href="../css/navbar.css"
@@ -51,16 +100,23 @@ unset(
 
 
     <!-- Donation CSS -->
+
     <link
         rel="stylesheet"
         href="donate.css"
     >
 
-    <link rel="stylesheet" href="../css/footer.css">
 
+    <!-- Footer CSS -->
+
+    <link
+        rel="stylesheet"
+        href="../css/footer.css"
+    >
 
 
     <!-- Font Awesome -->
+
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
@@ -91,8 +147,6 @@ unset(
         <div class="donation-introduction">
 
 
-            <!-- Small editorial heading -->
-
             <div class="donation-small-heading">
 
                 <span></span>
@@ -102,8 +156,6 @@ unset(
             </div>
 
 
-            <!-- Main heading -->
-
             <h1>
 
                 Give with
@@ -111,8 +163,6 @@ unset(
 
             </h1>
 
-
-            <!-- Lead statement -->
 
             <p class="donation-lead">
 
@@ -122,8 +172,6 @@ unset(
 
             </p>
 
-
-            <!-- Supporting statement -->
 
             <p class="donation-description">
 
@@ -352,8 +400,6 @@ unset(
         <div class="donation-form-card">
 
 
-            <!-- Form heading -->
-
             <div class="donation-form-top">
 
                 <span class="donation-form-kicker">
@@ -383,6 +429,19 @@ unset(
             >
 
 
+                <!-- CSRF -->
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars(
+                        $_SESSION['csrf_token'],
+                        ENT_QUOTES,
+                        'UTF-8'
+                    ) ?>"
+                >
+
+
                 <!-- =============================================
                      NAME
                 ============================================== -->
@@ -406,7 +465,6 @@ unset(
                 </div>
 
 
-
                 <!-- =============================================
                      EMAIL
                 ============================================== -->
@@ -428,7 +486,6 @@ unset(
                     >
 
                 </div>
-
 
 
                 <!-- =============================================
@@ -461,7 +518,6 @@ unset(
                 </div>
 
 
-
                 <!-- =============================================
                      PURPOSE
                 ============================================== -->
@@ -473,7 +529,6 @@ unset(
                         I'd like my contribution to support
 
                     </label>
-
 
                     <select
                         id="donationPurpose"
@@ -489,26 +544,21 @@ unset(
                             Select an area
                         </option>
 
-
                         <option value="Education">
                             Education
                         </option>
-
 
                         <option value="Hunger and Poverty">
                             Hunger and Poverty
                         </option>
 
-
                         <option value="Healthcare and Medical Relief">
                             Healthcare and Medical Relief
                         </option>
 
-
                         <option value="Elders">
                             Elders
                         </option>
-
 
                         <option value="Disaster Relief and Emergency Assistance">
                             Disaster Relief and Emergency Assistance
@@ -517,7 +567,6 @@ unset(
                     </select>
 
                 </div>
-
 
 
                 <!-- =============================================
@@ -584,8 +633,8 @@ unset(
                             id="donationAmount"
                             name="donation_amount"
                             placeholder="Or enter another amount"
-                            min="1"
-                            max="10000000"
+                            min="<?= $minimumDonation ?>"
+                            max="<?= $maximumDonation ?>"
                             step="1"
                             required
                         >
@@ -593,7 +642,6 @@ unset(
                     </div>
 
                 </div>
-
 
 
                 <!-- =============================================
@@ -613,7 +661,6 @@ unset(
                     </p>
 
                 </div>
-
 
 
                 <!-- =============================================
@@ -651,7 +698,6 @@ unset(
 </section>
 
 
-
 <!-- =========================================================
      BOTTOM TRUST MESSAGE
 ========================================================= -->
@@ -680,13 +726,11 @@ unset(
 </section>
 
 
-
 <!-- =========================================================
      FOOTER
 ========================================================= -->
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
-
 
 
 <!-- =========================================================
@@ -697,22 +741,23 @@ unset(
 
 document.addEventListener("DOMContentLoaded", function () {
 
-
-    /*
-     * Amount selection
-     */
-
     const amountButtons =
         document.querySelectorAll(".donation-amount-option");
 
     const amountInput =
         document.getElementById("donationAmount");
 
+    const donationForm =
+        document.getElementById("donationDetailsForm");
+
+
+    /*
+     * Preset amount selection
+     */
 
     amountButtons.forEach(button => {
 
         button.addEventListener("click", function () {
-
 
             amountButtons.forEach(item => {
 
@@ -720,9 +765,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             });
 
-
             this.classList.add("selected");
-
 
             amountInput.value =
                 this.dataset.amount;
@@ -749,33 +792,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /*
-     * Basic amount validation
+     * Client-side amount validation.
+     * Server-side validation remains authoritative.
      */
 
-    document
-        .getElementById("donationDetailsForm")
-        .addEventListener("submit", function (event) {
+    donationForm.addEventListener("submit", function (event) {
+
+        const amount =
+            Number(amountInput.value);
 
 
-            const amount =
-                Number(amountInput.value);
+        if (
+            !Number.isInteger(amount) ||
+            amount < <?= $minimumDonation ?> ||
+            amount > <?= $maximumDonation ?>
+        ) {
 
+            event.preventDefault();
 
-            if (
-                !amount ||
-                amount < 1 ||
-                amount > 10000000
-            ) {
+            amountInput.focus();
 
-                event.preventDefault();
+            return;
 
-                amountInput.focus();
+        }
 
-                return;
-
-            }
-
-        });
+    });
 
 });
 
