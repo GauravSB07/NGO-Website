@@ -278,13 +278,6 @@
      <link rel="stylesheet" href="css/footer.css">
 
 
-<!-- Footer PHP -->
-<?php include 'includes/footer.php'; ?>
-
-
-<!-- Footer CSS -->
-<link rel="stylesheet" href="css/footer.css">
-
 
 <!-- =========================================================
      BOOTSTRAP JS
