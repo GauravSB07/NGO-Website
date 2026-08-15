@@ -161,120 +161,10 @@ if (isset($_POST['login'])) {
 ?>
 
 <!DOCTYPE html>
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
 <html lang="en">
 
 <head>
 
-<<<<<<< HEAD
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>Admin Login</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/admin.css">
-<link rel="stylesheet" href="../css/navbar.css">
-
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-
-</head>
-
-<body class="login-page">
-
-<?php include '../includes/navbar.php'; ?>
-
-<div class="container-fluid p-0">
-
-<div class="row g-0 vh-100">
-
-    <!-- Image -->
-
-    <div class="col-lg-7">
-
-        <div class="login-image">
-
-            <img src="../images/login.jpg" class="img-fluid">
-
-        </div>
-
-    </div>
-
-    <!-- Login -->
-
-    <div class="col-lg-5 d-flex align-items-center justify-content-center">
-
-        <div class="login-card">
-
-            <h2 class="text-center mb-4">
-
-                Welcome Back
-
-            </h2>
-
-            <?php if(isset($error)){ ?>
-
-            <div class="alert alert-danger">
-
-                <?= $error; ?>
-
-            </div>
-
-            <?php } ?>
-
-            <form method="POST" action="">
-
-                <div class="mb-3">
-
-                    <input
-                    type="text"
-                    class="form-control"
-                    name="username"
-                    placeholder="Username">
-
-                </div>
-
-                <div class="mb-3">
-
-                    <input
-                    type="password"
-                    class="form-control"
-                    name="password"
-                    placeholder="Password">
-
-                </div>
-
-                <button type="submit"
-                        name="login"
-                        class="btn btn-primary w-100">
-
-                    Login
-
-                </button>
-
-                <div class="text-center mt-3">
-
-                    <a href="#">
-
-                        Forgot Password?
-
-                    </a>
-
-                </div>
-
-            </form>
-
-        </div>
-
-=======
     <meta charset="UTF-8">
 
     <meta
@@ -508,15 +398,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
         </div>
 
 
->>>>>>> origin/main
     </div>
 
 </div>
 
-<<<<<<< HEAD
-</div>
-=======
->>>>>>> origin/main
 
 </body>
 
