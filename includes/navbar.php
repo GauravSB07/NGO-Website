@@ -153,21 +153,6 @@ if (!$categories) {
                                 </span>
                             </a>
 
-
-                            <a
-                                href="/ngo-website/connect-with-us/contact.php"
-                                class="dropdown-item-custom"
-                            >
-                                <span class="dropdown-icon">
-                                    <i class="fa-solid fa-envelope"></i>
-                                </span>
-
-                                <span class="dropdown-content">
-                                    <strong>Contact Us</strong>
-                                    <small>Get in touch with us</small>
-                                </span>
-                            </a>
-
                         </div>
 
                     </div>
