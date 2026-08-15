@@ -2,143 +2,143 @@
    ADMIN LOGIN PAGE
 =========================== */
 
-body{
-    margin:0;
-    padding:0;
+body {
+    margin: 0;
+    padding: 0;
     font-family: 'Poppins', sans-serif;
-    background:#f5f7fb;
+    background: #f5f7fb;
 }
 
 /* Left Image */
 
-.login-image{
-    height:100vh;
-    overflow:hidden;
+.login-image {
+    height: 100vh;
+    overflow: hidden;
 }
 
-.login-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
+.login-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Dark Overlay */
 
-.login-image{
-    position:relative;
+.login-image {
+    position: relative;
 }
 
-.login-image::before{
+.login-image::before {
 
-    content:"";
+    content: "";
 
-    position:absolute;
+    position: absolute;
 
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 
-    background:rgba(0,0,0,.35);
+    background: rgba(0, 0, 0, .35);
 
-    z-index:1;
+    z-index: 1;
 
 }
 
-.login-image img{
+.login-image img {
 
-    position:relative;
+    position: relative;
 
-    z-index:0;
+    z-index: 0;
 
 }
 
 /* Login Card */
 
-.login-card{
+.login-card {
 
-    width:430px;
+    width: 430px;
 
-    background:#fff;
+    background: #fff;
 
-    padding:45px;
+    padding: 45px;
 
-    border-radius:15px;
+    border-radius: 15px;
 
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, .15);
 
 }
 
 /* Heading */
 
-.login-card h2{
+.login-card h2 {
 
-    font-weight:700;
+    font-weight: 700;
 
-    color:#0056D6;
+    color: #0056D6;
 
-    margin-bottom:30px;
+    margin-bottom: 30px;
 
 }
 
 /* Inputs */
 
-.form-control{
+.form-control {
 
-    height:55px;
+    height: 55px;
 
-    border-radius:10px;
+    border-radius: 10px;
 
-    border:1px solid #ddd;
+    border: 1px solid #ddd;
 
-    font-size:16px;
+    font-size: 16px;
 
 }
 
-.form-control:focus{
+.form-control:focus {
 
-    border-color:#0056D6;
+    border-color: #0056D6;
 
-    box-shadow:0 0 10px rgba(0,86,214,.2);
+    box-shadow: 0 0 10px rgba(0, 86, 214, .2);
 
 }
 
 /* Login Button */
 
-.btn-primary{
+.btn-primary {
 
-    height:52px;
+    height: 52px;
 
-    border-radius:30px;
+    border-radius: 30px;
 
-    background:#0056D6;
+    background: #0056D6;
 
-    border:none;
+    border: none;
 
-    font-weight:600;
+    font-weight: 600;
 
-    transition:.3s;
+    transition: .3s;
 
 }
 
-.btn-primary:hover{
+.btn-primary:hover {
 
-    background:#0046b3;
+    background: #0046b3;
 
-    transform:translateY(-2px);
+    transform: translateY(-2px);
 
 }
 
 /* Forgot Password */
 
-.login-card a{
+.login-card a {
 
-    text-decoration:none;
+    text-decoration: none;
 
-    color:#0056D6;
+    color: #0056D6;
 
 }
 
-.login-card a:hover{
+.login-card a:hover {
 
-    text-decoration:underline;
+    text-decoration: underline;
 
 }
