@@ -289,12 +289,12 @@
 
 
 /* =========================================================
-   IMAGE
+   IMAGE AREA
 ========================================================= */
 
 .founder-image {
 
-    height: 300px;
+    height: 360px;
 
     display: flex;
 
@@ -312,11 +312,17 @@
 }
 
 
+/* =========================================================
+   FOUNDER PHOTO
+========================================================= */
+
 .founder-placeholder {
 
-    width: 115px;
+    width:
+        calc(100% - 16px);
 
-    height: 115px;
+    height:
+        calc(100% - 16px);
 
     display: flex;
 
@@ -324,22 +330,67 @@
 
     justify-content: center;
 
-    border-radius: 50%;
+    overflow: hidden;
+
+    border-radius:
+        12px;
 
     background:
-        var(--white);
+        transparent;
 
     border:
-        1px solid var(--border);
-
-    color:
-        var(--olive);
-
-    font-size:
-        3rem;
+        none;
 
     box-shadow:
-        var(--shadow-sm);
+        none;
+
+}
+
+
+.founder-placeholder .founder-photo {
+
+    width:
+        100%;
+
+    height:
+        100%;
+
+    display:
+        block;
+
+    object-fit:
+        cover;
+
+    object-position:
+        center;
+
+    border-radius:
+        10px;
+
+    transition:
+        transform .4s ease;
+
+}
+
+
+/* =========================================================
+   PHOTO HOVER EFFECT
+========================================================= */
+
+.founder-card:hover .founder-photo {
+
+    transform:
+        scale(1.04);
+
+}
+
+
+/* Hide old placeholder icon */
+
+.founder-placeholder .fa-user {
+
+    display:
+        none;
 
 }
 
@@ -486,9 +537,11 @@
 
 .founders-vision-icon {
 
-    width: 92px;
+    width:
+        92px;
 
-    height: 92px;
+    height:
+        92px;
 
     display: flex;
 
@@ -496,7 +549,8 @@
 
     justify-content: center;
 
-    border-radius: 50%;
+    border-radius:
+        50%;
 
     background:
         var(--white);
@@ -613,10 +667,23 @@
     }
 
 
+    /* Larger mobile founder image */
+
     .founder-image {
 
         height:
-            260px;
+            300px;
+
+    }
+
+
+    .founder-placeholder {
+
+        width:
+            calc(100% - 16px);
+
+        height:
+            calc(100% - 16px);
 
     }
 
@@ -665,7 +732,21 @@
     .founder-image {
 
         height:
-            230px;
+            270px;
+
+    }
+
+
+    .founder-placeholder {
+
+        width:
+            calc(100% - 12px);
+
+        height:
+            calc(100% - 12px);
+
+        border-radius:
+            10px;
 
     }
 
