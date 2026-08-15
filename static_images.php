@@ -13,7 +13,6 @@ include "config/db.php";
 | This page is intended for developers only.
 | Do not expose this page to the NGO/public in production.
 |
-|--------------------------------------------------------------------------
 */
 
 
@@ -33,6 +32,22 @@ $allowedMimeTypes = [
     'image/png',
     'image/webp'
 ];
+
+
+/*
+|--------------------------------------------------------------------------
+| AVAILABLE CATEGORIES
+|--------------------------------------------------------------------------
+*/
+
+$allowedCategories = [
+    'general',
+    'homepage',
+    'about',
+    'our_work',
+    'annual_event'
+];
+
 
 $message = "";
 $error = "";
@@ -73,9 +88,7 @@ function processStaticImage(
     |--------------------------------------------------------------------------
     */
 
-    if (
-        $originalSize > 25 * 1024 * 1024
-    ) {
+    if ($originalSize > 25 * 1024 * 1024) {
 
         throw new Exception(
             "Image is larger than the allowed 25 MB limit."
@@ -90,8 +103,7 @@ function processStaticImage(
     |--------------------------------------------------------------------------
     */
 
-    $imageInfo =
-        @getimagesize($tmpPath);
+    $imageInfo = @getimagesize($tmpPath);
 
 
     if ($imageInfo === false) {
@@ -103,11 +115,9 @@ function processStaticImage(
     }
 
 
-    $originalWidth =
-        $imageInfo[0];
+    $originalWidth = $imageInfo[0];
 
-    $originalHeight =
-        $imageInfo[1];
+    $originalHeight = $imageInfo[1];
 
 
     /*
@@ -120,20 +130,14 @@ function processStaticImage(
 
         case 'image/jpeg':
 
-            $source =
-                @imagecreatefromjpeg(
-                    $tmpPath
-                );
+            $source = @imagecreatefromjpeg($tmpPath);
 
             break;
 
 
         case 'image/png':
 
-            $source =
-                @imagecreatefrompng(
-                    $tmpPath
-                );
+            $source = @imagecreatefrompng($tmpPath);
 
             break;
 
@@ -141,9 +145,7 @@ function processStaticImage(
         case 'image/webp':
 
             if (
-                !function_exists(
-                    'imagecreatefromwebp'
-                )
+                !function_exists('imagecreatefromwebp')
             ) {
 
                 throw new Exception(
@@ -152,10 +154,7 @@ function processStaticImage(
 
             }
 
-            $source =
-                @imagecreatefromwebp(
-                    $tmpPath
-                );
+            $source = @imagecreatefromwebp($tmpPath);
 
             break;
 
@@ -184,30 +183,27 @@ function processStaticImage(
     |--------------------------------------------------------------------------
     */
 
-    $scale =
-        min(
-            $maxWidth / $originalWidth,
-            $maxHeight / $originalHeight,
-            1
-        );
+    $scale = min(
+        $maxWidth / $originalWidth,
+        $maxHeight / $originalHeight,
+        1
+    );
 
 
-    $newWidth =
-        max(
-            1,
-            (int) round(
-                $originalWidth * $scale
-            )
-        );
+    $newWidth = max(
+        1,
+        (int) round(
+            $originalWidth * $scale
+        )
+    );
 
 
-    $newHeight =
-        max(
-            1,
-            (int) round(
-                $originalHeight * $scale
-            )
-        );
+    $newHeight = max(
+        1,
+        (int) round(
+            $originalHeight * $scale
+        )
+    );
 
 
     /*
@@ -216,11 +212,10 @@ function processStaticImage(
     |--------------------------------------------------------------------------
     */
 
-    $destination =
-        imagecreatetruecolor(
-            $newWidth,
-            $newHeight
-        );
+    $destination = imagecreatetruecolor(
+        $newWidth,
+        $newHeight
+    );
 
 
     if (!$destination) {
@@ -251,14 +246,13 @@ function processStaticImage(
     );
 
 
-    $transparent =
-        imagecolorallocatealpha(
-            $destination,
-            0,
-            0,
-            0,
-            127
-        );
+    $transparent = imagecolorallocatealpha(
+        $destination,
+        0,
+        0,
+        0,
+        127
+    );
 
 
     imagefilledrectangle(
@@ -300,9 +294,7 @@ function processStaticImage(
     ob_start();
 
 
-    if (
-        function_exists('imagewebp')
-    ) {
+    if (function_exists('imagewebp')) {
 
         imagewebp(
             $destination,
@@ -310,8 +302,7 @@ function processStaticImage(
             82
         );
 
-        $storedMime =
-            'image/webp';
+        $storedMime = 'image/webp';
 
     } else {
 
@@ -321,14 +312,12 @@ function processStaticImage(
             82
         );
 
-        $storedMime =
-            'image/jpeg';
+        $storedMime = 'image/jpeg';
 
     }
 
 
-    $imageData =
-        ob_get_clean();
+    $imageData = ob_get_clean();
 
 
     /*
@@ -337,13 +326,9 @@ function processStaticImage(
     |--------------------------------------------------------------------------
     */
 
-    imagedestroy(
-        $source
-    );
+    imagedestroy($source);
 
-    imagedestroy(
-        $destination
-    );
+    imagedestroy($destination);
 
 
     if (
@@ -377,109 +362,32 @@ function processStaticImage(
 |--------------------------------------------------------------------------
 */
 
-if (
-    isset($_POST['upload_image'])
-) {
+if (isset($_POST['upload_images'])) {
 
     try {
 
         /*
         |--------------------------------------------------------------------------
-        | CHECK FILE
+        | CHECK CATEGORY
         |--------------------------------------------------------------------------
         */
 
-        if (
-            !isset($_FILES['image'])
-        ) {
-
-            throw new Exception(
-                "Please select an image."
-            );
-
-        }
-
-
-        if (
-            $_FILES['image']['error']
-            !== UPLOAD_ERR_OK
-        ) {
-
-            throw new Exception(
-                "There was an error uploading the image."
-            );
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ORIGINAL FILE INFORMATION
-        |--------------------------------------------------------------------------
-        */
-
-        $tmpPath =
-            $_FILES['image']['tmp_name'];
-
-
-        $originalName =
-            basename(
-                $_FILES['image']['name']
-            );
-
-
-        $originalSize =
-            (int)
-            $_FILES['image']['size'];
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CLEAN FILE NAME
-        |--------------------------------------------------------------------------
-        */
-
-        $originalName =
-            preg_replace(
-                '/[^A-Za-z0-9._-]/',
-                '_',
-                $originalName
-            );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CHECK FILE EXTENSION
-        |--------------------------------------------------------------------------
-        */
-
-        $extension =
-            strtolower(
-                pathinfo(
-                    $originalName,
-                    PATHINFO_EXTENSION
-                )
-            );
-
-
-        $allowedExtensions = [
-            'jpg',
-            'jpeg',
-            'png',
-            'webp'
-        ];
+        $imageCategory =
+            isset($_POST['image_category'])
+                ? trim($_POST['image_category'])
+                : 'general';
 
 
         if (
             !in_array(
-                $extension,
-                $allowedExtensions,
+                $imageCategory,
+                $allowedCategories,
                 true
             )
         ) {
 
             throw new Exception(
-                "Only JPG, JPEG, PNG and WebP images are allowed."
+                "Invalid image category selected."
             );
 
         }
@@ -487,128 +395,30 @@ if (
 
         /*
         |--------------------------------------------------------------------------
-        | DETECT REAL MIME TYPE
+        | CHECK FILES
         |--------------------------------------------------------------------------
         */
 
-        $finfo =
-            finfo_open(
-                FILEINFO_MIME_TYPE
-            );
-
-
-        $mimeType =
-            finfo_file(
-                $finfo,
-                $tmpPath
-            );
-
-
-        finfo_close(
-            $finfo
-        );
-
-
         if (
-            !in_array(
-                $mimeType,
-                $allowedMimeTypes,
-                true
-            )
+            !isset($_FILES['images']) ||
+            !is_array($_FILES['images']['name'])
         ) {
 
             throw new Exception(
-                "Invalid image file."
+                "Please select at least one image."
             );
 
         }
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | PROCESS IMAGE
-        |--------------------------------------------------------------------------
-        */
-
-        $processed =
-            processStaticImage(
-                $tmpPath,
-                $mimeType,
-                $originalSize,
-                $maxWidth,
-                $maxHeight
-            );
+        $fileCount =
+            count($_FILES['images']['name']);
 
 
-        $imageData =
-            $processed['data'];
-
-
-        $imageType =
-            $processed['type'];
-
-
-        $imageSize =
-            $processed['size'];
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CREATE HASH
-        |--------------------------------------------------------------------------
-        */
-
-        $imageHash =
-            hash(
-                'sha256',
-                $imageData
-            );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CHECK DUPLICATE NAME
-        |--------------------------------------------------------------------------
-        */
-
-        $nameCheck =
-            mysqli_prepare(
-                $conn,
-                "
-                SELECT id
-                FROM static_images
-                WHERE image_name = ?
-                LIMIT 1
-                "
-            );
-
-
-        mysqli_stmt_bind_param(
-            $nameCheck,
-            "s",
-            $originalName
-        );
-
-
-        mysqli_stmt_execute(
-            $nameCheck
-        );
-
-
-        $nameResult =
-            mysqli_stmt_get_result(
-                $nameCheck
-            );
-
-
-        if (
-            mysqli_num_rows(
-                $nameResult
-            ) > 0
-        ) {
+        if ($fileCount === 0) {
 
             throw new Exception(
-                "An image named '{$originalName}' already exists."
+                "Please select at least one image."
             );
 
         }
@@ -616,179 +426,507 @@ if (
 
         /*
         |--------------------------------------------------------------------------
-        | CHECK DUPLICATE IMAGE CONTENT
+        | UPLOAD COUNTERS
         |--------------------------------------------------------------------------
         */
 
-        $hashCheck =
-            mysqli_prepare(
-                $conn,
-                "
-                SELECT id, image_name
-                FROM static_images
-                WHERE image_hash = ?
-                LIMIT 1
-                "
-            );
+        $uploadedCount = 0;
+
+        $skippedCount = 0;
+
+        $failedCount = 0;
+
+        $uploadMessages = [];
 
 
-        mysqli_stmt_bind_param(
-            $hashCheck,
-            "s",
-            $imageHash
-        );
+        /*
+        |--------------------------------------------------------------------------
+        | PROCESS EACH IMAGE
+        |--------------------------------------------------------------------------
+        */
 
-
-        mysqli_stmt_execute(
-            $hashCheck
-        );
-
-
-        $hashResult =
-            mysqli_stmt_get_result(
-                $hashCheck
-            );
-
-
-        if (
-            mysqli_num_rows(
-                $hashResult
-            ) > 0
+        for (
+            $fileIndex = 0;
+            $fileIndex < $fileCount;
+            $fileIndex++
         ) {
 
-            $existing =
-                mysqli_fetch_assoc(
-                    $hashResult
+
+            try {
+
+                /*
+                |--------------------------------------------------------------------------
+                | FILE ERROR
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    $_FILES['images']['error'][$fileIndex]
+                    !== UPLOAD_ERR_OK
+                ) {
+
+                    throw new Exception(
+                        "Upload error."
+                    );
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | FILE INFORMATION
+                |--------------------------------------------------------------------------
+                */
+
+                $tmpPath =
+                    $_FILES['images']['tmp_name'][$fileIndex];
+
+
+                $originalName =
+                    basename(
+                        $_FILES['images']['name'][$fileIndex]
+                    );
+
+
+                $originalSize =
+                    (int)
+                    $_FILES['images']['size'][$fileIndex];
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CLEAN FILE NAME
+                |--------------------------------------------------------------------------
+                */
+
+                $originalName =
+                    preg_replace(
+                        '/[^A-Za-z0-9._-]/',
+                        '_',
+                        $originalName
+                    );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CHECK EXTENSION
+                |--------------------------------------------------------------------------
+                */
+
+                $extension =
+                    strtolower(
+                        pathinfo(
+                            $originalName,
+                            PATHINFO_EXTENSION
+                        )
+                    );
+
+
+                $allowedExtensions = [
+                    'jpg',
+                    'jpeg',
+                    'png',
+                    'webp'
+                ];
+
+
+                if (
+                    !in_array(
+                        $extension,
+                        $allowedExtensions,
+                        true
+                    )
+                ) {
+
+                    throw new Exception(
+                        "Only JPG, JPEG, PNG and WebP images are allowed."
+                    );
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | DETECT REAL MIME TYPE
+                |--------------------------------------------------------------------------
+                */
+
+                $finfo =
+                    finfo_open(
+                        FILEINFO_MIME_TYPE
+                    );
+
+
+                if (!$finfo) {
+
+                    throw new Exception(
+                        "Unable to detect image type."
+                    );
+
+                }
+
+
+                $mimeType =
+                    finfo_file(
+                        $finfo,
+                        $tmpPath
+                    );
+
+
+                finfo_close($finfo);
+
+
+                if (
+                    !in_array(
+                        $mimeType,
+                        $allowedMimeTypes,
+                        true
+                    )
+                ) {
+
+                    throw new Exception(
+                        "Invalid image file."
+                    );
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | PROCESS IMAGE
+                |--------------------------------------------------------------------------
+                */
+
+                $processed =
+                    processStaticImage(
+                        $tmpPath,
+                        $mimeType,
+                        $originalSize,
+                        $maxWidth,
+                        $maxHeight
+                    );
+
+
+                $imageData =
+                    $processed['data'];
+
+
+                $imageType =
+                    $processed['type'];
+
+
+                $imageSize =
+                    $processed['size'];
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CREATE HASH
+                |--------------------------------------------------------------------------
+                */
+
+                $imageHash =
+                    hash(
+                        'sha256',
+                        $imageData
+                    );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CHECK DUPLICATE NAME
+                |--------------------------------------------------------------------------
+                */
+
+                $nameCheck =
+                    mysqli_prepare(
+                        $conn,
+                        "
+                        SELECT id
+                        FROM static_images
+                        WHERE image_name = ?
+                        LIMIT 1
+                        "
+                    );
+
+
+                if (!$nameCheck) {
+
+                    throw new Exception(
+                        "Unable to check image filename."
+                    );
+
+                }
+
+
+                mysqli_stmt_bind_param(
+                    $nameCheck,
+                    "s",
+                    $originalName
                 );
 
 
-            throw new Exception(
-                "This image is already stored as "
-                . $existing['image_name']
-                . "."
-            );
+                mysqli_stmt_execute(
+                    $nameCheck
+                );
+
+
+                $nameResult =
+                    mysqli_stmt_get_result(
+                        $nameCheck
+                    );
+
+
+                if (
+                    mysqli_num_rows(
+                        $nameResult
+                    ) > 0
+                ) {
+
+                    $skippedCount++;
+
+                    $uploadMessages[] =
+                        htmlspecialchars(
+                            $originalName
+                        )
+                        . " skipped - filename already exists.";
+
+                    continue;
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CHECK DUPLICATE IMAGE CONTENT
+                |--------------------------------------------------------------------------
+                */
+
+                $hashCheck =
+                    mysqli_prepare(
+                        $conn,
+                        "
+                        SELECT id, image_name
+                        FROM static_images
+                        WHERE image_hash = ?
+                        LIMIT 1
+                        "
+                    );
+
+
+                if (!$hashCheck) {
+
+                    throw new Exception(
+                        "Unable to check duplicate image."
+                    );
+
+                }
+
+
+                mysqli_stmt_bind_param(
+                    $hashCheck,
+                    "s",
+                    $imageHash
+                );
+
+
+                mysqli_stmt_execute(
+                    $hashCheck
+                );
+
+
+                $hashResult =
+                    mysqli_stmt_get_result(
+                        $hashCheck
+                    );
+
+
+                if (
+                    mysqli_num_rows(
+                        $hashResult
+                    ) > 0
+                ) {
+
+                    $existing =
+                        mysqli_fetch_assoc(
+                            $hashResult
+                        );
+
+
+                    $skippedCount++;
+
+                    $uploadMessages[] =
+                        htmlspecialchars(
+                            $originalName
+                        )
+                        . " skipped - same image already exists as "
+                        . htmlspecialchars(
+                            $existing['image_name']
+                        )
+                        . ".";
+
+                    continue;
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | INSERT IMAGE
+                |--------------------------------------------------------------------------
+                */
+
+                $sql = "
+                    INSERT INTO static_images
+                    (
+                        image_name,
+                        image_data,
+                        image_type,
+                        image_size,
+                        image_hash,
+                        image_category
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?)
+                ";
+
+
+                $stmt =
+                    mysqli_prepare(
+                        $conn,
+                        $sql
+                    );
+
+
+                if (!$stmt) {
+
+                    throw new Exception(
+                        "Failed to prepare database query."
+                    );
+
+                }
+
+
+                $nullData = null;
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | BIND PARAMETERS
+                |--------------------------------------------------------------------------
+                |
+                | s = string
+                | b = blob
+                | s = string
+                | i = integer
+                | s = string
+                | s = string
+                |
+                */
+
+                mysqli_stmt_bind_param(
+                    $stmt,
+                    "sbsiss",
+                    $originalName,
+                    $nullData,
+                    $imageType,
+                    $imageSize,
+                    $imageHash,
+                    $imageCategory
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | SEND BLOB
+                |--------------------------------------------------------------------------
+                */
+
+                mysqli_stmt_send_long_data(
+                    $stmt,
+                    1,
+                    $imageData
+                );
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | EXECUTE
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    !mysqli_stmt_execute($stmt)
+                ) {
+
+                    throw new Exception(
+                        "Failed to store image: "
+                        . mysqli_stmt_error($stmt)
+                    );
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | GET DATABASE ID
+                |--------------------------------------------------------------------------
+                */
+
+                $newImageId =
+                    mysqli_insert_id(
+                        $conn
+                    );
+
+
+                $uploadedCount++;
+
+                $uploadMessages[] =
+                    htmlspecialchars(
+                        $originalName
+                    )
+                    . " uploaded successfully "
+                    . "(ID: "
+                    . $newImageId
+                    . ").";
+
+
+            } catch (Exception $fileException) {
+
+                $failedCount++;
+
+                $uploadMessages[] =
+                    htmlspecialchars(
+                        $_FILES['images']['name'][$fileIndex]
+                    )
+                    . " failed - "
+                    . htmlspecialchars(
+                        $fileException->getMessage()
+                    );
+
+            }
 
         }
 
 
         /*
         |--------------------------------------------------------------------------
-        | INSERT IMAGE
-        |--------------------------------------------------------------------------
-        */
-
-        $sql = "
-            INSERT INTO static_images
-            (
-                image_name,
-                image_data,
-                image_type,
-                image_size,
-                image_hash
-            )
-            VALUES (?, ?, ?, ?, ?)
-        ";
-
-
-        $stmt =
-            mysqli_prepare(
-                $conn,
-                $sql
-            );
-
-
-        if (!$stmt) {
-
-            throw new Exception(
-                "Failed to prepare database query."
-            );
-
-        }
-
-
-        $nullData = null;
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | BIND PARAMETERS
-        |--------------------------------------------------------------------------
-        |
-        | s = string
-        | b = blob
-        | s = string
-        | i = integer
-        | s = string
-        |
-        |--------------------------------------------------------------------------
-        */
-
-        mysqli_stmt_bind_param(
-            $stmt,
-            "sbsis",
-            $originalName,
-            $nullData,
-            $imageType,
-            $imageSize,
-            $imageHash
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | SEND BLOB
-        |--------------------------------------------------------------------------
-        */
-
-        mysqli_stmt_send_long_data(
-            $stmt,
-            1,
-            $imageData
-        );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | EXECUTE
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            !mysqli_stmt_execute($stmt)
-        ) {
-
-            throw new Exception(
-                "Failed to store image: "
-                . mysqli_stmt_error($stmt)
-            );
-
-        }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | GET DATABASE ID
-        |--------------------------------------------------------------------------
-        */
-
-        $newImageId =
-            mysqli_insert_id(
-                $conn
-            );
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | SUCCESS
+        | FINAL MESSAGE
         |--------------------------------------------------------------------------
         */
 
         $message =
-            "Image uploaded successfully! "
-            . "Database ID: "
-            . $newImageId
-            . " | Filename: "
-            . $originalName;
+            "Upload completed. "
+            . $uploadedCount
+            . " image(s) uploaded, "
+            . $skippedCount
+            . " skipped, "
+            . $failedCount
+            . " failed."
+            . "<br><br>"
+            . implode(
+                "<br>",
+                $uploadMessages
+            );
 
 
     } catch (Exception $e) {
@@ -816,6 +954,7 @@ $imagesResult =
             image_name,
             image_type,
             image_size,
+            image_category,
             uploaded_at
         FROM static_images
         ORDER BY id DESC
@@ -843,10 +982,43 @@ $imagesResult =
     </title>
 
 
+    <!-- Bootstrap -->
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
         rel="stylesheet"
     >
+
+
+    <style>
+
+        body {
+            background: #f6f3ec;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #e5dfd1;
+            color: #4d4a42;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .annual-badge {
+            background: #5a584f;
+            color: #ffffff;
+        }
+
+        .upload-note {
+            background: #f8f5ee;
+            border: 1px solid #ddd7ca;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+    </style>
 
 </head>
 
@@ -856,6 +1028,10 @@ $imagesResult =
 
 <div class="container py-5">
 
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
     <div class="mb-5">
 
@@ -872,11 +1048,15 @@ $imagesResult =
     </div>
 
 
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
+
     <?php if ($message !== "") { ?>
 
         <div class="alert alert-success">
 
-            <?= htmlspecialchars($message); ?>
+            <?= $message; ?>
 
         </div>
 
@@ -905,7 +1085,7 @@ $imagesResult =
 
             <h3 class="mb-4">
 
-                Add Static Image
+                Add Static Images
 
             </h3>
 
@@ -916,76 +1096,173 @@ $imagesResult =
             >
 
 
+                <!-- =================================================
+                     IMAGE CATEGORY
+                ================================================== -->
+
+                <div class="mb-4">
+
+                    <label
+                        class="form-label fw-semibold"
+                    >
+
+                        Image Category
+
+                    </label>
+
+
+                    <select
+                        name="image_category"
+                        class="form-select"
+                        required
+                    >
+
+                        <option
+                            value="general"
+                        >
+                            General
+                        </option>
+
+
+                        <option
+                            value="homepage"
+                        >
+                            Homepage
+                        </option>
+
+
+                        <option
+                            value="about"
+                        >
+                            About
+                        </option>
+
+
+                        <option
+                            value="our_work"
+                        >
+                            Our Work
+                        </option>
+
+
+                        <option
+                            value="annual_event"
+                        >
+                            Annual Event
+                        </option>
+
+                    </select>
+
+
+                    <div class="form-text">
+
+                        Choose
+                        <strong>Annual Event</strong>
+                        when uploading photographs
+                        for the annual-event gallery.
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     IMAGE FILES
+                ================================================== -->
+
                 <div class="mb-3">
 
-                    <label class="form-label">
+                    <label
+                        class="form-label fw-semibold"
+                    >
 
-                        Select Image
+                        Select Image(s)
 
                     </label>
 
 
                     <input
                         type="file"
-                        name="image"
+                        name="images[]"
                         class="form-control"
                         accept=".jpg,.jpeg,.png,.webp"
+                        multiple
                         required
                     >
 
                 </div>
 
 
-                <div class="mb-4">
+                <!-- =================================================
+                     INFORMATION
+                ================================================== -->
+
+                <div class="upload-note mb-4">
 
                     <small class="text-muted">
 
-                        Use meaningful filenames such as:
-
-                        <br>
-
                         <strong>
-                            homepage_image1.png
-                        </strong>
-
-                        <br>
-
-                        <strong>
-                            homepage_image2.png
-                        </strong>
-
-                        <br>
-
-                        <strong>
-                            about_image1.jpg
-                        </strong>
-
-                        <br>
-
-                        <strong>
-                            our_work_image1.webp
+                            You can select multiple images at once.
                         </strong>
 
                         <br><br>
 
-                        Maximum original image size:
-                        25 MB.
+                        For the annual event, select:
 
-                        The image will automatically be
-                        resized and compressed before storage.
+                        <br>
+
+                        <strong>
+                            Image Category → Annual Event
+                        </strong>
+
+                        <br><br>
+
+                        Example filenames:
+
+                        <br>
+
+                        annual_event_01.jpg
+
+                        <br>
+
+                        annual_event_02.jpg
+
+                        <br>
+
+                        annual_event_03.jpg
+
+                        <br>
+
+                        annual_event_04.jpg
+
+                        <br><br>
+
+                        Maximum original image size:
+                        25 MB per image.
+
+                        <br>
+
+                        Images are automatically resized
+                        and compressed before being stored.
 
                     </small>
 
                 </div>
 
 
+                <!-- =================================================
+                     SUBMIT
+                ================================================== -->
+
                 <button
                     type="submit"
-                    name="upload_image"
-                    class="btn btn-primary"
+                    name="upload_images"
+                    class="btn btn-dark"
                 >
 
-                    Store Image in Database
+                    <i class="bi bi-cloud-arrow-up"></i>
+
+                    Store Images in Database
 
                 </button>
 
@@ -1012,7 +1289,9 @@ $imagesResult =
     <div class="table-responsive">
 
 
-        <table class="table table-bordered align-middle">
+        <table
+            class="table table-bordered align-middle bg-white"
+        >
 
             <thead>
 
@@ -1028,6 +1307,10 @@ $imagesResult =
 
                     <th>
                         Filename
+                    </th>
+
+                    <th>
+                        Category
                     </th>
 
                     <th>
@@ -1072,12 +1355,16 @@ $imagesResult =
                         <tr>
 
 
+                            <!-- ID -->
+
                             <td>
 
                                 <?= (int) $image['id']; ?>
 
                             </td>
 
+
+                            <!-- PREVIEW -->
 
                             <td>
 
@@ -1087,12 +1374,16 @@ $imagesResult =
                                         width:120px;
                                         height:80px;
                                         object-fit:cover;
+                                        border-radius:6px;
                                     "
                                     alt=""
+                                    loading="lazy"
                                 >
 
                             </td>
 
+
+                            <!-- FILENAME -->
 
                             <td>
 
@@ -1107,6 +1398,30 @@ $imagesResult =
                             </td>
 
 
+                            <!-- CATEGORY -->
+
+                            <td>
+
+                                <span
+                                    class="
+                                        category-badge
+                                        <?= $image['image_category'] === 'annual_event'
+                                            ? 'annual-badge'
+                                            : ''; ?>
+                                    "
+                                >
+
+                                    <?= htmlspecialchars(
+                                        $image['image_category']
+                                    ); ?>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- TYPE -->
+
                             <td>
 
                                 <?= htmlspecialchars(
@@ -1116,11 +1431,12 @@ $imagesResult =
                             </td>
 
 
+                            <!-- SIZE -->
+
                             <td>
 
                                 <?= number_format(
-                                    $image['image_size']
-                                    / 1024,
+                                    $image['image_size'] / 1024,
                                     2
                                 ); ?>
 
@@ -1128,6 +1444,8 @@ $imagesResult =
 
                             </td>
 
+
+                            <!-- UPLOADED -->
 
                             <td>
 
@@ -1137,6 +1455,8 @@ $imagesResult =
 
                             </td>
 
+
+                            <!-- USAGE -->
 
                             <td>
 
@@ -1163,7 +1483,7 @@ $imagesResult =
                     <tr>
 
                         <td
-                            colspan="7"
+                            colspan="8"
                             class="text-center text-muted py-4"
                         >
 

@@ -270,18 +270,14 @@ select {
     overflow: hidden;
 
     background:
-        radial-gradient(
-            circle at 75% 35%,
+        radial-gradient(circle at 75% 35%,
             rgba(208, 200, 182, .28) 0,
             rgba(208, 200, 182, .10) 18%,
-            transparent 36%
-        ),
-        linear-gradient(
-            135deg,
+            transparent 36%),
+        linear-gradient(135deg,
             var(--off-white) 0%,
             var(--white) 53%,
-            #E9E3D8 100%
-        );
+            #E9E3D8 100%);
 }
 
 
@@ -301,12 +297,10 @@ select {
     border-radius: 50%;
 
     background:
-        radial-gradient(
-            circle,
+        radial-gradient(circle,
             rgba(208, 200, 182, .35) 0,
             rgba(208, 200, 182, .12) 48%,
-            transparent 68%
-        );
+            transparent 68%);
 
     box-shadow:
         0 0 0 22px rgba(84, 82, 71, .025),
@@ -332,11 +326,9 @@ select {
     border-radius: 50%;
 
     background:
-        radial-gradient(
-            circle,
+        radial-gradient(circle,
             rgba(208, 200, 182, .24),
-            transparent 67%
-        );
+            transparent 67%);
 
     pointer-events: none;
 }
@@ -393,11 +385,9 @@ select {
     top: 0;
 
     background-image:
-        radial-gradient(
-            circle,
+        radial-gradient(circle,
             rgba(84, 82, 71, .24) 1.5px,
-            transparent 1.5px
-        );
+            transparent 1.5px);
 
     background-size: 14px 14px;
 
@@ -454,7 +444,7 @@ select {
     text-transform: uppercase;
 
     text-shadow:
-        0 1px 0 rgba(255,255,255,.8);
+        0 1px 0 rgba(255, 255, 255, .8);
 
     animation:
         heroTitleRise 900ms ease-out both;
@@ -494,7 +484,7 @@ select {
     letter-spacing: 2px;
 
     box-shadow:
-        0 5px 18px rgba(84,82,71,.035);
+        0 5px 18px rgba(84, 82, 71, .035);
 }
 
 .hero-subtitle span {
@@ -560,7 +550,7 @@ select {
     text-decoration: none;
 
     box-shadow:
-        0 10px 25px rgba(84,82,71,.18);
+        0 10px 25px rgba(84, 82, 71, .18);
 
     overflow: hidden;
 
@@ -582,12 +572,10 @@ select {
     height: 100%;
 
     background:
-        linear-gradient(
-            90deg,
+        linear-gradient(90deg,
             transparent,
-            rgba(255,255,255,.18),
-            transparent
-        );
+            rgba(255, 255, 255, .18),
+            transparent);
 
     transform: skewX(-20deg);
 
@@ -606,7 +594,7 @@ select {
     transform: translateY(-3px);
 
     box-shadow:
-        0 15px 32px rgba(26,26,26,.17);
+        0 15px 32px rgba(26, 26, 26, .17);
 }
 
 
@@ -674,18 +662,16 @@ select {
     border-radius: 50%;
 
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             var(--white),
-            var(--sand-soft)
-        );
+            var(--sand-soft));
 
     border: 8px solid var(--dark-grey);
 
     box-shadow:
         var(--shadow-lg),
-        0 0 0 10px rgba(255,255,255,.92),
-        0 0 0 12px rgba(84,82,71,.15);
+        0 0 0 10px rgba(255, 255, 255, .92),
+        0 0 0 12px rgba(84, 82, 71, .15);
 
     animation:
         ringFloat 5s ease-in-out infinite;
@@ -704,10 +690,10 @@ select {
     border-radius: 50%;
 
     border:
-        1px solid rgba(84,82,71,.25);
+        1px solid rgba(84, 82, 71, .25);
 
     box-shadow:
-        0 0 0 7px rgba(208,200,182,.10);
+        0 0 0 7px rgba(208, 200, 182, .10);
 
     animation:
         ringRotate 18s linear infinite;
@@ -726,7 +712,7 @@ select {
     border-radius: 50%;
 
     border:
-        1px dashed rgba(84,82,71,.22);
+        1px dashed rgba(84, 82, 71, .22);
 
     animation:
         ringRotateReverse 25s linear infinite;
@@ -752,8 +738,8 @@ select {
     border: 9px solid var(--white);
 
     box-shadow:
-        inset 0 0 0 2px rgba(84,82,71,.16),
-        0 12px 30px rgba(26,26,26,.10);
+        inset 0 0 0 2px rgba(84, 82, 71, .16),
+        0 12px 30px rgba(26, 26, 26, .10);
 }
 
 
@@ -767,7 +753,7 @@ select {
     object-position: center;
 
     transition:
-        transform 900ms cubic-bezier(.2,.7,.2,1),
+        transform 900ms cubic-bezier(.2, .7, .2, 1),
         filter .6s ease;
 }
 
@@ -789,15 +775,14 @@ select {
     visibility: hidden;
 
     filter:
-        saturate(.88)
-        contrast(.98);
+        saturate(.88) contrast(.98);
 
     transform: scale(1.025);
 
     transition:
         opacity .8s ease,
         visibility .8s ease,
-        transform 1.2s cubic-bezier(.2,.7,.2,1),
+        transform 1.2s cubic-bezier(.2, .7, .2, 1),
         filter .8s ease;
 }
 
@@ -808,8 +793,7 @@ select {
     transform: scale(1);
 
     filter:
-        saturate(.94)
-        contrast(1);
+        saturate(.94) contrast(1);
 }
 
 
@@ -852,8 +836,8 @@ select {
     background: var(--dark-grey);
 
     box-shadow:
-        0 0 0 7px rgba(84,82,71,.15),
-        0 5px 14px rgba(26,26,26,.12);
+        0 0 0 7px rgba(84, 82, 71, .15),
+        0 5px 14px rgba(26, 26, 26, .12);
 
     animation:
         orbitFloat 4s ease-in-out infinite;
@@ -869,8 +853,8 @@ select {
     background: var(--olive);
 
     box-shadow:
-        0 0 0 6px rgba(84,82,71,.14),
-        0 5px 14px rgba(84,82,71,.12);
+        0 0 0 6px rgba(84, 82, 71, .14),
+        0 5px 14px rgba(84, 82, 71, .12);
 
     animation:
         orbitFloat 3.5s ease-in-out infinite reverse;
@@ -888,14 +872,12 @@ select {
     padding: 100px 40px 90px;
 
     background:
-        linear-gradient(
-            180deg,
+        linear-gradient(180deg,
             var(--off-white) 0%,
-            #EDE7DC 100%
-        );
+            #EDE7DC 100%);
 
     border-top:
-        1px solid rgba(84,82,71,.12);
+        1px solid rgba(84, 82, 71, .12);
 }
 
 
@@ -915,19 +897,17 @@ select {
     border-radius: 50%;
 
     border:
-        1px solid rgba(84,82,71,.15);
+        1px solid rgba(84, 82, 71, .15);
 
     background:
-        radial-gradient(
-            circle,
-            rgba(208,200,182,.30),
-            rgba(255,255,255,.18) 58%,
-            transparent 70%
-        );
+        radial-gradient(circle,
+            rgba(208, 200, 182, .30),
+            rgba(255, 255, 255, .18) 58%,
+            transparent 70%);
 
     box-shadow:
-        0 0 0 22px rgba(84,82,71,.025),
-        0 0 0 55px rgba(84,82,71,.018);
+        0 0 0 22px rgba(84, 82, 71, .025),
+        0 0 0 55px rgba(84, 82, 71, .018);
 
     pointer-events: none;
 }
@@ -949,14 +929,12 @@ select {
     border-radius: 50%;
 
     border:
-        1px solid rgba(84,82,71,.16);
+        1px solid rgba(84, 82, 71, .16);
 
     background:
-        radial-gradient(
-            circle,
-            rgba(208,200,182,.25),
-            transparent 68%
-        );
+        radial-gradient(circle,
+            rgba(208, 200, 182, .25),
+            transparent 68%);
 
     pointer-events: none;
 }
@@ -992,13 +970,13 @@ select {
         7px 15px;
 
     border:
-        1px solid rgba(84,82,71,.20);
+        1px solid rgba(84, 82, 71, .20);
 
     border-radius:
         var(--radius-pill);
 
     background:
-        rgba(255,255,255,.62);
+        rgba(255, 255, 255, .62);
 
     color:
         var(--olive);
@@ -1013,7 +991,7 @@ select {
         2.5px;
 
     box-shadow:
-        0 5px 18px rgba(84,82,71,.035);
+        0 5px 18px rgba(84, 82, 71, .035);
 }
 
 
@@ -1035,11 +1013,9 @@ select {
     color: var(--dark-grey);
 
     font-size:
-        clamp(
-            2.2rem,
+        clamp(2.2rem,
             4.5vw,
-            4rem
-        );
+            4rem);
 
     line-height: 1.05;
     font-weight: 900;
@@ -1058,11 +1034,9 @@ select {
     color: var(--grey);
 
     font-size:
-        clamp(
-            1rem,
+        clamp(1rem,
             1.8vw,
-            1.18rem
-        );
+            1.18rem);
 
     line-height: 1.8;
 
@@ -1078,10 +1052,8 @@ select {
     display: grid;
 
     grid-template-columns:
-        repeat(
-            3,
-            minmax(0, 1fr)
-        );
+        repeat(3,
+            minmax(0, 1fr));
 
     gap: 24px;
 }
@@ -1096,13 +1068,13 @@ select {
     padding: 34px 31px;
 
     border:
-        1px solid rgba(84,82,71,.18);
+        1px solid rgba(84, 82, 71, .18);
 
     border-radius:
         var(--radius-lg);
 
     background:
-        rgba(255,255,255,.88);
+        rgba(255, 255, 255, .88);
 
     box-shadow:
         var(--shadow-sm);
@@ -1137,15 +1109,13 @@ select {
     border-radius: 50%;
 
     border:
-        1px solid rgba(84,82,71,.14);
+        1px solid rgba(84, 82, 71, .14);
 
     background:
-        radial-gradient(
-            circle,
-            rgba(208,200,182,.45),
-            rgba(208,200,182,.12) 58%,
-            transparent 60%
-        );
+        radial-gradient(circle,
+            rgba(208, 200, 182, .45),
+            rgba(208, 200, 182, .12) 58%,
+            transparent 60%);
 
     transition:
         transform .45s ease;
@@ -1165,10 +1135,10 @@ select {
     border-radius: 50%;
 
     border:
-        1px solid rgba(84,82,71,.11);
+        1px solid rgba(84, 82, 71, .11);
 
     background:
-        rgba(208,200,182,.20);
+        rgba(208, 200, 182, .20);
 
     transition:
         transform .45s ease;
@@ -1186,7 +1156,7 @@ select {
     transform: translateY(-9px);
 
     border-color:
-        rgba(84,82,71,.32);
+        rgba(84, 82, 71, .32);
 
     box-shadow:
         var(--shadow-lg);
@@ -1211,23 +1181,21 @@ select {
     margin-bottom: 20px;
 
     border:
-        1px solid rgba(84,82,71,.22);
+        1px solid rgba(84, 82, 71, .22);
 
     border-radius:
         16px;
 
     background:
-        linear-gradient(
-            145deg,
+        linear-gradient(145deg,
             var(--white),
-            var(--sand-soft)
-        );
+            var(--sand-soft));
 
     color:
         var(--olive);
 
     box-shadow:
-        0 8px 20px rgba(84,82,71,.08);
+        0 8px 20px rgba(84, 82, 71, .08);
 }
 
 .story-card-icon i {
@@ -1251,11 +1219,9 @@ select {
     color: var(--dark-grey);
 
     font-size:
-        clamp(
-            2.8rem,
+        clamp(2.8rem,
             5vw,
-            4.2rem
-        );
+            4.2rem);
 
     font-weight: 900;
     line-height: 1;
@@ -1290,11 +1256,9 @@ select {
     color: var(--dark-grey);
 
     font-size:
-        clamp(
-            1.3rem,
+        clamp(1.3rem,
             2.2vw,
-            1.65rem
-        );
+            1.65rem);
 
     font-weight: 900;
 }
@@ -1313,11 +1277,9 @@ select {
     color: var(--grey);
 
     font-size:
-        clamp(
-            .95rem,
+        clamp(.95rem,
             1.5vw,
-            1.05rem
-        );
+            1.05rem);
 
     line-height: 1.65;
 }
@@ -1337,7 +1299,7 @@ select {
     padding-top: 30px;
 
     border-top:
-        1px solid rgba(84,82,71,.20);
+        1px solid rgba(84, 82, 71, .20);
 
     flex-wrap: wrap;
 }
@@ -1374,7 +1336,7 @@ select {
     font-weight: 800;
 
     box-shadow:
-        0 8px 20px rgba(84,82,71,.13);
+        0 8px 20px rgba(84, 82, 71, .13);
 
     transition:
         transform .25s ease,
@@ -1390,7 +1352,7 @@ select {
     transform: translateY(-2px);
 
     box-shadow:
-        0 12px 25px rgba(26,26,26,.13);
+        0 12px 25px rgba(26, 26, 26, .13);
 }
 
 .story-cta i {
@@ -1428,12 +1390,10 @@ select {
     top: 9%;
 
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             transparent 49%,
-            rgba(84,82,71,.08) 50%,
-            transparent 51%
-        );
+            rgba(84, 82, 71, .08) 50%,
+            transparent 51%);
 
     background-size: 18px 18px;
 
@@ -1461,11 +1421,9 @@ select {
     border-radius: 999px;
 
     background:
-        linear-gradient(
-            90deg,
+        linear-gradient(90deg,
             var(--olive),
-            var(--sand)
-        );
+            var(--sand));
 
     opacity: .55;
 
@@ -1492,6 +1450,7 @@ select {
 }
 
 @keyframes ringFloat {
+
     0%,
     100% {
         transform: translateY(0);
@@ -1523,6 +1482,7 @@ select {
 }
 
 @keyframes orbitFloat {
+
     0%,
     100% {
         transform: translateY(0);
@@ -1576,26 +1536,17 @@ select {
 
 .fade-in-left {
     animation:
-        fadeInLeft
-        900ms
-        ease-out
-        both;
+        fadeInLeft 900ms ease-out both;
 }
 
 .fade-in-right {
     animation:
-        fadeInRight
-        900ms
-        ease-out
-        both;
+        fadeInRight 900ms ease-out both;
 }
 
 .fade-in-up {
     animation:
-        fadeInUp
-        900ms
-        ease-out
-        both;
+        fadeInUp 900ms ease-out both;
 }
 
 
@@ -1663,10 +1614,8 @@ select {
 
     .hero-image-ring {
         width:
-            min(
-                75vw,
-                520px
-            );
+            min(75vw,
+                520px);
     }
 
     .story-band {
@@ -1752,10 +1701,8 @@ select {
 
     .hero-image-ring {
         width:
-            min(
-                82vw,
-                430px
-            );
+            min(82vw,
+                430px);
     }
 
     .hero-image-ring::before {
