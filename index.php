@@ -15,11 +15,6 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="css/style.css">
 
-
-    <!-- Navbar CSS -->
-    <link rel="stylesheet" href="css/navbar.css">
-
-
     <!-- Navbar CSS -->
     <link rel="stylesheet" href="css/navbar.css">
 
@@ -33,7 +28,6 @@
 <body>
 
 <?php include 'includes/navbar.php'; ?>
-
 
 <!-- =========================================================
      HERO SECTION
@@ -69,13 +63,11 @@
             <div class="hero-button-row">
 
                 <a href="contact.php" class="hero-cta">
-                <a href="/ngo-website/connect-with-us/volunteer.php" class="hero-cta">
                     Join The Movement
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
                 <a href="programs.php" class="hero-learn">
-                <a href="/ngo-website/programs.php" class="hero-learn">
                     Explore Programs
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
@@ -93,12 +85,6 @@
                 <div class="hero-orbit orbit-one"></div>
                 <div class="hero-orbit orbit-two"></div>
 
-                <div class="hero-image-frame">
-
-                    <img
-                        src="css/images/children.jpg"
-                        alt="Children learning"
-                        class="hero-image"
                 <!-- =================================================
                      HERO IMAGE SLIDESHOW
                      Replace image2.png ... image5.png with your
@@ -158,7 +144,6 @@
     <div class="story-band__inner fade-in-up">
 
         <div class="story-intro">
-
 
             <h2 class="story-band__title">
                 Empowering Lives,
@@ -273,10 +258,13 @@
 
 </section>
 
-<!-- Footer php and css -->
-     <?php include 'includes/footer.php'; ?>
-     <link rel="stylesheet" href="css/footer.css">
 
+<!-- Footer PHP -->
+<?php include 'includes/footer.php'; ?>
+
+
+<!-- Footer CSS -->
+<link rel="stylesheet" href="css/footer.css">
 
 
 <!-- =========================================================
