@@ -212,34 +212,6 @@ if (!$categories) {
                                 </span>
 
                             </a>
-
-
-                            <a
-                                href="contact.php"
-                                class="dropdown-item-custom"
-                            >
-
-                                <span class="dropdown-icon">
-
-                                    <i class="fa-solid fa-envelope"></i>
-
-                                </span>
-
-                                <span class="dropdown-content">
-
-                                    <strong>
-                                        Contact Us
-                                    </strong>
-
-                                    <small>
-                                        Get in touch with us
-                                    </small>
-
-                                </span>
-
-                            </a>
-
-
                         </div>
 
                     </div>
@@ -467,7 +439,7 @@ if (!$categories) {
                         class="nav-link nav-dropdown-link"
                     >
 
-                        Contact Us
+                        Connect With Us
 
                     </a>
 
@@ -475,7 +447,7 @@ if (!$categories) {
                     <div class="nav-dropdown-menu">
 
                         <a
-                            href="contact.php"
+                            href="/ngo-website/connect-with-us/contact.php"
                             class="simple-dropdown-item"
                         >
 
@@ -485,7 +457,7 @@ if (!$categories) {
 
 
                         <a
-                            href="volunteer.php"
+                            href="/ngo-website/connect-with-us/volunteer.php"
                             class="simple-dropdown-item"
                         >
 
@@ -495,7 +467,7 @@ if (!$categories) {
 
 
                         <a
-                            href="locations.php"
+                            href="/ngo-website/connect-with-us/location.php"
                             class="simple-dropdown-item"
                         >
 
@@ -533,7 +505,7 @@ if (!$categories) {
                 <li class="nav-item donate-item">
 
                     <a
-                        href="contact.php"
+                        href="/ngo-website/connect-with-us/contact.php"
                         class="donate-button"
                     >
 
