@@ -1,0 +1,1430 @@
+/* =========================================================
+   SEVARTHA FOUNDATION
+   ANNUAL EVENT GALLERY
+   ========================================================= */
+
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root {
+
+    --sand: #d0c8b6;
+
+    --sand-light: #f6f3ec;
+
+    --off-white: #fcfaf6;
+
+    --dark: #1a1a1a;
+
+    --olive: #5a584f;
+
+    --olive-dark: #48463f;
+
+    --border: #ddd7ca;
+
+    --white: #ffffff;
+
+}
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+.annual-event-page {
+
+    margin: 0;
+
+    background: var(--off-white);
+
+    color: var(--dark);
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+}
+
+
+.annual-event-page button {
+
+    font-family: inherit;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.annual-hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    min-height: 500px;
+
+    display: flex;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f7f4ed 0%,
+            #eee9de 55%,
+            #e3ddcf 100%
+        );
+
+    border-bottom:
+        1px solid var(--border);
+
+}
+
+
+.annual-hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 850px;
+
+    padding:
+        90px 0
+        85px;
+
+}
+
+
+.annual-eyebrow {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 22px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    color: var(--olive);
+
+}
+
+
+.annual-eyebrow span {
+
+    width: 42px;
+
+    height: 2px;
+
+    background: var(--olive);
+
+    display: inline-block;
+
+}
+
+
+.annual-hero h1 {
+
+    margin: 0;
+
+    color: var(--dark);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(58px, 8vw, 105px);
+
+    line-height: .95;
+
+    letter-spacing: -3px;
+
+}
+
+
+.annual-hero h1 em {
+
+    display: block;
+
+    margin-top: 8px;
+
+    color: var(--olive);
+
+    font-style: normal;
+
+}
+
+
+.annual-intro {
+
+    max-width: 650px;
+
+    margin:
+        32px 0
+        25px;
+
+    color: #66645d;
+
+    font-size: 18px;
+
+    line-height: 1.8;
+
+}
+
+
+.annual-meta {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+}
+
+
+.annual-meta div {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        10px 16px;
+
+    background:
+        rgba(255, 255, 255, .72);
+
+    border:
+        1px solid rgba(90, 88, 79, .18);
+
+    border-radius: 100px;
+
+    color: var(--olive-dark);
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+.annual-meta i {
+
+    color: var(--olive);
+
+}
+
+
+/* =========================================================
+   BACKGROUND DECORATIONS
+========================================================= */
+
+.annual-hero-decoration {
+
+    position: absolute;
+
+    border:
+        1px solid
+        rgba(90, 88, 79, .16);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+}
+
+
+.decoration-one {
+
+    width: 520px;
+
+    height: 520px;
+
+    right: -130px;
+
+    top: -180px;
+
+}
+
+
+.decoration-two {
+
+    width: 280px;
+
+    height: 280px;
+
+    right: 160px;
+
+    bottom: -180px;
+
+}
+
+
+.annual-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 12px;
+
+    height: 12px;
+
+    right: 23%;
+
+    top: 27%;
+
+    border-radius: 50%;
+
+    background: var(--sand);
+
+    box-shadow:
+        0 0 0 7px
+        rgba(208, 200, 182, .22);
+
+}
+
+
+/* =========================================================
+   FEATURED SECTION
+========================================================= */
+
+.featured-section {
+
+    padding:
+        75px 0
+        30px;
+
+}
+
+
+.featured-card {
+
+    overflow: hidden;
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 20px 55px
+        rgba(48, 45, 38, .10);
+
+}
+
+
+.featured-image-button {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 540px;
+
+    padding: 0;
+
+    border: 0;
+
+    overflow: hidden;
+
+    background: var(--sand-light);
+
+    cursor: pointer;
+
+}
+
+
+.featured-image-button img {
+
+    width: 100%;
+
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform .7s ease;
+
+}
+
+
+.featured-image-button:hover img {
+
+    transform: scale(1.035);
+
+}
+
+
+.featured-overlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        rgba(26, 26, 26, .12);
+
+    opacity: 0;
+
+    transition:
+        opacity .3s ease;
+
+}
+
+
+.featured-image-button:hover
+.featured-overlay {
+
+    opacity: 1;
+
+}
+
+
+.featured-overlay span {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding:
+        13px 20px;
+
+    background:
+        rgba(26, 26, 26, .88);
+
+    color: white;
+
+    border-radius: 100px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.featured-caption {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    padding:
+        30px 35px;
+
+}
+
+
+.caption-label,
+.section-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--olive);
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2.5px;
+
+}
+
+
+.featured-caption h2 {
+
+    margin: 0;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 30px;
+
+}
+
+
+.featured-caption p {
+
+    max-width: 450px;
+
+    margin: 0;
+
+    color: #77736b;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================================
+   GALLERY SECTION
+========================================================= */
+
+.annual-gallery-section {
+
+    padding:
+        85px 0
+        100px;
+
+    background: var(--off-white);
+
+}
+
+
+.gallery-heading {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    margin-bottom: 45px;
+
+}
+
+
+.gallery-heading h2 {
+
+    max-width: 650px;
+
+    margin: 0;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(34px, 5vw, 54px);
+
+    line-height: 1.05;
+
+}
+
+
+.gallery-heading > p {
+
+    max-width: 360px;
+
+    margin: 0;
+
+    color: #77736b;
+
+    font-size: 14px;
+
+    line-height: 1.8;
+
+}
+
+
+/* =========================================================
+   MASONRY
+========================================================= */
+
+.masonry-gallery {
+
+    column-count: 4;
+
+    column-gap: 18px;
+
+}
+
+
+.gallery-item {
+
+    position: relative;
+
+    width: 100%;
+
+    display: block;
+
+    padding: 0;
+
+    margin:
+        0 0 18px;
+
+    overflow: hidden;
+
+    break-inside: avoid;
+
+    border: 0;
+
+    border-radius: 13px;
+
+    background: var(--sand-light);
+
+    cursor: pointer;
+
+}
+
+
+.gallery-item img {
+
+    width: 100%;
+
+    height: auto;
+
+    display: block;
+
+    object-fit: cover;
+
+    transition:
+        transform .5s ease,
+        filter .5s ease;
+
+}
+
+
+.gallery-item:hover img {
+
+    transform: scale(1.045);
+
+    filter:
+        brightness(.86);
+
+}
+
+
+.gallery-hover {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    width: 45px;
+
+    height: 45px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transform:
+        translate(-50%, -45%)
+        scale(.85);
+
+    opacity: 0;
+
+    background:
+        rgba(255, 255, 255, .94);
+
+    color: var(--dark);
+
+    border-radius: 50%;
+
+    transition:
+        all .3s ease;
+
+}
+
+
+.gallery-item:hover
+.gallery-hover {
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+
+}
+
+
+.gallery-number {
+
+    position: absolute;
+
+    left: 11px;
+
+    top: 11px;
+
+    padding:
+        5px 8px;
+
+    background:
+        rgba(26, 26, 26, .70);
+
+    color: white;
+
+    border-radius: 5px;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+}
+
+
+.gallery-item-hidden {
+
+    display: none;
+
+}
+
+
+/* =========================================================
+   LOAD MORE
+========================================================= */
+
+.load-more-wrapper {
+
+    padding-top: 45px;
+
+    text-align: center;
+
+}
+
+
+.load-more-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding:
+        14px 23px;
+
+    border: 1px solid var(--dark);
+
+    border-radius: 100px;
+
+    background: var(--dark);
+
+    color: white;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        all .25s ease;
+
+}
+
+
+.load-more-btn:hover {
+
+    background: var(--olive);
+
+    border-color: var(--olive);
+
+    transform:
+        translateY(-2px);
+
+}
+
+
+.load-more-btn i {
+
+    transition:
+        transform .25s ease;
+
+}
+
+
+.load-more-btn:hover i {
+
+    transform:
+        translateY(3px);
+
+}
+
+
+#galleryCount {
+
+    margin:
+        13px 0 0;
+
+    color: #88847b;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   EMPTY GALLERY
+========================================================= */
+
+.empty-gallery {
+
+    padding:
+        100px 30px;
+
+    text-align: center;
+
+    background: white;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 20px;
+
+}
+
+
+.empty-gallery-icon {
+
+    width: 70px;
+
+    height: 70px;
+
+    margin:
+        0 auto
+        20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: var(--sand-light);
+
+    color: var(--olive);
+
+    border-radius: 50%;
+
+    font-size: 25px;
+
+}
+
+
+.empty-gallery h3 {
+
+    margin-bottom: 8px;
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+}
+
+
+.empty-gallery p {
+
+    margin: 0;
+
+    color: #77736b;
+
+}
+
+
+/* =========================================================
+   CLOSING
+========================================================= */
+
+.annual-closing {
+
+    padding:
+        55px 0;
+
+    background: #e8e2d5;
+
+}
+
+
+.closing-inner {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 25px;
+
+}
+
+
+.closing-inner p {
+
+    margin: 0;
+
+    color: var(--olive-dark);
+
+    font-family:
+        "Playfair Display",
+        Georgia,
+        serif;
+
+    font-size: 19px;
+
+    font-style: italic;
+
+    text-align: center;
+
+}
+
+
+.closing-line {
+
+    width: 60px;
+
+    height: 1px;
+
+    background: rgba(90, 88, 79, .35);
+
+}
+
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.gallery-lightbox {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 99999;
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 25px;
+
+}
+
+
+.gallery-lightbox.active {
+
+    display: flex;
+
+}
+
+
+.lightbox-backdrop {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        rgba(20, 20, 18, .94);
+
+    backdrop-filter:
+        blur(8px);
+
+}
+
+
+.lightbox-container {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    max-width: 1250px;
+
+    height: 100%;
+
+    max-height: 92vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.lightbox-image-wrapper {
+
+    position: relative;
+
+    width: calc(100% - 130px);
+
+    height: calc(100% - 70px);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.lightbox-image-wrapper img {
+
+    max-width: 100%;
+
+    max-height: 100%;
+
+    width: auto;
+
+    height: auto;
+
+    display: block;
+
+    object-fit: contain;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 20px 70px
+        rgba(0, 0, 0, .35);
+
+}
+
+
+.lightbox-loading {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    color: white;
+
+    font-size: 22px;
+
+    display: none;
+
+}
+
+
+.lightbox-loading.active {
+
+    display: block;
+
+}
+
+
+.lightbox-close,
+.lightbox-prev,
+.lightbox-next {
+
+    position: absolute;
+
+    z-index: 5;
+
+    width: 48px;
+
+    height: 48px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px solid
+        rgba(255,255,255,.25);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.10);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition:
+        all .25s ease;
+
+}
+
+
+.lightbox-close:hover,
+.lightbox-prev:hover,
+.lightbox-next:hover {
+
+    background: white;
+
+    color: var(--dark);
+
+}
+
+
+.lightbox-close {
+
+    top: 10px;
+
+    right: 10px;
+
+}
+
+
+.lightbox-prev {
+
+    left: 10px;
+
+}
+
+
+.lightbox-next {
+
+    right: 10px;
+
+}
+
+
+.lightbox-footer {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 5px;
+
+    transform:
+        translateX(-50%);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    color: white;
+
+}
+
+
+#lightboxCounter {
+
+    padding:
+        7px 12px;
+
+    background:
+        rgba(255,255,255,.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+
+    border-radius: 100px;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.lightbox-name {
+
+    max-width: 300px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+
+    color: rgba(255,255,255,.65);
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   BODY LOCK
+========================================================= */
+
+body.lightbox-open {
+
+    overflow: hidden;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .masonry-gallery {
+
+        column-count: 3;
+
+    }
+
+}
+
+
+@media (max-width: 850px) {
+
+    .annual-hero {
+
+        min-height: auto;
+
+    }
+
+
+    .annual-hero-content {
+
+        padding:
+            75px 0;
+
+    }
+
+
+    .featured-image-button {
+
+        height: 430px;
+
+    }
+
+
+    .gallery-heading {
+
+        display: block;
+
+    }
+
+
+    .gallery-heading > p {
+
+        margin-top: 18px;
+
+    }
+
+
+    .lightbox-image-wrapper {
+
+        width: calc(100% - 100px);
+
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .annual-hero h1 {
+
+        letter-spacing: -1.5px;
+
+    }
+
+
+    .annual-intro {
+
+        font-size: 16px;
+
+    }
+
+
+    .annual-meta {
+
+        gap: 7px;
+
+    }
+
+
+    .annual-meta div {
+
+        padding:
+            8px 12px;
+
+        font-size: 11px;
+
+    }
+
+
+    .featured-section {
+
+        padding-top: 40px;
+
+    }
+
+
+    .featured-image-button {
+
+        height: 300px;
+
+    }
+
+
+    .featured-caption {
+
+        display: block;
+
+        padding: 24px;
+
+    }
+
+
+    .featured-caption p {
+
+        margin-top: 14px;
+
+    }
+
+
+    .masonry-gallery {
+
+        column-count: 2;
+
+        column-gap: 10px;
+
+    }
+
+
+    .gallery-item {
+
+        margin-bottom: 10px;
+
+        border-radius: 9px;
+
+    }
+
+
+    .lightbox-container {
+
+        max-height: 88vh;
+
+    }
+
+
+    .lightbox-image-wrapper {
+
+        width: calc(100% - 70px);
+
+        height: calc(100% - 100px);
+
+    }
+
+
+    .lightbox-prev,
+    .lightbox-next {
+
+        width: 40px;
+
+        height: 40px;
+
+    }
+
+
+    .lightbox-prev {
+
+        left: 0;
+
+    }
+
+
+    .lightbox-next {
+
+        right: 0;
+
+    }
+
+
+    .lightbox-close {
+
+        top: 0;
+
+        right: 0;
+
+    }
+
+
+    .lightbox-name {
+
+        display: none;
+
+    }
+
+}
+
+
+@media (max-width: 450px) {
+
+    .annual-hero-content {
+
+        padding:
+            60px 0;
+
+    }
+
+
+    .annual-hero h1 {
+
+        font-size: 52px;
+
+    }
+
+
+    .masonry-gallery {
+
+        column-count: 1;
+
+    }
+
+
+    .featured-image-button {
+
+        height: 250px;
+
+    }
+
+}
