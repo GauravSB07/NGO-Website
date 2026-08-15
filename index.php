@@ -62,12 +62,12 @@
 
             <div class="hero-button-row">
 
-                <a href="contact.php" class="hero-cta">
+                <a href="/ngo-website/connect-with-us/volunteer.php" class="hero-cta">
                     Join The Movement
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
-                <a href="programs.php" class="hero-learn">
+                <a href="/ngo-website/programs.php" class="hero-learn">
                     Explore Programs
                     <i class="fa-solid fa-arrow-right"></i>
                 </a>

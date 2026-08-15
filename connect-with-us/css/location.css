@@ -1,0 +1,646 @@
+/* =========================================================
+   SEVARTHA FOUNDATION
+   OUR LOCATION
+========================================================= */
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.location-container {
+
+    width: 100%;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding-left: 40px;
+
+    padding-right: 40px;
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.location-hero {
+
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 105px 0 90px;
+
+    background:
+        radial-gradient(
+            circle at 82% 25%,
+            rgba(208, 200, 182, .32),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            var(--off-white) 0%,
+            var(--white) 55%,
+            #E9E3D8 100%
+        );
+
+    border-bottom:
+        1px solid var(--border-light);
+
+}
+
+
+.location-hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 520px;
+
+    height: 520px;
+
+    right: -230px;
+
+    top: -300px;
+
+    border:
+        1px solid rgba(84, 82, 71, .16);
+
+    border-radius: 50%;
+
+}
+
+
+.location-eyebrow {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 24px;
+
+    color: var(--olive);
+
+    font-size: .78rem;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+}
+
+
+.location-eyebrow span {
+
+    width: 38px;
+
+    height: 2px;
+
+    background: var(--olive);
+
+}
+
+
+.location-title {
+
+    margin: 0;
+
+    color: var(--dark-grey);
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        clamp(3.5rem, 7vw, 6.8rem);
+
+    font-weight: 700;
+
+    line-height: .95;
+
+    letter-spacing: -3px;
+
+}
+
+
+.location-title span {
+
+    color: var(--olive);
+
+}
+
+
+.location-intro {
+
+    max-width: 650px;
+
+    margin-top: 25px;
+
+    color: var(--grey);
+
+    font-size: 1.05rem;
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================================================
+   LOCATION SECTION
+========================================================= */
+
+.location-section {
+
+    padding: 105px 0;
+
+    background: var(--off-white-2);
+
+}
+
+
+.location-heading {
+
+    max-width: 800px;
+
+    margin-bottom: 45px;
+
+}
+
+
+.location-label {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 15px;
+
+    color: var(--olive);
+
+    font-size: .76rem;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+}
+
+
+.location-label span {
+
+    width: 32px;
+
+    height: 2px;
+
+    background: var(--olive);
+
+}
+
+
+.location-heading h2 {
+
+    margin: 0 0 20px;
+
+    color: var(--dark-grey);
+
+    font-size:
+        clamp(2.4rem, 4.5vw, 4rem);
+
+    font-weight: 900;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+
+}
+
+
+.location-heading h2 span {
+
+    color: var(--olive);
+
+}
+
+
+.location-heading p {
+
+    margin: 0;
+
+    color: var(--grey);
+
+    font-size: 1rem;
+
+    line-height: 1.8;
+
+}
+
+
+/* =========================================================
+   GOOGLE MAP
+========================================================= */
+
+.map-wrapper {
+
+    overflow: hidden;
+
+    margin-bottom: 35px;
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-sm);
+
+}
+
+
+.map-wrapper iframe {
+
+    display: block;
+
+    width: 100%;
+
+    min-height: 450px;
+
+}
+
+
+/* =========================================================
+   ADDRESS GRID
+========================================================= */
+
+.address-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 25px;
+
+}
+
+
+.address-card {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 24px;
+
+    padding: 35px;
+
+    background: var(--white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+    box-shadow:
+        var(--shadow-sm);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.address-card:hover {
+
+    transform:
+        translateY(-5px);
+
+    box-shadow:
+        var(--shadow-md);
+
+}
+
+
+.address-icon {
+
+    width: 62px;
+
+    height: 62px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--olive);
+
+    background: var(--off-white);
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 15px;
+
+    font-size: 1.3rem;
+
+}
+
+
+.address-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--olive);
+
+    font-size: .7rem;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+}
+
+
+.address-content h3 {
+
+    margin: 0 0 12px;
+
+    color: var(--dark-grey);
+
+    font-size: 1.15rem;
+
+    font-weight: 850;
+
+}
+
+
+.address-content p {
+
+    margin: 0;
+
+    color: var(--grey);
+
+    font-size: .94rem;
+
+    line-height: 1.75;
+
+}
+
+
+/* =========================================================
+   DIRECTIONS
+========================================================= */
+
+.directions-section {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-top: 35px;
+
+    padding: 35px 40px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--white),
+            var(--off-white)
+        );
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        var(--radius-lg);
+
+}
+
+
+.directions-label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--olive);
+
+    font-size: .7rem;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+}
+
+
+.directions-section h3 {
+
+    margin: 0 0 7px;
+
+    color: var(--dark-grey);
+
+    font-size: 1.5rem;
+
+    font-weight: 850;
+
+}
+
+
+.directions-section p {
+
+    margin: 0;
+
+    color: var(--grey);
+
+    font-size: .9rem;
+
+}
+
+
+.directions-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    flex-shrink: 0;
+
+    padding: 15px 25px;
+
+    color: var(--white);
+
+    background: var(--olive);
+
+    border-radius: 999px;
+
+    text-decoration: none;
+
+    font-size: .76rem;
+
+    font-weight: 900;
+
+    letter-spacing: 1.4px;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.directions-button:hover {
+
+    color: var(--white);
+
+    transform:
+        translateY(-3px);
+
+    box-shadow:
+        var(--shadow-md);
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .address-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .directions-section {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .location-container {
+
+        padding-left: 22px;
+
+        padding-right: 22px;
+
+    }
+
+
+    .location-hero {
+
+        padding: 75px 0;
+
+    }
+
+
+    .location-title {
+
+        font-size:
+            clamp(3rem, 13vw, 5rem);
+
+        letter-spacing: -2px;
+
+    }
+
+
+    .location-section {
+
+        padding: 75px 0;
+
+    }
+
+
+    .map-wrapper iframe {
+
+        min-height: 350px;
+
+    }
+
+
+    .address-card {
+
+        padding: 28px;
+
+    }
+
+
+    .directions-section {
+
+        padding: 30px 25px;
+
+    }
+
+
+    .directions-button {
+
+        width: 100%;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .address-card {
+
+        flex-direction: column;
+
+    }
+
+
+    .address-icon {
+
+        width: 55px;
+
+        height: 55px;
+
+    }
+
+}
