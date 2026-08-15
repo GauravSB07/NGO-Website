@@ -1,19 +1,29 @@
-/* ============================
-   FOOTER
-============================ */
+/* =========================================================
+   SEVARTHA FOUNDATION
+   PREMIUM FOOTER
+   SAND BEIGE • DARK GREY • OLIVE • OFF WHITE
+========================================================= */
 
 .site-footer {
 
-    background: #ffffff;
+    position: relative;
+
+    background:
+        linear-gradient(
+            135deg,
+            #F6F2E8 0%,
+            #FFFFFF 55%,
+            #F0ECE4 100%
+        );
 
     border-top:
-        1px solid #e5e5e5;
+        1px solid rgba(84, 82, 71, .16);
 
     padding:
-        60px 40px 20px;
+        65px 40px 0;
 
     color:
-        #0c59be;
+        #68665E;
 
     font-family:
         Arial,
@@ -23,47 +33,338 @@
 }
 
 
-/* ============================
+/* =========================================================
+   TOP DECORATIVE LINE
+========================================================= */
+
+.site-footer::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -1px;
+
+    left: 8%;
+    right: 8%;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #545247,
+            #D0C8B6,
+            #545247,
+            transparent
+        );
+
+}
+
+
+/* =========================================================
    FOOTER CONTAINER
-============================ */
+========================================================= */
 
 .footer-container {
+
+    width: 100%;
 
     max-width: 1500px;
 
     margin: 0 auto;
 
-    display: flex;
+    display: grid;
 
-    justify-content: space-between;
+    grid-template-columns:
+        1.45fr
+        1fr
+        1.2fr
+        1fr
+        1.5fr;
 
-    flex-wrap: wrap;
-
-    gap: 40px;
+    gap: 45px;
 
 }
 
 
-/* ============================
-   FOOTER COLUMNS
-============================ */
+/* =========================================================
+   GENERAL COLUMN
+========================================================= */
+
+.footer-col {
+
+    min-width: 0;
+
+}
+
 
 .footer-col h4 {
 
+    position: relative;
+
+    margin:
+        0 0 20px;
+
+    padding-bottom:
+        10px;
+
+    color:
+        #45433A;
+
     font-size:
-        1.2rem;
+        .95rem;
 
     font-weight:
         800;
 
-    color:
-        #620707;
-
-    margin-bottom:
-        18px;
+    letter-spacing:
+        .5px;
 
 }
 
+
+.footer-col h4::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 28px;
+
+    height: 2px;
+
+    border-radius:
+        999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #545247,
+            #D0C8B6
+        );
+
+}
+
+
+/* =========================================================
+   FOOTER BRAND
+========================================================= */
+
+.footer-logo {
+
+    display: inline-block;
+
+    margin-bottom: 9px;
+
+    color:
+        #1A1A1A;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:
+        1.65rem;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        -.7px;
+
+    line-height:
+        1;
+
+    text-decoration:
+        none;
+
+    transition:
+        color .25s ease,
+        transform .25s ease;
+
+}
+
+
+.footer-logo:hover {
+
+    color:
+        #545247;
+
+    text-decoration:
+        none;
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* =========================================================
+   TAGLINE
+========================================================= */
+
+.footer-tagline {
+
+    margin:
+        0 0 17px;
+
+    color:
+        #545247;
+
+    font-size:
+        .75rem;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.6px;
+
+    line-height:
+        1.5;
+
+    text-transform:
+        uppercase;
+
+}
+
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
+.footer-description {
+
+    max-width:
+        330px;
+
+    margin:
+        0 0 22px;
+
+    color:
+        #77756D;
+
+    font-size:
+        .82rem;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.7;
+
+}
+
+
+/* =========================================================
+   DONATE BUTTON
+========================================================= */
+
+.footer-donate-btn {
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    min-height:
+        42px;
+
+    padding:
+        10px 19px;
+
+    border:
+        1px solid #545247;
+
+    border-radius:
+        11px;
+
+    background:
+        #545247;
+
+    color:
+        #FFFFFF;
+
+    font-size:
+        .82rem;
+
+    font-weight:
+        800;
+
+    text-decoration:
+        none;
+
+    box-shadow:
+        0 7px 18px rgba(84, 82, 71, .13);
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.footer-donate-btn:hover {
+
+    background:
+        #1A1A1A;
+
+    border-color:
+        #1A1A1A;
+
+    color:
+        #FFFFFF;
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        0 10px 22px rgba(26, 26, 26, .15);
+
+    text-decoration:
+        none;
+
+}
+
+
+.footer-donate-btn i {
+
+    font-size:
+        .72rem;
+
+    transition:
+        transform .25s ease;
+
+}
+
+
+.footer-donate-btn:hover i {
+
+    transform:
+        translateX(3px);
+
+}
+
+
+/* =========================================================
+   FOOTER LINKS
+========================================================= */
 
 .footer-col ul {
 
@@ -81,26 +382,41 @@
 
 .footer-col ul li {
 
-    margin-bottom:
-        10px;
+    margin:
+        0;
 
 }
 
 
 .footer-col ul li a {
 
+    position:
+        relative;
+
+    display:
+        inline-block;
+
+    padding:
+        5px 0;
+
     color:
-        #666666;
+        #706E67;
+
+    font-size:
+        .82rem;
+
+    font-weight:
+        500;
+
+    line-height:
+        1.35;
 
     text-decoration:
         none;
 
-    font-size:
-        0.95rem;
-
     transition:
-        color .25s ease,
-        transform .25s ease;
+        color .22s ease,
+        transform .22s ease;
 
 }
 
@@ -108,52 +424,51 @@
 .footer-col ul li a:hover {
 
     color:
-        #111111;
+        #45433A;
 
     transform:
-        translateX(3px);
+        translateX(4px);
+
+    text-decoration:
+        none;
 
 }
 
 
-/* ============================
+/* =========================================================
    CONNECT SECTION
-============================ */
+========================================================= */
 
-.footer-connect .footer-social {
+.footer-connect {
+
+    min-width:
+        250px;
+
+}
+
+
+/* =========================================================
+   SOCIAL ICONS
+========================================================= */
+
+.footer-social {
 
     display:
         flex;
 
-    gap:
-        14px;
+    align-items:
+        center;
 
-    margin-bottom:
-        18px;
+    gap:
+        9px;
+
+    margin:
+        0 0 18px;
 
 }
 
 
-/* ============================
-   SOCIAL ICONS
-============================ */
-
 .footer-social a {
-
-    width:
-        38px;
-
-    height:
-        38px;
-
-    border-radius:
-        50%;
-
-    background:
-        #ffffff;
-
-    border:
-        1px solid #dddddd;
 
     display:
         flex;
@@ -164,14 +479,32 @@
     justify-content:
         center;
 
+    width:
+        35px;
+
+    height:
+        35px;
+
+    border:
+        1px solid rgba(84, 82, 71, .18);
+
+    border-radius:
+        10px;
+
+    background:
+        rgba(255, 255, 255, .65);
+
     color:
-        #111111;
+        #545247;
 
     font-size:
-        16px;
+        14px;
 
     text-decoration:
         none;
+
+    box-shadow:
+        0 4px 12px rgba(26, 26, 26, .04);
 
     transition:
         background .25s ease,
@@ -185,13 +518,13 @@
 .footer-social a:hover {
 
     background:
-        #111111;
+        #545247;
 
     border-color:
-        #111111;
+        #545247;
 
     color:
-        #ffffff;
+        #FFFFFF;
 
     transform:
         translateY(-3px);
@@ -199,107 +532,243 @@
 }
 
 
-/* ============================
-   CONTACT BUTTON
-============================ */
+/* =========================================================
+   CONTACT INFORMATION
+========================================================= */
 
-.footer-contact-btn {
+.footer-contact-info {
 
     display:
-        inline-block;
+        flex;
 
-    padding:
-        10px 22px;
+    flex-direction:
+        column;
 
-    background:
-        #111111;
+    gap:
+        11px;
+
+}
+
+
+.footer-contact-info p {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        10px;
+
+    margin:
+        0;
 
     color:
-        #ffffff;
+        #706E67;
 
-    font-weight:
-        800;
+    font-size:
+        .76rem;
 
-    border:
-        1px solid #111111;
+    line-height:
+        1.55;
 
-    border-radius:
-        999px;
+}
+
+
+.footer-contact-info p > i {
+
+    flex:
+        0 0 16px;
+
+    margin-top:
+        3px;
+
+    color:
+        #545247;
+
+    font-size:
+        .75rem;
+
+    text-align:
+        center;
+
+}
+
+
+.footer-contact-info a {
+
+    color:
+        #706E67;
 
     text-decoration:
         none;
 
     transition:
-        transform .25s ease,
-        background .25s ease,
-        color .25s ease,
-        box-shadow .25s ease;
+        color .2s ease;
 
 }
 
 
-.footer-contact-btn:hover {
-
-    background:
-        #ffffff;
+.footer-contact-info a:hover {
 
     color:
-        #111111;
+        #1A1A1A;
 
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.10);
+    text-decoration:
+        none;
 
 }
 
 
-/* ============================
+/* =========================================================
    BOTTOM BAR
-============================ */
+========================================================= */
 
 .footer-bottom {
 
-    text-align:
-        center;
+    width:
+        100%;
 
-    margin-top:
-        40px;
+    max-width:
+        1500px;
 
-    padding-top:
-        20px;
+    margin:
+        50px auto 0;
+
+    padding:
+        18px 0;
 
     border-top:
-        1px solid #e5e5e5;
+        1px solid rgba(84, 82, 71, .13);
 
-    font-size:
-        0.9rem;
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    gap:
+        20px;
 
     color:
-        #666666;
+        #929087;
+
+    font-size:
+        .72rem;
+
+    line-height:
+        1.5;
 
 }
 
 
-/* ============================
+.footer-bottom-links {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        9px;
+
+}
+
+
+.footer-bottom-links a {
+
+    color:
+        #77756D;
+
+    text-decoration:
+        none;
+
+    transition:
+        color .2s ease;
+
+}
+
+
+.footer-bottom-links a:hover {
+
+    color:
+        #45433A;
+
+    text-decoration:
+        none;
+
+}
+
+
+.footer-bottom-links span {
+
+    color:
+        #D0C8B6;
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .footer-container {
+
+        grid-template-columns:
+            1.4fr
+            1fr
+            1fr;
+
+        gap:
+            40px;
+
+    }
+
+    .footer-brand {
+
+        grid-column:
+            span 3;
+
+    }
+
+    .footer-description {
+
+        max-width:
+            500px;
+
+    }
+
+}
+
+
+/* =========================================================
    MOBILE
-============================ */
+========================================================= */
 
 @media (max-width: 768px) {
 
     .site-footer {
 
         padding:
-            50px 25px 20px;
+            50px 25px 0;
 
     }
 
 
     .footer-container {
 
-        flex-direction:
-            column;
+        display:
+            grid;
+
+        grid-template-columns:
+            1fr;
 
         gap:
             30px;
@@ -307,10 +776,111 @@
     }
 
 
-    .footer-connect .footer-social {
+    .footer-brand {
+
+        grid-column:
+            auto;
+
+    }
+
+
+    .footer-description {
+
+        max-width:
+            100%;
+
+    }
+
+
+    .footer-col h4 {
 
         margin-bottom:
-            15px;
+            14px;
+
+    }
+
+
+    .footer-bottom {
+
+        margin-top:
+            35px;
+
+        padding:
+            17px 0;
+
+        flex-direction:
+            column;
+
+        align-items:
+            center;
+
+        text-align:
+            center;
+
+        gap:
+            8px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .site-footer {
+
+        padding-left:
+            18px;
+
+        padding-right:
+            18px;
+
+    }
+
+
+    .footer-logo {
+
+        font-size:
+            1.5rem;
+
+    }
+
+
+    .footer-tagline {
+
+        font-size:
+            .68rem;
+
+        letter-spacing:
+            1.3px;
+
+    }
+
+
+    .footer-description {
+
+        font-size:
+            .78rem;
+
+    }
+
+
+    .footer-col ul li a {
+
+        font-size:
+            .80rem;
+
+    }
+
+
+    .footer-contact-info p {
+
+        font-size:
+            .73rem;
 
     }
 
