@@ -134,48 +134,6 @@
         transform .25s ease;
 }
 
-
-/* Small decorative mark */
-
-.ngo-brand::before {
-    content: "";
-
-    position: absolute;
-
-    width: 8px;
-    height: 8px;
-
-    right: -15px;
-    top: 9px;
-
-    border-radius: 50%;
-
-    background: var(--nav-sand);
-
-    box-shadow:
-        0 0 0 4px rgba(208, 200, 182, .18);
-}
-
-.ngo-brand::after {
-    content: "";
-
-    position: absolute;
-
-    width: 7px;
-    height: 7px;
-
-    top: 8px;
-    right: -15px;
-
-    border-radius: 50%;
-
-    background: #D0C8B6;
-
-    box-shadow:
-        0 0 0 4px rgba(208, 200, 182, .18);
-}
-
-
 .ngo-brand:hover {
     color: #545247;
 
@@ -1273,14 +1231,6 @@
         letter-spacing: 1.5px;
     }
 
-    .ngo-brand::after {
-        width: 6px;
-        height: 6px;
-
-        right: -11px;
-        top: 6px;
-    }
-
     .navbar {
         min-height:
             72px;
@@ -1535,11 +1485,6 @@
     .ngo-brand {
         margin-right:
             0;
-    }
-
-    .ngo-brand::before {
-        display:
-            none;
     }
 
     .brand-title {
@@ -1879,5 +1824,267 @@
 
     .navbar .nav-link {
         font-size: 14.5px;
+    }
+}
+/* =========================================================
+   COMPACT DROPDOWN MENUS
+   Smaller height • Equal appearance • Cleaner spacing
+========================================================= */
+
+/* Make all dropdown cards compact and consistent */
+.navbar .nav-dropdown-menu {
+    padding: 13px 15px;
+    min-height: 0;
+    height: auto;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DROPDOWN HEADER - COMPACT
+========================================================= */
+
+.dropdown-header {
+    padding: 4px 8px 9px;
+    margin-bottom: 2px;
+
+    font-size: .64rem;
+    letter-spacing: 1.8px;
+    line-height: 1.2;
+
+    white-space: normal;
+}
+
+
+/* =========================================================
+   NORMAL DROPDOWN ITEMS
+========================================================= */
+
+.dropdown-list {
+    gap: 2px;
+    padding-top: 3px;
+}
+
+
+/* Make each item shorter */
+.dropdown-item-custom {
+    min-height: 45px;
+
+    padding: 6px 9px;
+
+    border-radius: 10px;
+}
+
+
+/* Smaller icons */
+.dropdown-icon {
+    flex: 0 0 36px;
+
+    width: 36px;
+    height: 36px;
+
+    margin-right: 9px;
+
+    border-radius: 10px;
+
+    font-size: 13px;
+}
+
+
+/* Smaller text spacing */
+.dropdown-content {
+    line-height: 1.1;
+}
+
+.dropdown-content strong {
+    font-size: .88rem;
+    line-height: 1.15;
+}
+
+.dropdown-content small {
+    margin-top: 2px;
+
+    font-size: .70rem;
+    line-height: 1.15;
+}
+
+
+/* =========================================================
+   ABOUT US DROPDOWN
+========================================================= */
+
+.navbar .about-menu {
+    width: 500px;
+
+    padding: 13px 15px;
+}
+
+
+/* =========================================================
+   OUR WORK DROPDOWN
+========================================================= */
+
+.navbar .work-menu {
+    width: 540px;
+
+    padding: 13px 15px;
+}
+
+.work-grid {
+    gap: 2px 7px;
+}
+
+.work-item {
+    padding: 8px 12px 8px 25px;
+
+    font-size: 12.8px;
+    line-height: 1.2;
+
+    border-radius: 9px;
+}
+
+
+/* Smaller work indicator */
+.work-item::before {
+    left: 12px;
+
+    width: 4px;
+    height: 4px;
+}
+
+
+/* =========================================================
+   ANNUAL EVENTS / OTHER SIMPLE DROPDOWNS
+========================================================= */
+
+.simple-dropdown-item {
+    padding: 8px 12px 8px 25px;
+
+    font-size: 13px;
+    line-height: 1.2;
+
+    border-radius: 9px;
+}
+
+.simple-dropdown-item::before {
+    left: 12px;
+
+    width: 4px;
+    height: 4px;
+}
+
+
+/* =========================================================
+   CONNECT WITH US
+========================================================= */
+
+/* Give Connect menu a compact width */
+.navbar .connect-menu {
+    width: 390px;
+
+    padding: 13px 15px;
+}
+
+
+/* Allow the heading to fit naturally */
+.connect-menu .dropdown-header {
+    white-space: normal;
+
+    line-height: 1.25;
+
+    max-width: 100%;
+}
+
+
+/* Compact Connect items */
+.connect-menu .dropdown-item-custom {
+    min-height: 48px;
+
+    padding: 6px 9px;
+}
+
+
+/* Compact Connect icons */
+.connect-menu .dropdown-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-basis: 38px;
+
+    margin-right: 10px;
+}
+
+
+/* Connect text */
+.connect-menu .dropdown-content strong {
+    font-size: .90rem;
+}
+
+.connect-menu .dropdown-content small {
+    font-size: .70rem;
+
+    margin-top: 2px;
+}
+
+
+/* =========================================================
+   MAKE DROPDOWN HEIGHTS MORE CONSISTENT
+========================================================= */
+
+/* About Us - 5 items */
+.navbar .about-menu {
+    min-height: 265px;
+}
+
+
+/* Our Work - compact 2-column layout */
+.navbar .work-menu {
+    min-height: 235px;
+}
+
+
+/* Connect With Us - 3 items */
+.navbar .connect-menu {
+    min-height: 210px;
+}
+
+
+/* Annual Events / simple dropdown */
+.navbar .simple-menu {
+    min-height: 180px;
+}
+
+
+/* =========================================================
+   MOBILE - DON'T FORCE LARGE HEIGHTS
+========================================================= */
+
+@media (max-width: 991px) {
+
+    .navbar .nav-dropdown-menu,
+    .navbar .about-menu,
+    .navbar .work-menu,
+    .navbar .connect-menu,
+    .navbar .simple-menu {
+        min-height: 0;
+        height: auto;
+    }
+
+    .dropdown-item-custom {
+        min-height: 44px;
+    }
+
+    .dropdown-icon {
+        width: 35px;
+        height: 35px;
+        flex-basis: 35px;
+    }
+
+    .dropdown-content strong {
+        font-size: .86rem;
+    }
+
+    .dropdown-content small {
+        font-size: .69rem;
     }
 }
