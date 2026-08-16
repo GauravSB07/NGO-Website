@@ -85,7 +85,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link">
+                        class="nav-link nav-dropdown-link dropdown-toggle">
                         About Us
                     </a>
 
@@ -296,7 +296,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link">
+                        class="nav-link nav-dropdown-link dropdown-toggle">
                         Annual Events
                     </a>
 
@@ -345,7 +345,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link">
+                        class="nav-link nav-dropdown-link dropdown-toggle">
                         Testimonials
                     </a>
 
@@ -441,7 +441,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link">
+                        class="nav-link nav-dropdown-link dropdown-toggle">
                         Connect With Us
                     </a>
 
