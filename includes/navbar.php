@@ -179,7 +179,7 @@ if (!$categories) {
 
 
                             <!-- EDUCATION -->
-                            <a href="../our-work/category.php?slug=education-for-all"
+                            <a href="/ngo-website/our-work/category.php?slug=education-for-all"
                                 class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
@@ -200,7 +200,7 @@ if (!$categories) {
 
 
                             <!-- HUNGER AND POVERTY -->
-                            <a href="../our-work/category.php?slug=hunger-and-poverty"
+                            <a href="/ngo-website/our-work/category.php?slug=hunger-and-poverty"
                                 class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
@@ -221,7 +221,7 @@ if (!$categories) {
 
 
                             <!-- HEALTHCARE -->
-                            <a href="../our-work/category.php?slug=healthcare-and-medical-relief"
+                            <a href="/ngo-website/our-work/category.php?slug=healthcare-and-medical-relief"
                                 class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
@@ -242,7 +242,7 @@ if (!$categories) {
 
 
                             <!-- ELDERLY -->
-                            <a href="../our-work/category.php?slug=dignity-for-the-elderly"
+                            <a href="/ngo-website/our-work/category.php?slug=dignity-for-the-elderly"
                                 class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
@@ -263,7 +263,7 @@ if (!$categories) {
 
 
                             <!-- AWARENESS -->
-                            <a href="../our-work/category.php?slug=awareness-programmes"
+                            <a href="/ngo-website/our-work/category.php?slug=awareness-programmes"
                                 class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
