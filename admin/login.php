@@ -365,20 +365,6 @@ if (isset($_POST['login'])) {
 
                     </button>
 
-
-                    <!-- Forgot Password -->
-
-                    <div class="forgot-password">
-
-                        <a href="#">
-
-                            Forgot Password?
-
-                        </a>
-
-                    </div>
-
-
                 </form>
 
 
