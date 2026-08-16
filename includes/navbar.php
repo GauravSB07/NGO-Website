@@ -37,8 +37,7 @@ if (!$categories) {
 
         <a
             class="ngo-brand"
-            href="/ngo-website/index.php"
-        >
+            href="/ngo-website/index.php">
             <span class="brand-title">Sevartha</span>
             <span class="brand-subtitle">Foundation</span>
         </a>
@@ -55,8 +54,7 @@ if (!$categories) {
             data-bs-target="#navbarNav"
             aria-controls="navbarNav"
             aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -67,11 +65,17 @@ if (!$categories) {
 
         <div
             class="collapse navbar-collapse justify-content-end"
-            id="navbarNav"
-        >
+            id="navbarNav">
 
             <ul class="navbar-nav">
 
+                <!-- HOME -->
+                <li class="nav-item">
+                    <a class="nav-link" href="/NGO-Website/index.php">
+                        <i class="fa-solid fa-house"></i>
+                        Home
+                    </a>
+                </li>
 
                 <!-- =================================================
                      ABOUT US
@@ -81,8 +85,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link"
-                    >
+                        class="nav-link nav-dropdown-link">
                         About Us
                     </a>
 
@@ -96,8 +99,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/about-us/mission-vision-focus.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-bullseye"></i>
                                 </span>
@@ -111,8 +113,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/about-us/founders.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-users"></i>
                                 </span>
@@ -126,8 +127,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/about-us/our-teams.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-people-group"></i>
                                 </span>
@@ -141,8 +141,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/about-us/accountability-transparency.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-chart-line"></i>
                                 </span>
@@ -160,16 +159,13 @@ if (!$categories) {
                 </li>
 
 
-                <!-- =================================================
-                     OUR WORK
-                ================================================== -->
+                <!-- =========================================================
+     OUR WORK
+========================================================= -->
 
                 <li class="nav-item nav-dropdown">
 
-                    <a
-                        href="#"
-                        class="nav-link nav-dropdown-link"
-                    >
+                    <a class="nav-link dropdown-toggle" href="#">
                         Our Work
                     </a>
 
@@ -181,39 +177,116 @@ if (!$categories) {
 
                         <div class="dropdown-list">
 
-                            <?php while ($navCategory = mysqli_fetch_assoc($categories)) { ?>
 
-                                <a
-                                    href="/ngo-website/our-work/category.php?slug=<?= urlencode($navCategory['slug']); ?>"
-                                    class="dropdown-item-custom"
-                                >
+                            <!-- EDUCATION -->
+                            <a href="../our-work/category.php?slug=education-for-all"
+                                class="dropdown-item-custom">
 
-                                    <span class="dropdown-icon">
-                                        <i class="fa-solid fa-hand-holding-heart"></i>
-                                    </span>
+                                <span class="dropdown-icon">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </span>
 
-                                    <span class="dropdown-content">
+                                <span class="dropdown-content">
 
-                                        <strong>
-                                            <?= htmlspecialchars($navCategory['name']); ?>
-                                        </strong>
+                                    <strong>Education For All</strong>
 
-                                        <small>
-                                            Explore our work and initiatives
-                                        </small>
+                                    <small>
+                                        Explore our work and initiatives
+                                    </small>
 
-                                    </span>
+                                </span>
 
-                                </a>
+                            </a>
 
-                            <?php } ?>
+
+                            <!-- HUNGER AND POVERTY -->
+                            <a href="../our-work/category.php?slug=hunger-and-poverty"
+                                class="dropdown-item-custom">
+
+                                <span class="dropdown-icon">
+                                    <i class="fa-solid fa-bowl-food"></i>
+                                </span>
+
+                                <span class="dropdown-content">
+
+                                    <strong>Hunger and Poverty</strong>
+
+                                    <small>
+                                        Explore our work and initiatives
+                                    </small>
+
+                                </span>
+
+                            </a>
+
+
+                            <!-- HEALTHCARE -->
+                            <a href="../our-work/category.php?slug=healthcare-and-medical-relief"
+                                class="dropdown-item-custom">
+
+                                <span class="dropdown-icon">
+                                    <i class="fa-solid fa-heart-pulse"></i>
+                                </span>
+
+                                <span class="dropdown-content">
+
+                                    <strong>Healthcare and Medical Relief</strong>
+
+                                    <small>
+                                        Explore our work and initiatives
+                                    </small>
+
+                                </span>
+
+                            </a>
+
+
+                            <!-- ELDERLY -->
+                            <a href="../our-work/category.php?slug=dignity-for-the-elderly"
+                                class="dropdown-item-custom">
+
+                                <span class="dropdown-icon">
+                                    <i class="fa-solid fa-person-cane"></i>
+                                </span>
+
+                                <span class="dropdown-content">
+
+                                    <strong>Dignity for The Elderly</strong>
+
+                                    <small>
+                                        Explore our work and initiatives
+                                    </small>
+
+                                </span>
+
+                            </a>
+
+
+                            <!-- AWARENESS -->
+                            <a href="../our-work/category.php?slug=awareness-programmes"
+                                class="dropdown-item-custom">
+
+                                <span class="dropdown-icon">
+                                    <i class="fa-solid fa-bullhorn"></i>
+                                </span>
+
+                                <span class="dropdown-content">
+
+                                    <strong>Awareness Programmes</strong>
+
+                                    <small>
+                                        Explore our work and initiatives
+                                    </small>
+
+                                </span>
+
+                            </a>
 
                         </div>
 
                     </div>
 
                 </li>
-
 
                 <!-- =================================================
                      ANNUAL EVENTS
@@ -223,8 +296,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link"
-                    >
+                        class="nav-link nav-dropdown-link">
                         Annual Events
                     </a>
 
@@ -238,8 +310,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/annual_event.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-calendar-days"></i>
@@ -274,8 +345,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link"
-                    >
+                        class="nav-link nav-dropdown-link">
                         Testimonials
                     </a>
 
@@ -290,8 +360,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/testimonials/institutional.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-building-columns"></i>
@@ -314,8 +383,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/testimonials/community.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-people-group"></i>
@@ -338,8 +406,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/testimonials/news.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-newspaper"></i>
@@ -374,8 +441,7 @@ if (!$categories) {
 
                     <a
                         href="#"
-                        class="nav-link nav-dropdown-link"
-                    >
+                        class="nav-link nav-dropdown-link">
                         Connect With Us
                     </a>
 
@@ -390,8 +456,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/connect-with-us/contact.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-envelope"></i>
@@ -414,8 +479,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/connect-with-us/volunteer.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-hand-holding-heart"></i>
@@ -438,8 +502,7 @@ if (!$categories) {
 
                             <a
                                 href="/ngo-website/connect-with-us/location.php"
-                                class="dropdown-item-custom"
-                            >
+                                class="dropdown-item-custom">
 
                                 <span class="dropdown-icon">
                                     <i class="fa-solid fa-location-dot"></i>
@@ -474,8 +537,7 @@ if (!$categories) {
 
                     <a
                         href="/ngo-website/admin/login.php"
-                        class="nav-link login-link"
-                    >
+                        class="nav-link login-link">
                         Login
                     </a>
 
@@ -490,8 +552,7 @@ if (!$categories) {
 
                     <a
                         href="/ngo-website/donate/donate.php"
-                        class="donate-button"
-                    >
+                        class="donate-button">
                         Donate
                         <i class="fa-solid fa-arrow-right"></i>
                     </a>

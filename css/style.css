@@ -55,6 +55,8 @@
 }
 
 html {
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
     scroll-behavior: smooth;
 }
 

@@ -226,7 +226,7 @@
 
                 <div class="document-icon">
 
-                    <i class="fa-solid fa-file-certificate"></i>
+                    <i class="fa-solid fa-file-shield"></i>
 
                 </div>
 
@@ -262,7 +262,7 @@
 
                 <div class="document-icon">
 
-                    <i class="fa-solid fa-file-shield"></i>
+                    <i class="fa-solid fa-shield-halved"></i>
 
                 </div>
 

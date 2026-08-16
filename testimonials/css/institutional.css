@@ -3,15 +3,11 @@
 ========================================================= */
 
 .testimonial-page-container {
-
     width: 100%;
-    max-width: 1400px;
-
+    max-width: 1500px;
     margin: 0 auto;
-
-    padding-left: 50px;
-    padding-right: 50px;
-
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 
@@ -612,4 +608,30 @@
 
     }
 
+}
+/* =========================================================
+   TESTIMONIAL DOCUMENT IMAGE BORDER
+========================================================= */
+
+.testimonial-modal-image img {
+
+    display: block;
+
+    max-width: 100%;
+    height: auto;
+
+    margin: 0 auto;
+
+    padding: 8px;
+
+    background: #F6F2E8;
+
+    border: 3px solid #D0C8B6;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(84, 82, 71, .12);
+
+    box-sizing: border-box;
 }
