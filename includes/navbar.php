@@ -32,14 +32,22 @@ if (!$categories) {
     <div class="container-fluid">
 
         <!-- =================================================
-             BRAND
+        BRAND
         ================================================== -->
 
-        <a
-            class="ngo-brand"
-            href="/ngo-website/index.php">
-            <span class="brand-title">Sevartha</span>
-            <span class="brand-subtitle">Foundation</span>
+        <a href="/ngo-website/index.php" class="ngo-brand">
+
+            <img
+                src="/ngo-website/static_image.php?name=logo.png"
+                alt="Sevartha Foundation Logo"
+                class="ngo-logo"
+            >
+
+            <span class="ngo-brand-text">
+                <span class="brand-title">Sevartha</span>
+                <span class="brand-subtitle">Foundation</span>
+            </span>
+
         </a>
 
 
@@ -73,7 +81,7 @@ if (!$categories) {
                 <li class="nav-item">
                     <a class="nav-link" href="/NGO-Website/index.php">
                         <i class="fa-solid fa-house"></i>
-                        Home
+                        
                     </a>
                 </li>
 

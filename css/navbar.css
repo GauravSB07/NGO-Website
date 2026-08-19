@@ -48,10 +48,7 @@
     min-height: 82px;
     padding: 7px 0;
 
-    background:
-        linear-gradient(135deg,
-            rgba(246, 242, 232, .98),
-            rgba(255, 255, 255, .98));
+    background: #1A1A1A;
 
     border-bottom:
         1px solid var(--nav-border);
@@ -114,16 +111,16 @@
     position: relative;
 
     display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
 
     width: max-content;
 
     margin: 0;
     padding: 4px 0;
 
-    color: #1A1A1A;
+    color: #F6F2E8;
 
     text-decoration: none;
 
@@ -151,6 +148,34 @@
 }
 
 /* =========================================================
+   BRAND LOGO
+========================================================= */
+
+.ngo-logo {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+    flex-shrink: 0;
+    margin: 0;
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.ngo-brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    line-height: 1;
+}
+
+.ngo-brand:hover .ngo-logo {
+    transform: scale(1.05);
+    opacity: .95;
+}
+
+/* =========================================================
    BRAND TITLE
 ========================================================= */
 
@@ -159,7 +184,7 @@
 
     margin: 0;
 
-    color: #1A1A1A;
+    color: #F6F2E8;
 
     font-family:
         Georgia,
@@ -196,9 +221,9 @@
     padding-top: 5px;
 
     border-top:
-        1.5px solid #545247;
+        1.5px solid #D0C8B6;
 
-    color: #545247;
+    color: #D0C8B6;
 
     font-family:
         Arial,
@@ -258,7 +283,7 @@
 
     margin: 0;
 
-    color: var(--nav-grey);
+    color: #F6F2E8;
 
     background: transparent;
 
@@ -290,10 +315,10 @@
 /* Soft hover background */
 
 .navbar .nav-link:hover {
-    color: var(--nav-dark);
+    color: #D0C8B6;
 
     background:
-        rgba(208, 200, 182, .22);
+        rgba(208, 200, 182, .12);
 
     transform: translateY(-1px);
 
@@ -357,10 +382,10 @@
         0 solid transparent;
 
     border-right:
-        1.5px solid var(--nav-olive);
+        1.5px solid #D0C8B6;
 
     border-bottom:
-        1.5px solid var(--nav-olive);
+        1.5px solid #D0C8B6;
 
     border-radius: 0;
 
@@ -944,12 +969,12 @@
 
 .login-link {
     color:
-        var(--nav-grey) !important;
+        #F6F2E8 !important;
 }
 
 .login-link:hover {
     color:
-        var(--nav-dark) !important;
+        #D0C8B6 !important;
 }
 
 
@@ -1112,7 +1137,7 @@
         12px;
 
     background:
-        var(--nav-white);
+        #24241F;
 
     box-shadow:
         0 5px 15px rgba(26, 26, 26, .05);
@@ -1145,7 +1170,7 @@
         22px;
 
     background-image:
-        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23545247' stroke-linecap='round' stroke-width='2.2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23F6F2E8' stroke-linecap='round' stroke-width='2.2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 
@@ -1218,6 +1243,11 @@
 
 @media (max-width: 991px) {
 
+    .ngo-logo {
+        width: 44px;
+        height: 44px;
+    }
+
     .brand-title {
         font-size: 1.55rem;
         letter-spacing: -.7px;
@@ -1260,7 +1290,7 @@
             8px;
 
         background:
-            rgba(255, 255, 255, .96);
+            #24241F;
 
         border:
             1px solid var(--nav-border);
@@ -1603,14 +1633,15 @@
 /* Use more of the available horizontal space */
 .navbar .container-fluid {
     max-width: 1500px;
-    padding-left: 42px;
-    padding-right: 42px;
+    padding-left: 18px;
+    padding-right: 30px;
 }
 
 /* Brand slightly larger and more prominent */
 .ngo-brand {
-    margin-right: 55px;
-    min-width: 185px;
+    margin-right: 40px;
+    min-width: auto;
+    gap: 13px;
 }
 
 .brand-title {
@@ -1674,8 +1705,8 @@
 @media (min-width: 1200px) {
 
     .navbar .container-fluid {
-        padding-left: 48px;
-        padding-right: 48px;
+        padding-left: 18px;
+        padding-right: 30px;
     }
 
     .navbar .navbar-nav {
@@ -1688,7 +1719,7 @@
     }
 
     .ngo-brand {
-        margin-right: 65px;
+        margin-right: 40px;
     }
 }
 
@@ -1778,6 +1809,11 @@
         min-width: auto;
     }
 
+    .ngo-logo {
+        width: 48px;
+        height: 48px;
+    }
+
     .brand-title {
         font-size: 1.8rem;
     }
@@ -1798,6 +1834,7 @@
 
     .navbar .nav-link {
         font-size: 15px;
+        color: #F6F2E8;
     }
 }
 
