@@ -289,8 +289,8 @@ $footerCategories = mysqli_query(
                 <p>
                     <i class="fas fa-phone"></i>
 
-                    <a href="tel:+919221008669">
-                        +91 922-100-8669
+                    <a href="tel:+919867983524">
+                        +91 98679 83524
                     </a>
                 </p>
 

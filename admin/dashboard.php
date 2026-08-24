@@ -2,6 +2,11 @@
 
 session_start();
 
+
+/* =========================================================
+   ADMIN AUTHENTICATION
+========================================================= */
+
 if (!isset($_SESSION['admin_id'])) {
 
     header("Location: login.php");
@@ -41,20 +46,68 @@ $categoryData = mysqli_fetch_assoc($categoryQuery);
 
 $totalCategories = $categoryData['total'];
 
+
+/* =========================================================
+   TOTAL CONTACT MESSAGES
+========================================================= */
+
+$contactQuery = mysqli_query(
+    $conn,
+    "SELECT COUNT(*) AS total FROM contact_messages"
+);
+
+$totalContacts = 0;
+
+if ($contactQuery) {
+
+    $contactData =
+        mysqli_fetch_assoc($contactQuery);
+
+    $totalContacts =
+        $contactData['total'];
+
+}
+
+
+/* =========================================================
+   TOTAL VOLUNTEER APPLICATIONS
+========================================================= */
+
+$volunteerQuery = mysqli_query(
+    $conn,
+    "SELECT COUNT(*) AS total FROM volunteer_applications"
+);
+
+$totalVolunteers = 0;
+
+if ($volunteerQuery) {
+
+    $volunteerData =
+        mysqli_fetch_assoc($volunteerQuery);
+
+    $totalVolunteers =
+        $volunteerData['total'];
+
+}
+
 ?>
+
 
 <!DOCTYPE html>
 
 <html lang="en">
 
+
 <head>
 
     <meta charset="UTF-8">
+
 
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+
 
     <title>
         Admin Dashboard | Sevartha Foundation
@@ -184,6 +237,7 @@ $totalCategories = $categoryData['total'];
 
             </h1>
 
+
             <p>
 
                 Manage your Sevartha Foundation website
@@ -221,11 +275,13 @@ $totalCategories = $categoryData['total'];
                             Events
                         </h3>
 
+
                         <p class="admin-stat-label">
 
                             Total Events
 
                         </p>
+
 
                         <div class="admin-stat-number">
 
@@ -283,6 +339,7 @@ $totalCategories = $categoryData['total'];
         </div>
 
 
+
         <!-- =================================================
              CATEGORIES
         ================================================== -->
@@ -300,6 +357,7 @@ $totalCategories = $categoryData['total'];
                         <h3>
                             Categories
                         </h3>
+
 
                         <p>
 
@@ -341,6 +399,149 @@ $totalCategories = $categoryData['total'];
         </div>
 
 
+
+        <!-- =================================================
+             CONTACT MESSAGES
+        ================================================== -->
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="admin-card">
+
+
+                <div class="admin-stat">
+
+
+                    <div>
+
+                        <h3>
+                            Contact Messages
+                        </h3>
+
+
+                        <p class="admin-stat-label">
+
+                            Total Messages
+
+                        </p>
+
+
+                        <div class="admin-stat-number">
+
+                            <?= $totalContacts; ?>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-icon">
+
+                        <i
+                            class="fa-solid fa-envelope"
+                        ></i>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <a
+                        href="contact/index.php"
+                        class="admin-btn-secondary"
+                    >
+
+                        <i
+                            class="fa-solid fa-eye"
+                        ></i>
+
+                        View Messages
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             VOLUNTEER APPLICATIONS
+        ================================================== -->
+
+        <div class="col-md-6 col-lg-4">
+
+            <div class="admin-card">
+
+
+                <div class="admin-stat">
+
+
+                    <div>
+
+                        <h3>
+                            Volunteers
+                        </h3>
+
+
+                        <p class="admin-stat-label">
+
+                            Applications
+
+                        </p>
+
+
+                        <div class="admin-stat-number">
+
+                            <?= $totalVolunteers; ?>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-icon">
+
+                        <i
+                            class="fa-solid fa-hand-holding-heart"
+                        ></i>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <a
+                        href="volunteers/index.php"
+                        class="admin-btn-secondary"
+                    >
+
+                        <i
+                            class="fa-solid fa-users"
+                        ></i>
+
+                        View Applications
+
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
         <!-- =================================================
              WEBSITE
         ================================================== -->
@@ -358,6 +559,7 @@ $totalCategories = $categoryData['total'];
                         <h3>
                             Website
                         </h3>
+
 
                         <p>
 
@@ -404,6 +606,7 @@ $totalCategories = $categoryData['total'];
 
 
 </main>
+
 
 
 <!-- =========================================================
