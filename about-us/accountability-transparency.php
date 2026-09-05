@@ -50,6 +50,7 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     >
+    <link rel="stylesheet" href="../css/scroll-content.css">
 
 </head>
 
@@ -85,7 +86,7 @@
         </h1>
 
 
-        <p class="transparency-intro">
+        <p class="transparency-intro scroll-paragraph scroll-delay-1">
 
             Our commitment to accountability and transparency.
 
@@ -108,7 +109,7 @@
 
         <div class="transparency-heading">
 
-            <div class="transparency-label">
+            <div class="transparency-label scroll-heading">
 
                 <span></span>
 
@@ -117,7 +118,7 @@
             </div>
 
 
-            <h2>
+            <h2 class="scroll-heading scroll-delay-1">
 
                 Transparency in
                 <span>Every Contribution</span>
@@ -130,7 +131,7 @@
         <div class="transparency-intro-box">
 
 
-            <div class="transparency-icon">
+            <div class="transparency-icon scroll-icon">
 
                 <i class="fa-solid fa-hand-holding-heart"></i>
 
@@ -139,7 +140,7 @@
 
             <div class="transparency-text">
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-1">
 
                     At Sevartha Foundation, we are committed to
                     financial transparency and accountability in all
@@ -150,7 +151,7 @@
                 </p>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-2">
 
                     As a registered nonprofit organization, we comply
                     with all legal and financial regulations, ensuring
@@ -160,7 +161,7 @@
                 </p>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-3">
 
                     Donors can request our tax exemption certificate
                     for their contributions, making their generosity
@@ -189,7 +190,7 @@
 
         <div class="transparency-heading">
 
-            <div class="transparency-label">
+            <div class="transparency-label scroll-heading">
 
                 <span></span>
 
@@ -198,7 +199,7 @@
             </div>
 
 
-            <h2>
+            <h2 class="scroll-heading scroll-delay-1">
 
                 Our Important
                 <span>Documents</span>
@@ -206,7 +207,7 @@
             </h2>
 
 
-            <p>
+            <p class="scroll-paragraph scroll-delay-2">
 
                 We maintain full transparency and provide access
                 to key financial and legal documents.
@@ -523,7 +524,7 @@
         <div class="accountability-box">
 
 
-            <div class="accountability-icon">
+            <div class="accountability-icon scroll-icon">
 
                 <i class="fa-solid fa-scale-balanced"></i>
 
@@ -533,7 +534,7 @@
             <div class="accountability-content">
 
 
-                <div class="transparency-label">
+                <div class="transparency-label scroll-heading">
 
                     <span></span>
 
@@ -542,7 +543,7 @@
                 </div>
 
 
-                <h2>
+                <h2 class="scroll-heading scroll-delay-1">
 
                     Your Trust
                     <span>Matters</span>
@@ -550,7 +551,7 @@
                 </h2>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-2">
 
                     We believe that transparency and accountability
                     are essential to building trust with our donors,
@@ -559,7 +560,7 @@
                 </p>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-3">
 
                     Our financial and legal documentation helps
                     demonstrate our commitment to responsible
@@ -584,7 +585,7 @@
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
 </script>
-
+<script src="../js/scroll-content.js"></script>
 
 </body>
 

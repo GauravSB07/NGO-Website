@@ -36,7 +36,8 @@
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    
+    <link rel="stylesheet" href="../css/scroll-content.css">
 </head>
 
 <body>
@@ -88,7 +89,7 @@
 
             <div class="section-heading-custom">
 
-                <div class="section-label-custom">
+                <div class="section-label-custom scroll-heading scroll-delay-1">
 
                     <span></span>
 
@@ -97,7 +98,7 @@
                 </div>
 
 
-                <h2>
+                <h2 class="scroll-heading scroll-delay-2">
 
                     Our
                     <span>Focus Areas</span>
@@ -340,7 +341,7 @@
             <div class="vision-box">
 
 
-                <div class="vision-icon">
+                <div class="vision-icon" scroll-icon>
 
                     <i class="fa-solid fa-eye"></i>
 
@@ -350,7 +351,7 @@
                 <div class="vision-content">
 
 
-                    <div class="section-label-custom">
+                    <div class="section-label-custom scroll-heading">
 
                         <span></span>
 
@@ -359,7 +360,7 @@
                     </div>
 
 
-                    <h2>
+                    <h2 class="scroll-heading scroll-delay-1">
 
                         Our
                         <span>Vision</span>
@@ -367,7 +368,7 @@
                     </h2>
 
 
-                    <p>
+                    <p class="scroll-paragraph scroll-delay-2">
 
                         To create a world where every individual, regardless of
                         their background, has access to basic human needs,
@@ -376,7 +377,7 @@
                     </p>
 
 
-                    <p>
+                    <p class="scroll-paragraph scroll-delay-3">
 
                         To bridge social and economic divides, ensuring that those
                         in need receive timely help and opportunities for growth.
@@ -384,7 +385,7 @@
                     </p>
 
 
-                    <p>
+                    <p class="scroll-paragraph scroll-delay-4">
 
                         To foster a culture of service and generosity, inspiring
                         individuals and businesses to give back to the community.
@@ -392,7 +393,7 @@
                     </p>
 
 
-                    <p>
+                    <p class="scroll-paragraph scroll-delay-5">
 
                         At Sevartha Foundation, we envision a future where no one
                         suffers from hunger, lack of education, or inadequate
@@ -402,7 +403,7 @@
                     </p>
 
 
-                    <blockquote>
+                    <blockquote class="scroll-heading scroll-delay-7">
 
                         “Helping one person might not change the whole world,
                         but it could change the world for that one person.
@@ -428,7 +429,7 @@
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
     </script>
-
+    <script src="../js/scroll-content.js"></script>
 
 </body>
 
