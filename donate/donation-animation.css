@@ -1,124 +1,234 @@
 /* =========================================================
-   DONATION PAGE LOAD ANIMATIONS
-   Left content  -> enters from left
-   Right content -> enters from right
-   Sequential entrance
+   SEVARTHA FOUNDATION
+   DONATION & PAYMENT ANIMATION SYSTEM
+   Harmonized with website animation curves & timing
 ========================================================= */
 
-
-/* =========================================================
-   LEFT SIDE
-========================================================= */
-
-.donation-left-reveal,
-.donation-left-item {
-    opacity: 0;
-    transform: translateX(-55px);
-    will-change: opacity, transform;
-}
-
-
-/* Main left content */
-
-.donation-left-reveal {
-    transition:
-        opacity 0.75s ease,
-        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-
-/* Contribution + trust items */
-
-.donation-left-item {
-    transition:
-        opacity 0.7s ease,
-        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-
-/* Visible state */
-
-.donation-animation-visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-
-/* =========================================================
-   RIGHT SIDE
-========================================================= */
-
-.donation-right-card {
-    opacity: 0;
-    transform: translateX(55px);
-    transition:
-        opacity 0.8s ease,
-        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
-}
-
-
-.donation-right-card-visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-
-/* Form content */
-
-.donation-right-item {
-    opacity: 0;
-    transform: translateX(45px);
-    will-change: opacity, transform;
-    transition:
-        opacity 0.7s ease,
-        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-
-/* Visible state */
-
-.donation-right-item.donation-animation-visible {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-
-/* =========================================================
-   BOTTOM THANK-YOU SECTION
-========================================================= */
-
-.donation-bottom-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition:
-        opacity 0.8s ease,
-        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-
-.donation-bottom-visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .donation-left-reveal,
-    .donation-left-item,
-    .donation-right-card,
-    .donation-right-item,
-    .donation-bottom-reveal {
-
+/* ---------------------------------------------------------
+   1. ENTRANCE & FADE TRANSITIONS
+--------------------------------------------------------- */
+@keyframes givingFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
         opacity: 1;
-        transform: none;
-        transition: none;
+        transform: translateY(0);
+    }
+}
 
+@keyframes givingFadeDown {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes givingScaleUp {
+    from {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes givingPhotoEnter {
+    from {
+        opacity: 0;
+        transform: translateY(24px) rotate(-3deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(-1.2deg);
+    }
+}
+
+/* ---------------------------------------------------------
+   2. BUTTON SHIMMER & LIGHT SWEEP
+--------------------------------------------------------- */
+@keyframes btnShimmer {
+    0% {
+        transform: translateX(-120%);
+    }
+    100% {
+        transform: translateX(140%);
+    }
+}
+
+/* ---------------------------------------------------------
+   3. QR CODE SCANNING & BRACKET PULSE
+--------------------------------------------------------- */
+@keyframes qrBracketPulse {
+    0%, 100% {
+        opacity: 0.55;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes qrScanBeam {
+    0% {
+        top: 6px;
+        opacity: 0;
+    }
+    15% {
+        opacity: 0.85;
+    }
+    85% {
+        opacity: 0.85;
+    }
+    100% {
+        top: calc(100% - 8px);
+        opacity: 0;
+    }
+}
+
+/* ---------------------------------------------------------
+   4. CELEBRATORY CHECKMARK & RIPPLE
+--------------------------------------------------------- */
+@keyframes checkmarkPop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes ringPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(84, 82, 71, 0.25), 0 0 0 0 rgba(208, 200, 182, 0.35);
+    }
+    70% {
+        box-shadow: 0 0 0 16px rgba(84, 82, 71, 0), 0 0 0 32px rgba(208, 200, 182, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(84, 82, 71, 0), 0 0 0 0 rgba(208, 200, 182, 0);
+    }
+}
+
+@keyframes badgeGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(197, 181, 147, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 6px rgba(197, 181, 147, 0);
+    }
+}
+
+/* ---------------------------------------------------------
+   5. INTERACTION MICRO-ANIMATIONS
+--------------------------------------------------------- */
+@keyframes amountBadgeBounce {
+    0% {
+        transform: scale(0.92);
+        opacity: 0.6;
+    }
+    60% {
+        transform: scale(1.04);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ---------------------------------------------------------
+   6. PROGRESSIVE ENHANCEMENT ORCHESTRATION
+--------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+    .giving-progress,
+    .checkout-progress {
+        animation: givingFadeDown 0.65s cubic-bezier(0.22, 1, 0.36, 1) backwards;
     }
 
+    .donation-small-heading,
+    .checkout-eyebrow,
+    .confirmation-kicker {
+        animation: givingFadeUp 0.75s 0.05s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .donation-introduction h1,
+    .checkout-heading h1,
+    .confirmation-card h1 {
+        animation: givingFadeUp 0.85s 0.12s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .donation-lead,
+    .checkout-heading > div > p,
+    .confirmation-intro {
+        animation: givingFadeUp 0.85s 0.2s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .giving-photo {
+        animation: givingPhotoEnter 0.95s 0.25s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .donation-form-card,
+    .checkout-summary,
+    .checkout-panel,
+    .confirmation-voucher {
+        animation: givingFadeUp 0.9s 0.18s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .donation-areas .donation-area {
+        animation: givingFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+    .donation-areas .donation-area:nth-child(1) { animation-delay: 0.18s; }
+    .donation-areas .donation-area:nth-child(2) { animation-delay: 0.24s; }
+    .donation-areas .donation-area:nth-child(3) { animation-delay: 0.30s; }
+    .donation-areas .donation-area:nth-child(4) { animation-delay: 0.36s; }
+    .donation-areas .donation-area:nth-child(5) { animation-delay: 0.42s; }
+
+    .giving-preview strong.amount-updated {
+        animation: amountBadgeBounce 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .checkout-qr-frame::before,
+    .checkout-qr-frame::after {
+        animation: qrBracketPulse 3s ease-in-out infinite;
+    }
+
+    .checkout-qr-scanline {
+        animation: qrScanBeam 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }
+
+    .confirmation-mark {
+        animation: checkmarkPop 0.8s cubic-bezier(0.22, 1, 0.36, 1) backwards, ringPulse 2.5s 0.8s ease-out infinite;
+    }
+}
+
+/* ---------------------------------------------------------
+   7. ACCESSIBILITY REDUCED MOTION
+--------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    .donation-page *,
+    .payment-page * {
+        animation: none !important;
+        transition: none !important;
+    }
+    .donation-continue:hover,
+    .payment-complete:hover,
+    .donation-area:hover,
+    .giving-photo:hover img {
+        transform: none !important;
+    }
 }

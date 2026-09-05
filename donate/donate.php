@@ -48,900 +48,343 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     );
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donate | Sevartha Foundation</title>
 
-
     <!-- Bootstrap -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-        rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Main CSS -->
-    <link
-        rel="stylesheet"
-        href="../css/style.css">
-
+    <link rel="stylesheet" href="../css/style.css">
 
     <!-- Navbar CSS -->
-    <link
-        rel="stylesheet"
-        href="../css/navbar.css">
-
+    <link rel="stylesheet" href="../css/navbar.css">
 
     <!-- Donation CSS -->
-    <link
-        rel="stylesheet"
-        href="donate.css">
-
+    <link rel="stylesheet" href="donate.css?v=5">
 
     <!-- Donation Animation CSS -->
-    <link
-        rel="stylesheet"
-        href="donation-animation.css">
-
+    <link rel="stylesheet" href="donation-animation.css?v=4">
 
     <!-- Footer CSS -->
-    <link
-        rel="stylesheet"
-        href="../css/footer.css">
-
+    <link rel="stylesheet" href="../css/footer.css">
 
     <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 </head>
-
 
 <body>
 
-
     <?php include __DIR__ . '/../includes/navbar.php'; ?>
 
-
     <!-- =========================================================
-     DONATION PAGE
-========================================================= -->
-
+         DONATION PAGE
+    ========================================================= -->
     <section class="donation-page">
-
         <div class="donation-page-container">
 
-
             <!-- =================================================
-             INTRODUCTION
-        ================================================== -->
-
+                 LEFT COLUMN: STORYTELLING & IMPACT
+            ================================================== -->
             <div class="donation-introduction">
+                <nav class="giving-progress" aria-label="Donation progress">
+                    <span class="current" aria-current="step"><b>01</b> Your contribution</span>
+                    <span><b>02</b> Payment &amp; verification</span>
+                </nav>
 
-
-                <!-- Small editorial heading -->
-
-                <div class="donation-small-heading donation-left-reveal">
-
+                <!-- Small editorial eyebrow -->
+                <div class="donation-small-heading">
                     <span></span>
-
-                    SUPPORT SEVARTHA
-
+                    SUPPORT SEVARTHA FOUNDATION
                 </div>
-
 
                 <!-- Main heading -->
-
-                <h1 class="donation-left-reveal">
-
+                <h1>
                     Give with
                     <span>purpose.</span>
-
                 </h1>
 
-
                 <!-- Lead statement -->
-
-                <p class="donation-lead donation-left-reveal">
-
-                    Your contribution can help Sevartha Foundation
-                    continue working alongside people and communities
-                    where support is needed most.
-
+                <p class="donation-lead">
+                    Support education, healthcare, nutrition, and compassionate care in the communities we serve across India.
                 </p>
 
+                <a class="giving-mobile-link" href="#contribution-form">
+                    Make a contribution <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                </a>
 
-                <!-- Supporting statement -->
-
-                <p class="donation-description donation-left-reveal">
-
-                    Choose an area that matters to you, tell us a little
-                    about yourself, and select the contribution you would
-                    like to make. Every donation becomes part of the work
-                    we carry forward together.
-
-                </p>
-
-
-                <!-- =================================================
-                 CONTRIBUTION AREAS
-            ================================================== -->
-
-                <div class="donation-impact-heading donation-left-reveal">
-
-                    <span>
-                        WHERE YOUR SUPPORT CAN HELP
-                    </span>
-
+                <!-- Featured Impact Visual -->
+                <div class="giving-photo-wrapper">
+                    <div class="giving-impact-tag">
+                        <i class="fa-solid fa-shield-heart" aria-hidden="true"></i>
+                        <span>100% Direct Impact</span>
+                    </div>
+                    <figure class="giving-photo">
+                        <img src="../static_image.php?name=homepage_image1.png" alt="Sevartha Foundation community work in action">
+                        <figcaption>
+                            <i class="fa-solid fa-heart" aria-hidden="true"></i>
+                            Small acts of kindness. Lasting possibilities.
+                        </figcaption>
+                    </figure>
                 </div>
 
+                <!-- Impact Areas Header -->
+                <div class="donation-impact-heading">
+                    <span>WHERE YOUR SUPPORT CAN HELP</span>
+                    <small>Click to select</small>
+                </div>
 
-                <div class="donation-areas">
-
+                <!-- Interactive Cause Cards (Synced with Form Dropdown) -->
+                <div class="donation-areas" role="listbox" aria-label="Select an area to support">
 
                     <!-- Education -->
-
-                    <div class="donation-area donation-left-item">
-
+                    <div class="donation-area" data-cause="Education" role="option" tabindex="0" aria-selected="false">
                         <div class="donation-area-icon">
-
-                            <i class="fa-solid fa-book-open"></i>
-
+                            <i class="fa-solid fa-graduation-cap" aria-hidden="true"></i>
                         </div>
-
                         <div>
-
-                            <strong>
-                                Education
-                            </strong>
-
-                            <span>
-                                Learning opportunities and support
-                            </span>
-
+                            <strong>Education</strong>
+                            <span>Learning opportunities, supplies and school support</span>
                         </div>
-
                     </div>
-
 
                     <!-- Hunger and Poverty -->
-
-                    <div class="donation-area donation-left-item">
-
+                    <div class="donation-area" data-cause="Hunger and Poverty" role="option" tabindex="0" aria-selected="false">
                         <div class="donation-area-icon">
-
-                            <i class="fa-solid fa-bowl-food"></i>
-
+                            <i class="fa-solid fa-bowl-food" aria-hidden="true"></i>
                         </div>
-
                         <div>
-
-                            <strong>
-                                Hunger and Poverty
-                            </strong>
-
-                            <span>
-                                Essential support for vulnerable communities
-                            </span>
-
+                            <strong>Hunger and Poverty</strong>
+                            <span>Nutritional meals and essential ration packs</span>
                         </div>
-
                     </div>
 
-
-                    <!-- Healthcare -->
-
-                    <div class="donation-area donation-left-item">
-
+                    <!-- Healthcare and Medical Relief -->
+                    <div class="donation-area" data-cause="Healthcare and Medical Relief" role="option" tabindex="0" aria-selected="false">
                         <div class="donation-area-icon">
-
-                            <i class="fa-solid fa-heart-pulse"></i>
-
+                            <i class="fa-solid fa-heart-pulse" aria-hidden="true"></i>
                         </div>
-
                         <div>
-
-                            <strong>
-                                Healthcare and Medical Relief
-                            </strong>
-
-                            <span>
-                                Healthcare assistance and medical support
-                            </span>
-
+                            <strong>Healthcare and Medical Relief</strong>
+                            <span>Medical checkups, health camps and medicines</span>
                         </div>
-
                     </div>
-
 
                     <!-- Elders -->
-
-                    <div class="donation-area donation-left-item">
-
+                    <div class="donation-area" data-cause="Elders" role="option" tabindex="0" aria-selected="false">
                         <div class="donation-area-icon">
-
-                            <i class="fa-solid fa-person-cane"></i>
-
+                            <i class="fa-solid fa-person-cane" aria-hidden="true"></i>
                         </div>
-
                         <div>
-
-                            <strong>
-                                Elders
-                            </strong>
-
-                            <span>
-                                Care, dignity and essential assistance
-                            </span>
-
+                            <strong>Elders Care &amp; Dignity</strong>
+                            <span>Care, warmth, dignity and essential medical support</span>
                         </div>
-
                     </div>
-
 
                     <!-- Disaster Relief -->
-
-                    <div class="donation-area donation-area-wide donation-left-item">
-
+                    <div class="donation-area donation-area-wide" data-cause="Disaster Relief and Emergency Assistance" role="option" tabindex="0" aria-selected="false">
                         <div class="donation-area-icon">
-
-                            <i class="fa-solid fa-hand-holding-heart"></i>
-
+                            <i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i>
                         </div>
-
                         <div>
-
-                            <strong>
-                                Disaster Relief and Emergency Assistance
-                            </strong>
-
-                            <span>
-                                Timely help during emergencies and crises
-                            </span>
-
+                            <strong>Disaster Relief and Emergency Assistance</strong>
+                            <span>Timely crisis rescue, emergency kits and community rehabilitation</span>
                         </div>
-
                     </div>
-
 
                 </div>
 
-
-                <!-- =================================================
-                 TRUST INFORMATION
-            ================================================== -->
-
+                <!-- Trust Indicators -->
                 <div class="donation-trust-row">
-
-
-                    <div class="donation-trust-item donation-left-item">
-
-                        <i class="fa-solid fa-shield-halved"></i>
-
-                        <span>
-                            Secure information
-                        </span>
-
+                    <div class="donation-trust-item">
+                        <i class="fa-solid fa-shield-check" aria-hidden="true"></i>
+                        <span>100% Transparent</span>
                     </div>
-
-
-                    <div class="donation-trust-item donation-left-item">
-
-                        <i class="fa-solid fa-receipt"></i>
-
-                        <span>
-                            Clear donation record
-                        </span>
-
+                    <div class="donation-trust-item">
+                        <i class="fa-solid fa-building-columns" aria-hidden="true"></i>
+                        <span>Direct Trust Account</span>
                     </div>
-
-
-                    <div class="donation-trust-item donation-left-item">
-
-                        <i class="fa-solid fa-hand-holding-heart"></i>
-
-                        <span>
-                            Purpose-led giving
-                        </span>
-
+                    <div class="donation-trust-item">
+                        <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+                        <span>Instant Verification</span>
                     </div>
-
-
                 </div>
-
-
-                <!-- =================================================
-                 INFORMATION NOTE
-            ================================================== -->
-
-                <div class="donation-note-left donation-left-reveal">
-
-                    <i class="fa-solid fa-circle-info"></i>
-
-                    <p>
-
-                        We ask for a few details so we can identify
-                        your contribution correctly and contact you
-                        only when necessary regarding your donation.
-
-                    </p>
-
-                </div>
-
 
             </div>
 
-
-
             <!-- =================================================
-             DONATION FORM
-        ================================================== -->
-
-            <?php if (!empty($errorMessage)): ?>
-                <div class="alert alert-danger mb-3">
-                    <?php echo htmlspecialchars($errorMessage); ?>
-                </div>
-            <?php endif; ?>
-
-            <div class="donation-form-card donation-right-card">
-
+                 RIGHT COLUMN: DONATION FORM CARD
+            ================================================== -->
+            <div class="donation-form-card" id="contribution-form">
+                <?php if (!empty($errorMessage)): ?>
+                    <div class="alert alert-danger mb-4" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>
+                        <?php echo htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8'); ?>
+                    </div>
+                <?php endif; ?>
 
                 <!-- Form heading -->
-
-                <div class="donation-form-top donation-right-item">
-
-                    <span class="donation-form-kicker">
-                        DONATION DETAILS
-                    </span>
-
-                    <h2>
-                        Make your contribution
-                    </h2>
-
-                    <p>
-                        A few details help us keep an accurate record
-                        of your support.
-                    </p>
-
+                <div class="donation-form-top">
+                    <span class="donation-form-kicker">DONATION DETAILS</span>
+                    <h2>Make your contribution</h2>
+                    <p>A few details help us keep an accurate record of your generous support.</p>
                 </div>
 
+                <!-- Donation Details Form -->
+                <form action="donate.php" method="POST" id="donationDetailsForm" novalidate>
 
-                <!-- =================================================
-                 FORM
-            ================================================== -->
-
-                <form
-                    action="payment.php"
-                    method="POST"
-                    id="donationDetailsForm">
-
-
-                    <!-- =============================================
-                     NAME
-                ============================================== -->
-
-                    <div class="donation-form-group donation-right-item">
-
-                        <label for="donorName">
-                            Full Name
-                        </label>
-
+                    <!-- Full Name -->
+                    <div class="donation-form-group">
+                        <label for="donorName">Full Name</label>
                         <input
                             type="text"
                             id="donorName"
                             name="donor_name"
+                            value="<?php echo htmlspecialchars($_POST['donor_name'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                             placeholder="Enter your full name"
                             autocomplete="name"
                             maxlength="100"
                             required>
-
                     </div>
 
-
-
-                    <!-- =============================================
-                     EMAIL
-                ============================================== -->
-
-                    <div class="donation-form-group donation-right-item">
-
-                        <label for="donorEmail">
-                            Email Address
-                        </label>
-
+                    <!-- Email Address -->
+                    <div class="donation-form-group">
+                        <label for="donorEmail">Email Address</label>
                         <input
                             type="email"
                             id="donorEmail"
                             name="donor_email"
+                            value="<?php echo htmlspecialchars($_POST['donor_email'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                             placeholder="you@example.com"
                             autocomplete="email"
                             maxlength="150"
                             required>
-
                     </div>
 
-
-
-                    <!-- =============================================
-                     PHONE
-                ============================================== -->
-
-                    <div class="donation-form-group donation-right-item">
-
+                    <!-- Phone Number (Optional) -->
+                    <div class="donation-form-group">
                         <div class="donation-label-row">
-
-                            <label for="donorPhone">
-                                Phone Number
-                            </label>
-
-                            <span>
-                                Optional
-                            </span>
-
+                            <label for="donorPhone">Phone Number</label>
+                            <span>Optional</span>
                         </div>
-
                         <input
                             type="tel"
                             id="donorPhone"
                             name="donor_phone"
+                            value="<?php echo htmlspecialchars($_POST['donor_phone'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                             placeholder="Enter your phone number"
                             autocomplete="tel"
                             maxlength="20">
-
                     </div>
 
-
-
-                    <!-- =============================================
-                     PURPOSE
-                ============================================== -->
-
-                    <div class="donation-form-group donation-right-item">
-
-                        <label for="donationPurpose">
-
-                            I'd like my contribution to support
-
-                        </label>
-
-
-                        <select
-                            id="donationPurpose"
-                            name="donation_purpose"
-                            required>
-
-                            <option
-                                value=""
-                                selected
-                                disabled>
-                                Select an area
-                            </option>
-
-
-                            <option value="Education">
-                                Education
-                            </option>
-
-
-                            <option value="Hunger and Poverty">
-                                Hunger and Poverty
-                            </option>
-
-
-                            <option value="Healthcare and Medical Relief">
-                                Healthcare and Medical Relief
-                            </option>
-
-
-                            <option value="Elders">
-                                Elders
-                            </option>
-
-
-                            <option value="Disaster Relief and Emergency Assistance">
-                                Disaster Relief and Emergency Assistance
-                            </option>
-
+                    <!-- Purpose Selection -->
+                    <div class="donation-form-group">
+                        <label for="donationPurpose">I'd like my contribution to support</label>
+                        <select id="donationPurpose" name="donation_purpose" required>
+                            <option value="" <?php echo empty($_POST['donation_purpose']) ? 'selected' : ''; ?> disabled>Select an area</option>
+                            <option value="Education" <?php echo (($_POST['donation_purpose'] ?? '') === 'Education') ? 'selected' : ''; ?>>Education</option>
+                            <option value="Hunger and Poverty" <?php echo (($_POST['donation_purpose'] ?? '') === 'Hunger and Poverty') ? 'selected' : ''; ?>>Hunger and Poverty</option>
+                            <option value="Healthcare and Medical Relief" <?php echo (($_POST['donation_purpose'] ?? '') === 'Healthcare and Medical Relief') ? 'selected' : ''; ?>>Healthcare and Medical Relief</option>
+                            <option value="Elders" <?php echo (($_POST['donation_purpose'] ?? '') === 'Elders') ? 'selected' : ''; ?>>Elders</option>
+                            <option value="Disaster Relief and Emergency Assistance" <?php echo (($_POST['donation_purpose'] ?? '') === 'Disaster Relief and Emergency Assistance') ? 'selected' : ''; ?>>Disaster Relief and Emergency Assistance</option>
                         </select>
-
                     </div>
 
+                    <!-- Contribution Amount -->
+                    <div class="donation-form-group">
+                        <label for="donationAmount">Contribution Amount</label>
 
-
-                    <!-- =============================================
-                     AMOUNT
-                ============================================== -->
-
-                    <div class="donation-form-group donation-right-item">
-
-                        <label>
-                            Contribution Amount
-                        </label>
-
-
+                        <!-- Presets with Impact Tags -->
                         <div class="donation-amount-options">
-
-
-                            <button
-                                type="button"
-                                class="donation-amount-option"
-                                data-amount="500">
-                                ₹500
+                            <button type="button" class="donation-amount-option" aria-pressed="false" data-amount="500">
+                                <span>₹500</span>
+                                <small>Essential kits</small>
                             </button>
-
-
-                            <button
-                                type="button"
-                                class="donation-amount-option"
-                                data-amount="1000">
-                                ₹1,000
+                            <button type="button" class="donation-amount-option" aria-pressed="false" data-amount="1000">
+                                <span>₹1,000</span>
+                                <small>Family meals</small>
                             </button>
-
-
-                            <button
-                                type="button"
-                                class="donation-amount-option"
-                                data-amount="2500">
-                                ₹2,500
+                            <button type="button" class="donation-amount-option" aria-pressed="false" data-amount="2500">
+                                <span>₹2,500</span>
+                                <small>Medical aid</small>
                             </button>
-
-
-                            <button
-                                type="button"
-                                class="donation-amount-option"
-                                data-amount="5000">
-                                ₹5,000
+                            <button type="button" class="donation-amount-option" aria-pressed="false" data-amount="5000">
+                                <span>₹5,000</span>
+                                <small>Holistic care</small>
                             </button>
-
-
                         </div>
 
-
+                        <!-- Custom Amount Input -->
                         <div class="donation-custom-amount">
-
-                            <span>
-                                ₹
-                            </span>
-
+                            <span>₹</span>
                             <input
                                 type="number"
                                 id="donationAmount"
                                 name="donation_amount"
+                                value="<?php echo htmlspecialchars($_POST['donation_amount'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
                                 placeholder="Or enter another amount"
                                 min="1"
                                 max="10000000"
                                 step="1"
                                 required>
-
                         </div>
-
                     </div>
 
-
-
-                    <!-- =============================================
-                     PRIVACY / RECORD NOTICE
-                ============================================== -->
-
-                    <div class="donation-form-notice donation-right-item">
-
-                        <i class="fa-solid fa-lock"></i>
-
-                        <p>
-
-                            Your information is used for maintaining
-                            donation records and for necessary
-                            donation-related communication.
-
-                        </p>
-
+                    <!-- Live Contribution Summary Drawer -->
+                    <div class="giving-preview">
+                        <div class="giving-preview-label">
+                            <span>Your Contribution</span>
+                            <small id="givingPurposePreview">General support</small>
+                        </div>
+                        <strong id="givingAmountPreview" role="status" aria-live="polite">Your choice</strong>
                     </div>
 
+                    <!-- Privacy Assurance -->
+                    <div class="donation-form-notice">
+                        <i class="fa-solid fa-lock" aria-hidden="true"></i>
+                        <p>We record your contribution with high privacy standards and only use your details for verification.</p>
+                    </div>
 
-
-                    <!-- =============================================
-                     CONTINUE
-                ============================================== -->
-
-                    <button
-                        type="submit"
-                        class="donation-continue donation-right-item">
-
-                        <span>
-                            Continue to Payment
-                        </span>
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
+                    <!-- Submit Button -->
+                    <button type="submit" class="donation-continue">
+                        <span>Continue to Payment</span>
+                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
                     </button>
 
-
-                    <p class="donation-payment-note donation-right-item">
-
-                        You will review your contribution details
-                        before proceeding to payment.
-
-                    </p>
-
+                    <p class="donation-payment-note">Next: Review your donation details and pay with UPI.</p>
 
                 </form>
-
             </div>
 
         </div>
-
     </section>
 
-
-
     <!-- =========================================================
-     BOTTOM TRUST MESSAGE
-========================================================= -->
-
-    <section class="donation-bottom donation-bottom-reveal">
-
+         BOTTOM TRUST MESSAGE
+    ========================================================= -->
+    <section class="donation-bottom">
         <div class="donation-bottom-inner">
-
-            <i class="fa-solid fa-heart"></i>
-
+            <i class="fa-solid fa-heart" aria-hidden="true"></i>
             <div>
-
-                <strong>
-                    Thank you for supporting Sevartha Foundation.
-                </strong>
-
-                <p>
-                    Your contribution helps us continue work that
-                    is rooted in people, dignity and meaningful action.
-                </p>
-
+                <strong>Thank you for supporting Sevartha Foundation.</strong>
+                <p>Your contribution helps us continue work that is rooted in people, dignity, and meaningful community action.</p>
             </div>
-
         </div>
-
     </section>
 
-
-
     <!-- =========================================================
-     FOOTER
-========================================================= -->
-
+         FOOTER
+    ========================================================= -->
     <?php include __DIR__ . '/../includes/footer.php'; ?>
 
-
-
-    <!-- =========================================================
-     DONATION SCRIPT
-========================================================= -->
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-
-            /*
-             * =====================================================
-             * DONATION PAGE LOAD ANIMATIONS
-             * =====================================================
-             */
-
-            const leftRevealElements =
-                document.querySelectorAll(".donation-left-reveal");
-
-            const leftItems =
-                document.querySelectorAll(".donation-left-item");
-
-            const rightItems =
-                document.querySelectorAll(".donation-right-item");
-
-            const rightCard =
-                document.querySelector(".donation-right-card");
-
-            const bottomReveal =
-                document.querySelector(".donation-bottom-reveal");
-
-
-            /*
-             * Left-side main content
-             * Appears one after another from the left.
-             */
-
-            leftRevealElements.forEach(function(element, index) {
-
-                element.style.transitionDelay =
-                    (0.15 + (index * 0.14)) + "s";
-
-            });
-
-
-            /*
-             * Left-side contribution/trust items
-             * Appear sequentially from the left.
-             */
-
-            leftItems.forEach(function(element, index) {
-
-                element.style.transitionDelay =
-                    (0.65 + (index * 0.13)) + "s";
-
-            });
-
-
-            /*
-             * Right-side form content
-             * Appears one after another from the right.
-             */
-
-            rightItems.forEach(function(element, index) {
-
-                element.style.transitionDelay =
-                    (0.35 + (index * 0.13)) + "s";
-
-            });
-
-
-            /*
-             * Start the right card entrance.
-             */
-
-            requestAnimationFrame(function() {
-
-                if (rightCard) {
-                    rightCard.classList.add(
-                        "donation-right-card-visible"
-                    );
-                }
-
-            });
-
-
-            /*
-             * Start all left and right animations
-             * after the browser has painted the initial state.
-             */
-
-            requestAnimationFrame(function() {
-
-                requestAnimationFrame(function() {
-
-                    leftRevealElements.forEach(function(element) {
-
-                        element.classList.add(
-                            "donation-animation-visible"
-                        );
-
-                    });
-
-
-                    leftItems.forEach(function(element) {
-
-                        element.classList.add(
-                            "donation-animation-visible"
-                        );
-
-                    });
-
-
-                    rightItems.forEach(function(element) {
-
-                        element.classList.add(
-                            "donation-animation-visible"
-                        );
-
-                    });
-
-
-                    if (bottomReveal) {
-
-                        bottomReveal.classList.add(
-                            "donation-bottom-visible"
-                        );
-
-                    }
-
-                });
-
-            });
-
-
-
-            /*
-             * =====================================================
-             * AMOUNT SELECTION
-             * =====================================================
-             */
-
-            const amountButtons =
-                document.querySelectorAll(".donation-amount-option");
-
-            const amountInput =
-                document.getElementById("donationAmount");
-
-
-            amountButtons.forEach(button => {
-
-                button.addEventListener("click", function() {
-
-
-                    amountButtons.forEach(item => {
-
-                        item.classList.remove("selected");
-
-                    });
-
-
-                    this.classList.add("selected");
-
-
-                    amountInput.value =
-                        this.dataset.amount;
-
-                });
-
-            });
-
-
-            /*
-             * Remove preset selection when
-             * donor enters a custom amount.
-             */
-
-            amountInput.addEventListener("input", function() {
-
-                amountButtons.forEach(item => {
-
-                    item.classList.remove("selected");
-
-                });
-
-            });
-
-
-            /*
-             * =====================================================
-             * BASIC AMOUNT VALIDATION
-             * =====================================================
-             */
-
-            document
-                .getElementById("donationDetailsForm")
-                .addEventListener("submit", function(event) {
-
-
-                    const amount =
-                        Number(amountInput.value);
-
-
-                    if (
-                        !amount ||
-                        amount < 1 ||
-                        amount > 10000000
-                    ) {
-
-                        event.preventDefault();
-
-                        amountInput.focus();
-
-                        return;
-
-                    }
-
-                });
-
-        });
-    </script>
-
-
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="giving.js?v=4"></script>
 </body>
 
 </html>

@@ -1,41 +1,59 @@
 <?php
 
 /* =========================================================
-   SESSION
+   SESSION & AUTHENTICATION
 ========================================================= */
 
 session_start();
 
-
-/* =========================================================
-   ADMIN AUTHENTICATION
-========================================================= */
-
 if (!isset($_SESSION['admin_id'])) {
-
     header("Location: ../login.php");
     exit();
-
 }
 
-
 /* =========================================================
-   DATABASE CONNECTION
+   DATABASE CONNECTION & INCLUDES
 ========================================================= */
 
 include "../../config/db.php";
-
-
-/* =========================================================
-   MESSAGE VARIABLES
-========================================================= */
+include "../../includes/mailer.php";
+include "../../includes/certificate.php";
 
 $successMessage = '';
 $errorMessage = '';
 
+/* =========================================================
+   HANDLE DIRECT PDF DOWNLOAD (GET REQUEST)
+========================================================= */
+
+if (isset($_GET['action']) && $_GET['action'] === 'download_pdf' && isset($_GET['id'])) {
+    $donId = (int) $_GET['id'];
+    $stmt = mysqli_prepare($conn, "SELECT * FROM donations WHERE id = ? LIMIT 1");
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $donId);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        $don = mysqli_fetch_assoc($res);
+        mysqli_stmt_close($stmt);
+
+        if ($don) {
+            $pdf = SevarthaCertificate::generatePdf($don);
+            $certNum = SevarthaCertificate::getCertificateNumber($donId);
+            $filename = "Sevartha_Certificate_{$certNum}.pdf";
+
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            header('Content-Length: ' . strlen($pdf));
+            header('Cache-Control: private, max-age=0, must-revalidate');
+            header('Pragma: public');
+            echo $pdf;
+            exit;
+        }
+    }
+}
 
 /* =========================================================
-   HANDLE APPROVE / REJECT
+   HANDLE ACTIONS: APPROVE / RESEND / REJECT
 ========================================================= */
 
 if (
@@ -43,18 +61,13 @@ if (
     isset($_POST['action']) &&
     isset($_POST['donation_id'])
 ) {
-
     $donationId = (int) $_POST['donation_id'];
     $action = $_POST['action'];
 
-
-    /* =====================================================
-       APPROVE DONATION
-       pending -> completed
-    ===================================================== */
-
+    /* ---------------------------------------------------------
+       1. APPROVE & SEND CERTIFICATE
+    --------------------------------------------------------- */
     if ($action === 'approve') {
-
         $stmt = mysqli_prepare(
             $conn,
             "
@@ -68,55 +81,97 @@ if (
             "
         );
 
-
         if ($stmt) {
-
-            mysqli_stmt_bind_param(
-                $stmt,
-                "i",
-                $donationId
-            );
-
+            mysqli_stmt_bind_param($stmt, "i", $donationId);
 
             if (mysqli_stmt_execute($stmt)) {
-
                 if (mysqli_stmt_affected_rows($stmt) > 0) {
+                    mysqli_stmt_close($stmt);
 
-                    $successMessage =
-                        "Donation approved successfully.";
+                    // Fetch updated donation record
+                    $fetchStmt = mysqli_prepare($conn, "SELECT * FROM donations WHERE id = ? LIMIT 1");
+                    mysqli_stmt_bind_param($fetchStmt, "i", $donationId);
+                    mysqli_stmt_execute($fetchStmt);
+                    $donRes = mysqli_stmt_get_result($fetchStmt);
+                    $donationRow = mysqli_fetch_assoc($donRes);
+                    mysqli_stmt_close($fetchStmt);
 
+                    if ($donationRow) {
+                        $pdfBytes = SevarthaCertificate::generatePdf($donationRow);
+                        $certNumber = SevarthaCertificate::getCertificateNumber($donationId);
+                        $token = SevarthaCertificate::getSecurityToken($donationId, $donationRow['donor_email']);
+
+                        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+                        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+                        $webCertUrl = "{$scheme}://{$host}/NGO-Website/donate/certificate.php?id={$donationId}&token={$token}";
+
+                        $mailer = SevarthaMailer::loadSettings($conn);
+                        if ($mailer->isConfigured()) {
+                            if ($mailer->sendDonationVerification($donationRow, $certNumber, $pdfBytes, $webCertUrl)) {
+                                $successMessage = "Donation #{$donationId} verified! Official Certificate ({$certNumber}) was generated and emailed to " . htmlspecialchars($donationRow['donor_email']) . ".";
+                            } else {
+                                $successMessage = "Donation #{$donationId} verified successfully! However, the email could not be sent: " . htmlspecialchars($mailer->getLastError()) . ". You can check Email Settings or resend anytime.";
+                            }
+                        } else {
+                            $successMessage = "Donation #{$donationId} verified successfully! (Note: Email was not sent because Gmail SMTP is not configured yet. Configure it in <a href='email-settings.php' class='alert-link'>Email Settings</a> or download the certificate directly).";
+                        }
+                    } else {
+                        $successMessage = "Donation #{$donationId} approved successfully.";
+                    }
                 } else {
-
-                    $errorMessage =
-                        "Donation could not be approved. It may already have been processed.";
+                    mysqli_stmt_close($stmt);
+                    $errorMessage = "Donation could not be approved. It may already have been processed.";
                 }
-
             } else {
-
-                $errorMessage =
-                    "Database error while approving donation: " .
-                    mysqli_stmt_error($stmt);
+                $errorMessage = "Database error while approving donation: " . mysqli_stmt_error($stmt);
+                mysqli_stmt_close($stmt);
             }
-
-
-            mysqli_stmt_close($stmt);
-
         } else {
-
-            $errorMessage =
-                "Unable to prepare approval request: " .
-                mysqli_error($conn);
+            $errorMessage = "Unable to prepare approval request: " . mysqli_error($conn);
         }
     }
 
+    /* ---------------------------------------------------------
+       2. RESEND CERTIFICATE EMAIL (FOR COMPLETED DONATIONS)
+    --------------------------------------------------------- */
+    elseif ($action === 'resend_certificate') {
+        $fetchStmt = mysqli_prepare($conn, "SELECT * FROM donations WHERE id = ? LIMIT 1");
+        if ($fetchStmt) {
+            mysqli_stmt_bind_param($fetchStmt, "i", $donationId);
+            mysqli_stmt_execute($fetchStmt);
+            $donRes = mysqli_stmt_get_result($fetchStmt);
+            $donationRow = mysqli_fetch_assoc($donRes);
+            mysqli_stmt_close($fetchStmt);
 
-    /* =====================================================
-       REJECT DONATION
-       pending -> failed
-    ===================================================== */
+            if ($donationRow && $donationRow['payment_status'] === 'completed') {
+                $pdfBytes = SevarthaCertificate::generatePdf($donationRow);
+                $certNumber = SevarthaCertificate::getCertificateNumber($donationId);
+                $token = SevarthaCertificate::getSecurityToken($donationId, $donationRow['donor_email']);
 
+                $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+                $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+                $webCertUrl = "{$scheme}://{$host}/NGO-Website/donate/certificate.php?id={$donationId}&token={$token}";
+
+                $mailer = SevarthaMailer::loadSettings($conn);
+                if ($mailer->isConfigured()) {
+                    if ($mailer->sendDonationVerification($donationRow, $certNumber, $pdfBytes, $webCertUrl)) {
+                        $successMessage = "Certificate ({$certNumber}) successfully re-sent to " . htmlspecialchars($donationRow['donor_email']) . ".";
+                    } else {
+                        $errorMessage = "Unable to send email: " . htmlspecialchars($mailer->getLastError());
+                    }
+                } else {
+                    $errorMessage = "Gmail SMTP is not configured. Please configure it in <a href='email-settings.php' class='alert-link'>Email Settings</a> first.";
+                }
+            } else {
+                $errorMessage = "Donation must be verified before a certificate can be emailed.";
+            }
+        }
+    }
+
+    /* ---------------------------------------------------------
+       3. REJECT DONATION
+    --------------------------------------------------------- */
     elseif ($action === 'reject') {
-
         $stmt = mysqli_prepare(
             $conn,
             "
@@ -130,58 +185,59 @@ if (
             "
         );
 
-
         if ($stmt) {
-
-            mysqli_stmt_bind_param(
-                $stmt,
-                "i",
-                $donationId
-            );
-
-
+            mysqli_stmt_bind_param($stmt, "i", $donationId);
             if (mysqli_stmt_execute($stmt)) {
-
                 if (mysqli_stmt_affected_rows($stmt) > 0) {
-
-                    $successMessage =
-                        "Donation rejected successfully.";
-
+                    $successMessage = "Donation rejected successfully.";
                 } else {
-
-                    $errorMessage =
-                        "Donation could not be rejected. It may already have been processed.";
+                    $errorMessage = "Donation could not be rejected. It may already have been processed.";
                 }
-
             } else {
-
-                $errorMessage =
-                    "Database error while rejecting donation: " .
-                    mysqli_stmt_error($stmt);
+                $errorMessage = "Database error while rejecting donation: " . mysqli_stmt_error($stmt);
             }
-
-
             mysqli_stmt_close($stmt);
-
         } else {
-
-            $errorMessage =
-                "Unable to prepare rejection request: " .
-                mysqli_error($conn);
+            $errorMessage = "Unable to prepare rejection request: " . mysqli_error($conn);
         }
     }
 }
 
+/* =========================================================
+   FILTERS & SEARCH
+========================================================= */
+
+$statusFilter = trim($_GET['status'] ?? 'all');
+$searchQuery = trim($_GET['search'] ?? '');
+
+$whereClauses = [];
+$params = [];
+$types = '';
+
+if ($statusFilter !== 'all' && in_array($statusFilter, ['pending', 'completed', 'failed', 'cancelled'], true)) {
+    $whereClauses[] = "payment_status = ?";
+    $params[] = $statusFilter;
+    $types .= 's';
+}
+
+if ($searchQuery !== '') {
+    $searchTerm = "%{$searchQuery}%";
+    $whereClauses[] = "(donor_name LIKE ? OR donor_email LIKE ? OR transaction_id LIKE ? OR donation_purpose LIKE ?)";
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+    $params[] = $searchTerm;
+    $types .= 'ssss';
+}
+
+$whereSql = !empty($whereClauses) ? "WHERE " . implode(" AND ", $whereClauses) : "";
 
 /* =========================================================
-   GET DONATIONS
+   LOAD DONATIONS
 ========================================================= */
 
 $donations = [];
-
-$query = mysqli_query(
-    $conn,
-    "
+$sql = "
     SELECT
         id,
         donor_name,
@@ -196,320 +252,92 @@ $query = mysqli_query(
         created_at,
         updated_at
     FROM donations
+    {$whereSql}
     ORDER BY
         CASE
             WHEN payment_status = 'pending' THEN 1
             WHEN payment_status = 'completed' THEN 2
             WHEN payment_status = 'failed' THEN 3
-            WHEN payment_status = 'cancelled' THEN 4
-            ELSE 5
+            ELSE 4
         END,
-        COALESCE(
-            payment_submitted_at,
-            created_at
-        ) DESC
-    "
-);
+        COALESCE(payment_submitted_at, created_at) DESC
+";
 
-
-if ($query) {
-
-    while (
-        $row = mysqli_fetch_assoc($query)
-    ) {
-
-        $donations[] = $row;
+if (!empty($params)) {
+    $stmt = mysqli_prepare($conn, $sql);
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, $types, ...$params);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        while ($row = mysqli_fetch_assoc($res)) {
+            $donations[] = $row;
+        }
+        mysqli_stmt_close($stmt);
     }
-
 } else {
-
-    $errorMessage =
-        "Unable to load donations: " .
-        mysqli_error($conn);
+    $query = mysqli_query($conn, $sql);
+    if ($query) {
+        while ($row = mysqli_fetch_assoc($query)) {
+            $donations[] = $row;
+        }
+    }
 }
 
-
 /* =========================================================
-   COUNT PENDING DONATIONS
+   SUMMARY METRICS
 ========================================================= */
 
 $pendingCount = 0;
-
-$pendingQuery = mysqli_query(
-    $conn,
-    "
-    SELECT COUNT(*) AS total
-    FROM donations
-    WHERE payment_status = 'pending'
-    "
-);
-
-
-if ($pendingQuery) {
-
-    $pendingRow =
-        mysqli_fetch_assoc($pendingQuery);
-
-    $pendingCount =
-        (int) ($pendingRow['total'] ?? 0);
-}
-
-
-/* =========================================================
-   COUNT COMPLETED DONATIONS
-========================================================= */
-
 $completedCount = 0;
+$totalAmount = 0.0;
+$totalCount = 0;
 
-$completedQuery = mysqli_query(
-    $conn,
-    "
-    SELECT COUNT(*) AS total
+$statsQuery = mysqli_query($conn, "
+    SELECT
+        COUNT(*) AS total_donations,
+        SUM(CASE WHEN payment_status = 'pending' THEN 1 ELSE 0 END) AS total_pending,
+        SUM(CASE WHEN payment_status = 'completed' THEN 1 ELSE 0 END) AS total_completed,
+        SUM(CASE WHEN payment_status = 'completed' THEN donation_amount ELSE 0 END) AS sum_completed
     FROM donations
-    WHERE payment_status = 'completed'
-    "
-);
+");
 
-
-if ($completedQuery) {
-
-    $completedRow =
-        mysqli_fetch_assoc($completedQuery);
-
-    $completedCount =
-        (int) ($completedRow['total'] ?? 0);
+if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
+    $totalCount = (int) ($s['total_donations'] ?? 0);
+    $pendingCount = (int) ($s['total_pending'] ?? 0);
+    $completedCount = (int) ($s['total_completed'] ?? 0);
+    $totalAmount = (float) ($s['sum_completed'] ?? 0);
 }
 
 ?>
-
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donations &amp; Verification | Sevartha Foundation Admin</title>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        Donations | Admin | Sevartha Foundation
-    </title>
-
-
-    <!-- BOOTSTRAP -->
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-
-    <!-- FONT AWESOME -->
-
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-        rel="stylesheet"
-    >
-
-
-    <!-- ADMIN CSS -->
-
-    <link
-        rel="stylesheet"
-        href="../../css/admin/admin.css"
-    >
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/admin/admin.css">
 
     <style>
-
-        .donation-table-wrapper {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 24px;
-            overflow-x: auto;
-        }
-
-
-        .donation-table {
-            width: 100%;
-            min-width: 1250px;
-            border-collapse: collapse;
-        }
-
-
-        .donation-table th {
-            text-align: left;
-            padding: 15px;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #666;
-            background: #f7f7f7;
-            white-space: nowrap;
-        }
-
-
-        .donation-table td {
-            padding: 16px 15px;
-            border-bottom: 1px solid #eeeeee;
-            vertical-align: middle;
-        }
-
-
-        .donor-name {
-            font-weight: 600;
-        }
-
-
-        .donor-email {
-            font-size: 14px;
-            color: #666;
-        }
-
-
-        .donation-amount {
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-
-        .donation-phone {
-            white-space: nowrap;
-        }
-
-
-        .donation-date {
-            white-space: nowrap;
-            font-size: 14px;
-        }
-
-
-        .transaction-id {
-            font-family: monospace;
-            font-size: 13px;
-            background: #f6f6f6;
-            padding: 6px 8px;
-            border-radius: 6px;
-            white-space: nowrap;
-        }
-
-
-        /* =====================================================
-           STATUS
-        ===================================================== */
-
-        .payment-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-
-
-        .payment-status.pending {
-            background: #fff4d6;
-            color: #9a6800;
-        }
-
-
-        .payment-status.completed {
-            background: #e8f7ee;
-            color: #16834b;
-        }
-
-
-        .payment-status.failed {
-            background: #fdeaea;
-            color: #c62828;
-        }
-
-
-        .payment-status.cancelled {
-            background: #eeeeee;
-            color: #666666;
-        }
-
-
-        /* =====================================================
-           ACTION BUTTONS
-        ===================================================== */
-
-        .donation-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-
-        .donation-action-btn {
-            border: none;
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-
-        .approve-btn {
-            background: #198754;
-            color: #ffffff;
-        }
-
-
-        .approve-btn:hover {
-            background: #157347;
-        }
-
-
-        .reject-btn {
-            background: #dc3545;
-            color: #ffffff;
-        }
-
-
-        .reject-btn:hover {
-            background: #bb2d3b;
-        }
-
-
-        .view-only {
-            color: #777;
-            font-size: 13px;
-        }
-
-
-        /* =====================================================
-           SUMMARY CARDS
-        ===================================================== */
-
         .donation-summary {
             display: grid;
-            grid-template-columns: repeat(2, minmax(200px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 18px;
-            margin-bottom: 24px;
+            margin-bottom: 28px;
         }
-
 
         .donation-summary-card {
             background: #ffffff;
             border-radius: 16px;
-            padding: 20px;
+            padding: 22px 20px;
             display: flex;
             align-items: center;
             gap: 16px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+            border: 1px solid #e8e8e8;
         }
-
 
         .donation-summary-icon {
             width: 48px;
@@ -519,695 +347,470 @@ if ($completedQuery) {
             align-items: center;
             justify-content: center;
             font-size: 20px;
+            flex-shrink: 0;
         }
 
-
-        .pending-icon {
-            background: #fff4d6;
-            color: #9a6800;
-        }
-
-
-        .completed-icon {
-            background: #e8f7ee;
-            color: #16834b;
-        }
-
+        .pending-icon { background: #fff4d6; color: #9a6800; }
+        .completed-icon { background: #e8f7ee; color: #16834b; }
+        .total-icon { background: #eaf1fb; color: #1a73e8; }
+        .amount-icon { background: #f3e8fd; color: #8e24aa; }
 
         .donation-summary-card span {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 600;
             color: #777;
             margin-bottom: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-
 
         .donation-summary-card strong {
             display: block;
-            font-size: 24px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a1a;
         }
 
-
-        /* =====================================================
-           EMPTY
-        ===================================================== */
-
-        .empty-donations {
-            text-align: center;
-            padding: 70px 20px;
-            color: #777;
+        /* Filter & Search Bar */
+        .filter-bar {
+            background: #ffffff;
+            border: 1px solid #e8e8e8;
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-bottom: 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
         }
 
-
-        .empty-donations i {
-            font-size: 42px;
-            margin-bottom: 15px;
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
         }
 
-
-        /* =====================================================
-           ALERTS
-        ===================================================== */
-
-        .admin-alert {
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 20px;
+        .filter-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #555;
+            transition: all 0.2s;
         }
 
-
-        @media (max-width: 768px) {
-
-            .donation-summary {
-                grid-template-columns: 1fr;
-            }
-
+        .filter-tab:hover {
+            background: #f0f0f0;
+            color: #111;
         }
 
+        .filter-tab.active {
+            background: #545247;
+            color: #fff;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 8px;
+        }
+
+        .search-input {
+            padding: 8px 14px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 13px;
+            min-width: 260px;
+        }
+
+        /* Table */
+        .donation-table-wrapper {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid #e8e8e8;
+            overflow-x: auto;
+        }
+
+        .donation-table {
+            width: 100%;
+            min-width: 1200px;
+            border-collapse: collapse;
+        }
+
+        .donation-table th {
+            text-align: left;
+            padding: 14px 16px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #666;
+            background: #f8f9fa;
+            border-bottom: 2px solid #eaeaea;
+            white-space: nowrap;
+        }
+
+        .donation-table td {
+            padding: 16px;
+            border-bottom: 1px solid #eeeeee;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        .donor-name { font-weight: 700; color: #111; }
+        .donor-email { font-size: 12px; color: #666; margin-top: 2px; }
+        .donation-amount { font-weight: 800; color: #1a1a1a; white-space: nowrap; }
+
+        .transaction-id {
+            font-family: monospace;
+            font-size: 13px;
+            background: #f6f6f6;
+            padding: 6px 10px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            white-space: nowrap;
+            display: inline-block;
+        }
+
+        .payment-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .payment-status.pending { background: #fff4d6; color: #9a6800; border: 1px solid #ffe8a1; }
+        .payment-status.completed { background: #e8f7ee; color: #16834b; border: 1px solid #b7ebd0; }
+        .payment-status.failed { background: #fdeaea; color: #c62828; border: 1px solid #f9c7c7; }
+
+        .donation-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .donation-action-btn {
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .approve-btn {
+            background: #198754;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(25, 135, 84, 0.25);
+        }
+        .approve-btn:hover { background: #157347; color: #fff; }
+
+        .reject-btn {
+            background: #dc3545;
+            color: #ffffff;
+        }
+        .reject-btn:hover { background: #bb2d3b; color: #fff; }
+
+        .pdf-btn {
+            background: #545247;
+            color: #ffffff;
+        }
+        .pdf-btn:hover { background: #46443b; color: #fff; }
+
+        .view-btn {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+        .view-btn:hover { background: #e4e4e4; color: #111; }
+
+        .resend-btn {
+            background: #eaf1fb;
+            color: #1a73e8;
+            border: 1px solid #c7ddfb;
+        }
+        .resend-btn:hover { background: #d3e3fd; color: #0d47a1; }
+
+        .top-action-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        @media (max-width: 992px) {
+            .donation-summary { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 576px) {
+            .donation-summary { grid-template-columns: 1fr; }
+            .filter-bar { flex-direction: column; align-items: stretch; }
+            .search-input { width: 100%; min-width: 0; }
+        }
     </style>
-
 </head>
-
 
 <body class="admin-dashboard">
 
-
-<!-- =========================================================
-     ADMIN NAVBAR
-========================================================= -->
-
+<!-- NAVBAR -->
 <nav class="admin-navbar">
-
     <div class="container-fluid px-4">
-
-
-        <a
-            class="admin-brand"
-            href="../dashboard.php"
-        >
-
+        <a class="admin-brand" href="../dashboard.php">
             Sevartha Foundation
-
-            <span class="text-muted">
-                | Admin
-            </span>
-
+            <span class="text-muted">| Admin</span>
         </a>
 
-
         <div class="admin-user">
-
             <span>
-
                 <i class="fa-solid fa-user me-1"></i>
-
-                <?= htmlspecialchars(
-                    $_SESSION['admin_name'] ?? 'Admin'
-                ); ?>
-
+                <?= htmlspecialchars($_SESSION['admin_name'] ?? 'Admin'); ?>
             </span>
-
-
-            <a
-                href="../logout.php"
-                class="admin-logout"
-            >
-
-                <i class="fa-solid fa-right-from-bracket"></i>
-
-                Logout
-
+            <a href="../logout.php" class="admin-logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
             </a>
-
         </div>
-
     </div>
-
 </nav>
-
-
-<!-- =========================================================
-     MAIN
-========================================================= -->
 
 <main class="admin-container">
 
-
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-
-    <div class="admin-header">
-
+    <!-- HEADER & QUICK ACTIONS -->
+    <div class="admin-header d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
-
-            <h1>
-                Donations
-            </h1>
-
-            <p>
-                Review and manage donor payment submissions.
-            </p>
-
+            <h1>Donations &amp; Verification</h1>
+            <p>Review donor payments, verify transactions, and automatically generate/email certificates.</p>
         </div>
 
-
-        <a
-            href="../dashboard.php"
-            class="admin-btn-secondary"
-        >
-
-            <i class="fa-solid fa-arrow-left"></i>
-
-            Dashboard
-
-        </a>
-
+        <div class="top-action-bar">
+            <a href="email-settings.php" class="btn btn-outline-dark btn-sm fw-bold">
+                <i class="fa-solid fa-envelope me-1"></i> Email &amp; SMTP Settings
+            </a>
+            <a href="payment-settings.php" class="btn btn-outline-secondary btn-sm fw-bold">
+                <i class="fa-solid fa-qrcode me-1"></i> UPI &amp; QR Settings
+            </a>
+            <a href="../dashboard.php" class="admin-btn-secondary">
+                <i class="fa-solid fa-arrow-left"></i> Dashboard
+            </a>
+        </div>
     </div>
 
-
-    <!-- =====================================================
-         SUCCESS MESSAGE
-    ====================================================== -->
-
+    <!-- ALERTS -->
     <?php if ($successMessage !== ''): ?>
-
-        <div class="alert alert-success admin-alert">
-
+        <div class="alert alert-success admin-alert alert-dismissible fade show" role="alert">
             <i class="fa-solid fa-circle-check me-2"></i>
-
-            <?= htmlspecialchars($successMessage); ?>
-
+            <?= $successMessage; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
     <?php endif; ?>
-
-
-    <!-- =====================================================
-         ERROR MESSAGE
-    ====================================================== -->
 
     <?php if ($errorMessage !== ''): ?>
-
-        <div class="alert alert-danger admin-alert">
-
+        <div class="alert alert-danger admin-alert alert-dismissible fade show" role="alert">
             <i class="fa-solid fa-circle-exclamation me-2"></i>
-
-            <?= htmlspecialchars($errorMessage); ?>
-
+            <?= $errorMessage; ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-
     <?php endif; ?>
 
-
-    <!-- =====================================================
-         SUMMARY
-    ====================================================== -->
-
+    <!-- SUMMARY METRICS -->
     <div class="donation-summary">
-
-
-        <!-- PENDING -->
-
         <div class="donation-summary-card">
-
             <div class="donation-summary-icon pending-icon">
-
                 <i class="fa-solid fa-clock"></i>
-
             </div>
-
             <div>
-
-                <span>
-                    Awaiting Approval
-                </span>
-
-                <strong>
-                    <?= $pendingCount; ?>
-                </strong>
-
+                <span>Awaiting Verification</span>
+                <strong><?= $pendingCount; ?></strong>
             </div>
-
         </div>
-
-
-        <!-- COMPLETED -->
 
         <div class="donation-summary-card">
-
             <div class="donation-summary-icon completed-icon">
-
                 <i class="fa-solid fa-circle-check"></i>
-
             </div>
-
             <div>
-
-                <span>
-                    Approved Donations
-                </span>
-
-                <strong>
-                    <?= $completedCount; ?>
-                </strong>
-
+                <span>Verified / Completed</span>
+                <strong><?= $completedCount; ?></strong>
             </div>
-
         </div>
 
+        <div class="donation-summary-card">
+            <div class="donation-summary-icon amount-icon">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+            </div>
+            <div>
+                <span>Total Collected</span>
+                <strong>₹<?= number_format($totalAmount); ?></strong>
+            </div>
+        </div>
 
+        <div class="donation-summary-card">
+            <div class="donation-summary-icon total-icon">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+            </div>
+            <div>
+                <span>Total Submissions</span>
+                <strong><?= $totalCount; ?></strong>
+            </div>
+        </div>
     </div>
 
+    <!-- FILTERS & SEARCH -->
+    <div class="filter-bar">
+        <div class="filter-tabs">
+            <a href="index.php?status=all" class="filter-tab <?= ($statusFilter === 'all') ? 'active' : ''; ?>">
+                All (<?= $totalCount; ?>)
+            </a>
+            <a href="index.php?status=pending" class="filter-tab <?= ($statusFilter === 'pending') ? 'active' : ''; ?>">
+                Pending (<?= $pendingCount; ?>)
+            </a>
+            <a href="index.php?status=completed" class="filter-tab <?= ($statusFilter === 'completed') ? 'active' : ''; ?>">
+                Verified (<?= $completedCount; ?>)
+            </a>
+            <a href="index.php?status=failed" class="filter-tab <?= ($statusFilter === 'failed') ? 'active' : ''; ?>">
+                Failed / Rejected
+            </a>
+        </div>
 
-    <!-- =====================================================
-         DONATION TABLE
-    ====================================================== -->
+        <form method="GET" class="search-form">
+            <?php if ($statusFilter !== 'all'): ?>
+                <input type="hidden" name="status" value="<?= htmlspecialchars($statusFilter); ?>">
+            <?php endif; ?>
+            <input type="text" name="search" class="search-input" value="<?= htmlspecialchars($searchQuery); ?>" placeholder="Search name, email, UTR, cause...">
+            <button type="submit" class="btn btn-dark btn-sm px-3 fw-bold">Search</button>
+            <?php if ($searchQuery !== ''): ?>
+                <a href="index.php?status=<?= urlencode($statusFilter); ?>" class="btn btn-outline-secondary btn-sm">Clear</a>
+            <?php endif; ?>
+        </form>
+    </div>
 
+    <!-- DONATIONS TABLE -->
     <div class="donation-table-wrapper">
-
-
-        <?php if (empty($donations)): ?>
-
-
-            <div class="empty-donations">
-
-                <i class="fa-solid fa-hand-holding-dollar"></i>
-
-                <h3>
-                    No donations yet
-                </h3>
-
-                <p>
-                    Payment submissions will appear here.
-                </p>
-
-            </div>
-
-
-        <?php else: ?>
-
-
-            <div class="table-responsive">
-
-                <table class="donation-table">
-
-
-                    <thead>
-
+        <?php if (!empty($donations)): ?>
+            <table class="donation-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Donor Name &amp; Email</th>
+                        <th>Phone</th>
+                        <th>Supported Purpose</th>
+                        <th>Amount</th>
+                        <th>UPI Ref (UTR)</th>
+                        <th>Submitted At</th>
+                        <th>Status</th>
+                        <th>Actions &amp; Certificate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($donations as $don): ?>
                         <tr>
-
-                            <th>
-                                #
-                            </th>
-
-                            <th>
-                                Payer
-                            </th>
-
-                            <th>
-                                Email
-                            </th>
-
-                            <th>
-                                Phone
-                            </th>
-
-                            <th>
-                                Purpose
-                            </th>
-
-                            <th>
-                                Amount
-                            </th>
-
-                            <th>
-                                Method
-                            </th>
-
-                            <th>
-                                Transaction ID
-                            </th>
-
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Date
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-
-                    <?php foreach (
-                        $donations as $donation
-                    ): ?>
-
-
-                        <tr>
-
-
-                            <!-- ID -->
-
+                            <td>#<?= (int) $don['id']; ?></td>
                             <td>
-
-                                <?= (int)
-                                    $donation['id'];
-                                ?>
-
+                                <div class="donor-name"><?= htmlspecialchars($don['donor_name']); ?></div>
+                                <div class="donor-email"><?= htmlspecialchars($don['donor_email']); ?></div>
                             </td>
-
-
-                            <!-- NAME -->
-
+                            <td><?= !empty($don['donor_phone']) ? htmlspecialchars($don['donor_phone']) : '<span class="text-muted">—</span>'; ?></td>
                             <td>
-
-                                <div class="donor-name">
-
-                                    <?= htmlspecialchars(
-                                        $donation['donor_name']
-                                    ); ?>
-
-                                </div>
-
-                            </td>
-
-
-                            <!-- EMAIL -->
-
-                            <td>
-
-                                <div class="donor-email">
-
-                                    <?= htmlspecialchars(
-                                        $donation['donor_email']
-                                    ); ?>
-
-                                </div>
-
-                            </td>
-
-
-                            <!-- PHONE -->
-
-                            <td>
-
-                                <div class="donation-phone">
-
-                                    <?= htmlspecialchars(
-                                        $donation['donor_phone'] ?: '—'
-                                    ); ?>
-
-                                </div>
-
-                            </td>
-
-
-                            <!-- PURPOSE -->
-
-                            <td>
-
-                                <?= htmlspecialchars(
-                                    $donation['donation_purpose']
-                                ); ?>
-
-                            </td>
-
-
-                            <!-- AMOUNT -->
-
-                            <td>
-
-                                <div class="donation-amount">
-
-                                    ₹<?= number_format(
-                                        (float)
-                                        $donation['donation_amount'],
-                                        2
-                                    ); ?>
-
-                                </div>
-
-                            </td>
-
-
-                            <!-- METHOD -->
-
-                            <td>
-
-                                <?= htmlspecialchars(
-                                    $donation['payment_method']
-                                    ?: 'UPI'
-                                ); ?>
-
-                            </td>
-
-
-                            <!-- TRANSACTION ID -->
-
-                            <td>
-
-                                <span class="transaction-id">
-
-                                    <?= htmlspecialchars(
-                                        $donation['transaction_id']
-                                        ?: '—'
-                                    ); ?>
-
+                                <span class="badge bg-light text-dark border">
+                                    <?= htmlspecialchars($don['donation_purpose']); ?>
                                 </span>
-
                             </td>
-
-
-                            <!-- STATUS -->
-
                             <td>
-
-                                <?php
-
-                                $status =
-                                    $donation['payment_status'];
-
-                                ?>
-
-
-                                <?php if ($status === 'pending'): ?>
-
-                                    <span
-                                        class="payment-status pending"
-                                    >
-
-                                        <i class="fa-solid fa-clock"></i>
-
-                                        Pending
-
-                                    </span>
-
-
-                                <?php elseif ($status === 'completed'): ?>
-
-                                    <span
-                                        class="payment-status completed"
-                                    >
-
-                                        <i class="fa-solid fa-circle-check"></i>
-
-                                        Completed
-
-                                    </span>
-
-
-                                <?php elseif ($status === 'failed'): ?>
-
-                                    <span
-                                        class="payment-status failed"
-                                    >
-
-                                        <i class="fa-solid fa-circle-xmark"></i>
-
-                                        Failed
-
-                                    </span>
-
-
-                                <?php elseif ($status === 'cancelled'): ?>
-
-                                    <span
-                                        class="payment-status cancelled"
-                                    >
-
-                                        <i class="fa-solid fa-ban"></i>
-
-                                        Cancelled
-
-                                    </span>
-
-
-                                <?php endif; ?>
-
+                                <span class="donation-amount">₹<?= number_format((float)$don['donation_amount']); ?></span>
                             </td>
-
-
-                            <!-- DATE -->
-
                             <td>
+                                <code class="transaction-id"><?= htmlspecialchars($don['transaction_id']); ?></code>
+                            </td>
+                            <td>
+                                <span class="donation-date text-muted">
+                                    <?= date('d M Y, h:i A', strtotime($don['payment_submitted_at'] ?? $don['created_at'])); ?>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="payment-status <?= htmlspecialchars($don['payment_status']); ?>">
+                                    <?php if ($don['payment_status'] === 'pending'): ?>
+                                        <i class="fa-solid fa-clock"></i> Pending
+                                    <?php elseif ($don['payment_status'] === 'completed'): ?>
+                                        <i class="fa-solid fa-check"></i> Verified
+                                    <?php elseif ($don['payment_status'] === 'failed'): ?>
+                                        <i class="fa-solid fa-xmark"></i> Failed
+                                    <?php else: ?>
+                                        <?= htmlspecialchars(ucfirst($don['payment_status'])); ?>
+                                    <?php endif; ?>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="donation-actions">
+                                    <?php if ($don['payment_status'] === 'pending'): ?>
+                                        <!-- Verify Action -->
+                                        <form method="POST" class="d-inline" onsubmit="return confirm('Verify this payment? This will automatically generate and email the Certificate of Appreciation to the donor.');">
+                                            <input type="hidden" name="donation_id" value="<?= (int) $don['id']; ?>">
+                                            <button type="submit" name="action" value="approve" class="donation-action-btn approve-btn" title="Verify Payment &amp; Send Certificate">
+                                                <i class="fa-solid fa-check"></i> Verify &amp; Send Certificate
+                                            </button>
+                                        </form>
 
-                                <div class="donation-date">
+                                        <!-- Reject Action -->
+                                        <form method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to reject this payment record?');">
+                                            <input type="hidden" name="donation_id" value="<?= (int) $don['id']; ?>">
+                                            <button type="submit" name="action" value="reject" class="donation-action-btn reject-btn" title="Reject Payment">
+                                                <i class="fa-solid fa-xmark"></i> Reject
+                                            </button>
+                                        </form>
 
-                                    <?php
+                                    <?php elseif ($don['payment_status'] === 'completed'): ?>
+                                        <!-- Download PDF Certificate -->
+                                        <a href="index.php?action=download_pdf&id=<?= (int) $don['id']; ?>" class="donation-action-btn pdf-btn" title="Download PDF Certificate">
+                                            <i class="fa-solid fa-file-pdf"></i> Download PDF
+                                        </a>
 
-                                    $date =
-                                        $donation[
-                                            'payment_submitted_at'
-                                        ]
-                                        ??
-                                        $donation[
-                                            'created_at'
-                                        ];
+                                        <!-- View Web Certificate -->
+                                        <?php
+                                        $token = SevarthaCertificate::getSecurityToken((int)$don['id'], $don['donor_email']);
+                                        ?>
+                                        <a href="../../donate/certificate.php?id=<?= (int) $don['id']; ?>&token=<?= urlencode($token); ?>" target="_blank" class="donation-action-btn view-btn" title="View Digital Certificate">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Web View
+                                        </a>
 
-                                    echo date(
-                                        'd M Y, h:i A',
-                                        strtotime($date)
-                                    );
+                                        <!-- Resend Email -->
+                                        <form method="POST" class="d-inline" onsubmit="return confirm('Resend certificate email to <?= htmlspecialchars($don['donor_email']); ?>?');">
+                                            <input type="hidden" name="donation_id" value="<?= (int) $don['id']; ?>">
+                                            <button type="submit" name="action" value="resend_certificate" class="donation-action-btn resend-btn" title="Resend Certificate Email">
+                                                <i class="fa-solid fa-envelope"></i> Resend Email
+                                            </button>
+                                        </form>
 
-                                    ?>
-
+                                    <?php else: ?>
+                                        <span class="text-muted" style="font-size:12px;">No actions</span>
+                                    <?php endif; ?>
                                 </div>
-
                             </td>
-
-
-                            <!-- ACTION -->
-
-                            <td>
-
-
-                                <?php if ($status === 'pending'): ?>
-
-
-                                    <div class="donation-actions">
-
-
-                                        <!-- APPROVE -->
-
-                                        <form
-                                            method="POST"
-                                            onsubmit="return confirm('Are you sure you want to approve this donation?');"
-                                        >
-
-                                            <input
-                                                type="hidden"
-                                                name="donation_id"
-                                                value="<?= (int) $donation['id']; ?>"
-                                            >
-
-                                            <input
-                                                type="hidden"
-                                                name="action"
-                                                value="approve"
-                                            >
-
-                                            <button
-                                                type="submit"
-                                                class="donation-action-btn approve-btn"
-                                            >
-
-                                                <i class="fa-solid fa-check"></i>
-
-                                                Approve
-
-                                            </button>
-
-                                        </form>
-
-
-                                        <!-- REJECT -->
-
-                                        <form
-                                            method="POST"
-                                            onsubmit="return confirm('Are you sure you want to reject this donation?');"
-                                        >
-
-                                            <input
-                                                type="hidden"
-                                                name="donation_id"
-                                                value="<?= (int) $donation['id']; ?>"
-                                            >
-
-                                            <input
-                                                type="hidden"
-                                                name="action"
-                                                value="reject"
-                                            >
-
-                                            <button
-                                                type="submit"
-                                                class="donation-action-btn reject-btn"
-                                            >
-
-                                                <i class="fa-solid fa-xmark"></i>
-
-                                                Reject
-
-                                            </button>
-
-                                        </form>
-
-
-                                    </div>
-
-
-                                <?php else: ?>
-
-
-                                    <span class="view-only">
-                                        Processed
-                                    </span>
-
-
-                                <?php endif; ?>
-
-
-                            </td>
-
-
                         </tr>
-
-
                     <?php endforeach; ?>
-
-
-                    </tbody>
-
-                </table>
-
+                </tbody>
+            </table>
+        <?php else: ?>
+            <div class="text-center py-5 text-muted">
+                <i class="fa-solid fa-inbox fa-3x mb-3 text-secondary"></i>
+                <p class="mb-0">No donations found matching your selection.</p>
             </div>
-
-
         <?php endif; ?>
-
     </div>
 
 </main>
 
-<!-- =========================================================
-     BOOTSTRAP JS
-========================================================= -->
-
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
-</script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
