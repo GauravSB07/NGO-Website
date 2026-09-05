@@ -2633,3 +2633,203 @@
             none;
     }
 }
+/* =========================================================
+   SEVARTHA FOUNDATION
+   DONATION PAGE LOAD ANIMATION
+   LEFT → LEFT
+   RIGHT → RIGHT
+========================================================= */
+
+
+/* =========================================================
+   LEFT SIDE INITIAL STATE
+========================================================= */
+
+.donation-left-reveal,
+.donation-left-item {
+    opacity: 0;
+    transform: translateX(-55px);
+
+    transition:
+        opacity 0.75s ease,
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+
+    will-change: opacity, transform;
+}
+
+
+/* =========================================================
+   RIGHT SIDE INITIAL STATE
+========================================================= */
+
+.donation-right-card {
+    opacity: 0;
+    transform: translateX(55px);
+
+    transition:
+        opacity 0.85s ease,
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+
+    will-change: opacity, transform;
+}
+
+
+.donation-right-item {
+    opacity: 0;
+    transform: translateX(45px);
+
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+
+    will-change: opacity, transform;
+}
+
+
+/* =========================================================
+   VISIBLE STATE
+========================================================= */
+
+.donation-animation-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* =========================================================
+   LEFT SIDE HIERARCHY
+========================================================= */
+
+.donation-left-reveal:nth-child(1) {
+    transition-delay: 0.10s;
+}
+
+
+/* =========================================================
+   DONATION AREAS
+========================================================= */
+
+.donation-area.donation-left-item:nth-child(1) {
+    transition-delay: 0.75s;
+}
+
+.donation-area.donation-left-item:nth-child(2) {
+    transition-delay: 0.88s;
+}
+
+.donation-area.donation-left-item:nth-child(3) {
+    transition-delay: 1.01s;
+}
+
+.donation-area.donation-left-item:nth-child(4) {
+    transition-delay: 1.14s;
+}
+
+.donation-area.donation-left-item:nth-child(5) {
+    transition-delay: 1.27s;
+}
+
+
+/* =========================================================
+   TRUST ITEMS
+========================================================= */
+
+.donation-trust-item.donation-left-item:nth-child(1) {
+    transition-delay: 1.40s;
+}
+
+.donation-trust-item.donation-left-item:nth-child(2) {
+    transition-delay: 1.53s;
+}
+
+.donation-trust-item.donation-left-item:nth-child(3) {
+    transition-delay: 1.66s;
+}
+
+
+/* =========================================================
+   RIGHT FORM
+========================================================= */
+
+.donation-right-card {
+    transition-delay: 0s;
+}
+
+
+/* =========================================================
+   FORM ELEMENTS
+========================================================= */
+
+.donation-form-top.donation-right-item {
+    transition-delay: 0.30s;
+}
+
+.donation-form-group.donation-right-item:nth-of-type(1) {
+    transition-delay: 0.45s;
+}
+
+.donation-form-group.donation-right-item:nth-of-type(2) {
+    transition-delay: 0.58s;
+}
+
+.donation-form-group.donation-right-item:nth-of-type(3) {
+    transition-delay: 0.71s;
+}
+
+.donation-form-group.donation-right-item:nth-of-type(4) {
+    transition-delay: 0.84s;
+}
+
+.donation-form-group.donation-right-item:nth-of-type(5) {
+    transition-delay: 0.97s;
+}
+
+.donation-form-notice.donation-right-item {
+    transition-delay: 1.10s;
+}
+
+.donation-continue.donation-right-item {
+    transition-delay: 1.23s;
+}
+
+.donation-payment-note.donation-right-item {
+    transition-delay: 1.36s;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .donation-left-reveal,
+    .donation-left-item,
+    .donation-right-card,
+    .donation-right-item {
+        transform: translateY(30px);
+    }
+
+    .donation-animation-visible {
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .donation-left-reveal,
+    .donation-left-item,
+    .donation-right-card,
+    .donation-right-item {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+}
