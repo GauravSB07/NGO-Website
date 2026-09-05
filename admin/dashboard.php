@@ -130,10 +130,13 @@ include __DIR__ . '/includes/navbar.php';
                     <p>Review donor payments and automatically generate official certificates of appreciation.</p>
                 </div>
 
-                <div class="d-flex gap-2 mt-4">
+                <div class="d-flex gap-2 mt-4 flex-wrap">
                     <a href="donations/index.php" class="admin-btn-primary flex-grow-1">
                         <i class="fa-solid fa-certificate"></i>
                         Verify Donations
+                    </a>
+                    <a href="donations/certificate-settings.php" class="admin-btn-secondary" title="Customize Certificate Format & Structure">
+                        <i class="fa-solid fa-award"></i>
                     </a>
                     <a href="donations/email-settings.php" class="admin-btn-secondary" title="Email &amp; SMTP Settings">
                         <i class="fa-solid fa-gear"></i>
@@ -315,9 +318,14 @@ include __DIR__ . '/includes/navbar.php';
                 <?php endif; ?>
             </a>
 
+            <a href="donations/certificate-settings.php" class="admin-quick-btn">
+                <i class="fa-solid fa-award"></i>
+                Certificate Template Editor
+            </a>
+
             <a href="donations/email-settings.php" class="admin-quick-btn">
                 <i class="fa-solid fa-envelope-circle-check"></i>
-                Gmail SMTP &amp; Certificate Settings
+                Gmail SMTP Settings
             </a>
 
             <a href="events/add.php" class="admin-quick-btn">

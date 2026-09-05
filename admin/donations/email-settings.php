@@ -5,7 +5,9 @@
    ADMIN: EMAIL & CERTIFICATE AUTOMATION SETTINGS
 ========================================================= */
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['admin_id'])) {
     header('Location: ../login.php');
@@ -199,10 +201,20 @@ include __DIR__ . '/../includes/navbar.php';
 ?>
 
 <div class="settings-container">
-    <a href="index.php" class="back-link">
-        <i class="fa-solid fa-arrow-left"></i>
-        <span>Back to Donations Management</span>
-    </a>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <a href="index.php" class="back-link mb-0">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Donations Management</span>
+        </a>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="certificate-settings.php" class="btn btn-outline-dark btn-sm fw-bold">
+                <i class="fa-solid fa-award me-1"></i> Certificate Template
+            </a>
+            <a href="payment-settings.php" class="btn btn-outline-secondary btn-sm fw-bold">
+                <i class="fa-solid fa-qrcode me-1"></i> UPI &amp; QR Settings
+            </a>
+        </div>
+    </div>
 
     <div class="settings-card">
         <h1><i class="fa-solid fa-envelope me-2"></i>Email &amp; Automated Certificate Settings</h1>

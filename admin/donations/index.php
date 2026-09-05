@@ -667,7 +667,10 @@ include __DIR__ . '/../includes/navbar.php';
         </div>
 
         <div class="top-action-bar">
-            <a href="email-settings.php" class="btn btn-outline-dark btn-sm fw-bold">
+            <a href="certificate-settings.php" class="btn btn-outline-dark btn-sm fw-bold">
+                <i class="fa-solid fa-award me-1"></i> Certificate Template
+            </a>
+            <a href="email-settings.php" class="btn btn-outline-secondary btn-sm fw-bold">
                 <i class="fa-solid fa-envelope me-1"></i> Email &amp; SMTP Settings
             </a>
             <a href="payment-settings.php" class="btn btn-outline-secondary btn-sm fw-bold">
