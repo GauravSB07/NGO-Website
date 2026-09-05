@@ -1373,7 +1373,7 @@ if (isset($_POST['add_event'])) {
 
     <link
         rel="stylesheet"
-        href="../../css/admin/admin.css"
+        href="../../css/admin/admin.css?v=<?= time(); ?>"
     >
 
 </head>
@@ -1382,59 +1382,10 @@ if (isset($_POST['add_event'])) {
 <body class="admin-dashboard">
 
 
-<!-- =========================================================
-     ADMIN NAVBAR
-========================================================== -->
-
-<nav class="admin-navbar">
-
-    <div class="container-fluid px-4">
-
-        <a
-            class="admin-brand"
-            href="../dashboard.php"
-        >
-
-            Sevartha Foundation
-
-            <span class="text-muted">
-                | Admin
-            </span>
-
-        </a>
-
-
-        <div class="admin-user">
-
-            <span>
-
-                <i class="fa-solid fa-user me-1"></i>
-
-                <?= htmlspecialchars(
-                    $_SESSION['admin_name']
-                ); ?>
-
-            </span>
-
-
-            <a
-                href="../logout.php"
-                class="admin-logout"
-            >
-
-                <i
-                    class="fa-solid fa-right-from-bracket"
-                ></i>
-
-                Logout
-
-            </a>
-
-        </div>
-
-    </div>
-
-</nav>
+<?php
+$activeNav = 'events';
+include __DIR__ . '/../includes/navbar.php';
+?>
 
 
 <!-- =========================================================
