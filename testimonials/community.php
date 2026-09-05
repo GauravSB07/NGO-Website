@@ -46,7 +46,7 @@ $pageTitle = "Community & Partner Voices | Sevartha Foundation";
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <link rel="stylesheet" href="../css/scroll-content.css">
 </head>
 
 
@@ -64,7 +64,7 @@ $pageTitle = "Community & Partner Voices | Sevartha Foundation";
 
         <div class="testimonial-page-container">
 
-            <div class="testimonial-eyebrow">
+            <div class="testimonial-eyebrow scroll-content scroll-delay-1">
 
                 <span></span>
 
@@ -79,7 +79,7 @@ $pageTitle = "Community & Partner Voices | Sevartha Foundation";
             </h1>
 
 
-            <p>
+            <p class="scroll-paragraph scroll-delay-2">
 
                 Appreciation and communications from
                 organisations connected with Sevartha
@@ -108,11 +108,11 @@ $pageTitle = "Community & Partner Voices | Sevartha Foundation";
 
                 <div>
 
-                    <h2>
-                        Community & Partner Voices
+                    <h2 class="scroll-heading scroll-delay-1">
+                        Community & <span>Partner Voices</span>
                     </h2>
 
-                    <p>
+                    <p class="scroll-paragraph scroll-delay-2">
                         Voices and communications from
                         organisations connected with Sevartha
                         Foundation's community initiatives.
@@ -327,6 +327,7 @@ $pageTitle = "Community & Partner Voices | Sevartha Foundation";
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
     </script>
+    <script src="../js/scroll-content.js"></script>
 
 </body>
 

@@ -46,7 +46,7 @@ $pageTitle = "Institutional Appreciation | Sevartha Foundation";
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
+    <link rel="stylesheet" href="../css/scroll-content.css">
 </head>
 
 
@@ -64,7 +64,7 @@ $pageTitle = "Institutional Appreciation | Sevartha Foundation";
 
         <div class="testimonial-page-container">
 
-            <div class="testimonial-eyebrow">
+            <div class="testimonial-eyebrow scroll-content scroll-delay-1">
 
                 <span></span>
 
@@ -79,7 +79,7 @@ $pageTitle = "Institutional Appreciation | Sevartha Foundation";
             </h1>
 
 
-            <p>
+            <p class="scroll-paragraph scroll-delay-2">
 
                 Official acknowledgements received by Sevartha
                 Foundation for its initiatives and contributions
@@ -108,11 +108,11 @@ $pageTitle = "Institutional Appreciation | Sevartha Foundation";
 
                 <div>
 
-                    <h2>
-                        Institutional Appreciation
+                    <h2 class="scroll-heading scroll-delay-1">
+                        Institutional <span>Appreciation</span>
                     </h2>
 
-                    <p>
+                    <p class="scroll-paragraph scroll-delay-2">
                         Recognitions and acknowledgements from
                         institutions associated with our work.
                     </p>
@@ -324,6 +324,7 @@ $pageTitle = "Institutional Appreciation | Sevartha Foundation";
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
     </script>
+    <script src="../js/scroll-content.js"></script>
 
 </body>
 
