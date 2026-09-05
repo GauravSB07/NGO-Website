@@ -1,0 +1,124 @@
+/* =========================================================
+   DONATION PAGE LOAD ANIMATIONS
+   Left content  -> enters from left
+   Right content -> enters from right
+   Sequential entrance
+========================================================= */
+
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+.donation-left-reveal,
+.donation-left-item {
+    opacity: 0;
+    transform: translateX(-55px);
+    will-change: opacity, transform;
+}
+
+
+/* Main left content */
+
+.donation-left-reveal {
+    transition:
+        opacity 0.75s ease,
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* Contribution + trust items */
+
+.donation-left-item {
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* Visible state */
+
+.donation-animation-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.donation-right-card {
+    opacity: 0;
+    transform: translateX(55px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+
+.donation-right-card-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* Form content */
+
+.donation-right-item {
+    opacity: 0;
+    transform: translateX(45px);
+    will-change: opacity, transform;
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* Visible state */
+
+.donation-right-item.donation-animation-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* =========================================================
+   BOTTOM THANK-YOU SECTION
+========================================================= */
+
+.donation-bottom-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.donation-bottom-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .donation-left-reveal,
+    .donation-left-item,
+    .donation-right-card,
+    .donation-right-item,
+    .donation-bottom-reveal {
+
+        opacity: 1;
+        transform: none;
+        transition: none;
+
+    }
+
+}
