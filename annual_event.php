@@ -130,7 +130,7 @@ if ($totalImages > 0) {
         rel="stylesheet"
         href="css/annual-event/annual-event.css"
     >
-
+    <link rel="stylesheet" href="css/scroll-content.css">
 </head>
 
 
@@ -158,7 +158,7 @@ if ($totalImages > 0) {
         <div class="annual-hero-content">
 
 
-            <div class="annual-eyebrow">
+            <div class="annual-eyebrow scroll-heading">
 
                 <span></span>
 
@@ -167,7 +167,7 @@ if ($totalImages > 0) {
             </div>
 
 
-            <h1>
+            <h1 class="scroll-heading scroll-delay-1">
 
                 Annual Event
 
@@ -177,19 +177,20 @@ if ($totalImages > 0) {
 
             </h1>
 
-
-            <p class="annual-intro">
+            <div>
+            <p class="scroll-paragraph scroll-delay-2">
 
                 A celebration of service, compassion,
                 community and the meaningful impact
                 created together.
 
             </p>
+            </div>
 
 
             <div class="annual-meta">
 
-                <div>
+                <div class="scroll-content">
 
                     <i class="fa-regular fa-calendar"></i>
 
@@ -200,7 +201,7 @@ if ($totalImages > 0) {
                 </div>
 
 
-                <div>
+                <div class="scroll-content scroll-delay-1">
 
                     <i class="fa-solid fa-camera"></i>
 
@@ -215,7 +216,7 @@ if ($totalImages > 0) {
                 </div>
 
 
-                <div>
+                <div class="scroll-content scroll-delay-2">
 
                     <i class="fa-solid fa-heart"></i>
 
@@ -289,18 +290,19 @@ if ($totalImages > 0) {
 
                 <div>
 
-                    <span class="caption-label">
+                    <span class="caption-label scroll-heading scroll-delay-1">
                         FEATURED MOMENT
                     </span>
 
-                    <h2>
-                        Celebrating Together
+                    <h2 class="scroll-heading scroll-delay-2">
+                        Celebrating 
+                        <span>Together</span>
                     </h2>
 
                 </div>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-3">
 
                     Every photograph tells a story
                     of people coming together to create
@@ -338,18 +340,18 @@ if ($totalImages > 0) {
 
             <div>
 
-                <span class="section-label">
+                <span class="section-label scroll-heading scroll-delay-1">
                     THE COLLECTION
                 </span>
 
-                <h2>
-                    Moments From Our Annual Event
+                <h2 class="scroll-heading scroll-delay-2">
+                    Moments From Our <span>Annual Event</span>
                 </h2>
 
             </div>
 
 
-            <p>
+            <p class="scroll-paragraph scroll-delay-3">
 
                 Browse through memories,
                 celebrations and moments
@@ -514,7 +516,7 @@ if ($totalImages > 0) {
             <span class="closing-line"></span>
 
 
-            <p>
+            <p class="scroll-paragraph">
 
                 Together, every moment becomes
                 part of something meaningful.
@@ -686,7 +688,7 @@ const annualEventImages = <?= json_encode(
     src="js/annual-event.js"
 ></script>
 
-
+<script src="js/scroll-content.js"></script>
 </body>
 
 </html>

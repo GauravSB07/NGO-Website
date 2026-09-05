@@ -1428,3 +1428,26 @@ body.lightbox-open {
     }
 
 }
+/* =========================================================
+   GALLERY HEADING — SEVARTHA THEME
+========================================================= */
+
+.gallery-heading .section-label {
+    color: var(--olive);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+}
+
+.gallery-heading h2 {
+    color: var(--dark-grey);
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+}
+
+.gallery-heading h2 span {
+    color: var(--olive) !important;
+}
+
+.gallery-heading > p {
+    color: var(--dark-grey);
+}

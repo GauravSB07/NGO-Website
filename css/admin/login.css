@@ -630,3 +630,283 @@
     }
 
 }
+/* =========================================================
+   ADMIN LOGIN ANIMATIONS
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   LOGIN IMAGE
+--------------------------------------------------------- */
+
+.login-image {
+
+    animation:
+        loginImageReveal 1s ease both;
+
+}
+
+
+.login-image img {
+
+    animation:
+        loginImageZoom 1.4s ease both;
+
+}
+
+
+@keyframes loginImageReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(-35px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+
+@keyframes loginImageZoom {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(1.08);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   LOGIN CARD
+--------------------------------------------------------- */
+
+.login-card {
+
+    animation:
+        loginCardReveal .9s .15s ease both;
+
+}
+
+
+@keyframes loginCardReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   HEADING
+--------------------------------------------------------- */
+
+.login-card h2 {
+
+    animation:
+        loginElementReveal .7s .35s ease both;
+
+}
+
+
+/* ---------------------------------------------------------
+   SUBTITLE
+--------------------------------------------------------- */
+
+.login-subtitle {
+
+    animation:
+        loginElementReveal .7s .45s ease both;
+
+}
+
+
+/* ---------------------------------------------------------
+   FORM
+--------------------------------------------------------- */
+
+.login-form-group:nth-child(1) {
+
+    animation:
+        loginElementReveal .7s .55s ease both;
+
+}
+
+
+.login-form-group:nth-child(2) {
+
+    animation:
+        loginElementReveal .7s .65s ease both;
+
+}
+
+
+/* ---------------------------------------------------------
+   LOGIN BUTTON
+--------------------------------------------------------- */
+
+.login-button {
+
+    animation:
+        loginElementReveal .7s .75s ease both;
+
+}
+
+
+/* ---------------------------------------------------------
+   FOOTER TEXT
+--------------------------------------------------------- */
+
+.login-footer {
+
+    animation:
+        loginElementReveal .7s .85s ease both;
+
+}
+
+
+/* ---------------------------------------------------------
+   COMMON REVEAL
+--------------------------------------------------------- */
+
+@keyframes loginElementReveal {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(18px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   INPUT FOCUS
+--------------------------------------------------------- */
+
+.input-wrapper .form-control {
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        transform .25s ease;
+
+}
+
+
+.input-wrapper .form-control:focus {
+
+    transform: translateY(-2px);
+
+}
+
+
+/* ---------------------------------------------------------
+   ICON ANIMATION
+--------------------------------------------------------- */
+
+.input-wrapper > i {
+
+    transition:
+        transform .25s ease,
+        color .25s ease;
+
+}
+
+
+.input-wrapper:focus-within > i {
+
+    transform:
+        translateY(-50%)
+        scale(1.15);
+
+}
+
+
+/* ---------------------------------------------------------
+   BUTTON HOVER
+--------------------------------------------------------- */
+
+.login-button {
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+
+}
+
+
+.login-button:hover {
+
+    transform: translateY(-3px);
+
+}
+
+
+/* ---------------------------------------------------------
+   REDUCED MOTION
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .login-image,
+    .login-image img,
+    .login-card,
+    .login-card h2,
+    .login-subtitle,
+    .login-form-group,
+    .login-button,
+    .login-footer {
+
+        animation: none !important;
+
+        transform: none !important;
+
+        opacity: 1 !important;
+
+    }
+
+}

@@ -1,0 +1,205 @@
+/* =========================================================
+   SEVARTHA FOUNDATION
+   SCROLL CONTENT ANIMATIONS
+   DOES NOT AFFECT CARD STACK ANIMATIONS
+========================================================= */
+
+
+/* =========================================================
+   DEFAULT HIDDEN STATE
+========================================================= */
+
+.scroll-content {
+
+    opacity: 0;
+
+    transform:
+        translateY(45px);
+
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+/* =========================================================
+   VISIBLE STATE
+========================================================= */
+
+.scroll-content.scroll-visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   HEADINGS
+========================================================= */
+
+.scroll-heading {
+
+    opacity: 0;
+
+    transform:
+        translateY(35px);
+
+    transition:
+        opacity .75s ease,
+        transform .75s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+.scroll-heading.scroll-visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   PARAGRAPHS
+========================================================= */
+
+.scroll-paragraph {
+
+    opacity: 0;
+
+    transform:
+        translateY(30px);
+
+    transition:
+        opacity .7s ease,
+        transform .7s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+.scroll-paragraph.scroll-visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   ICONS
+========================================================= */
+
+.scroll-icon {
+
+    opacity: 0;
+
+    transform:
+        scale(.75)
+        translateY(20px);
+
+    transition:
+        opacity .7s ease,
+        transform .7s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+.scroll-icon.scroll-visible {
+
+    opacity: 1;
+
+    transform:
+        scale(1)
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   QUOTE
+========================================================= */
+
+.scroll-quote {
+
+    opacity: 0;
+
+    transform:
+        translateY(25px)
+        scale(.98);
+
+    transition:
+        opacity .8s ease,
+        transform .8s cubic-bezier(.22, 1, .36, 1);
+
+}
+
+
+.scroll-quote.scroll-visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+}
+
+
+/* =========================================================
+   STAGGER DELAYS
+========================================================= */
+
+.scroll-delay-1 {
+    transition-delay: .10s;
+}
+
+.scroll-delay-2 {
+    transition-delay: .22s;
+}
+
+.scroll-delay-3 {
+    transition-delay: .34s;
+}
+
+.scroll-delay-4 {
+    transition-delay: .46s;
+}
+
+.scroll-delay-5 {
+    transition-delay: .58s;
+}
+
+.scroll-delay-6 {
+    transition-delay: .70s;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .scroll-content,
+    .scroll-heading,
+    .scroll-paragraph,
+    .scroll-icon,
+    .scroll-quote {
+
+        opacity: 1;
+
+        transform: none;
+
+        transition: none;
+
+    }
+
+}

@@ -1,0 +1,2126 @@
+/* =========================================================
+   SEVARTHA FOUNDATION
+   GLOBAL WEBSITE ANIMATION SYSTEM
+========================================================= */
+
+
+/* =========================================================
+   1. GLOBAL PAGE LOAD
+========================================================= */
+
+body {
+    animation: pageFadeIn 0.7s ease-out both;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   2. SCROLL REVEAL
+   Add class="reveal" to elements you want animated.
+========================================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(45px);
+    transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* LEFT REVEAL */
+
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-55px);
+    transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* RIGHT REVEAL */
+
+.reveal-right {
+    opacity: 0;
+    transform: translateX(55px);
+    transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* SCALE REVEAL */
+
+.reveal-scale {
+    opacity: 0;
+    transform: scale(0.92);
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-scale.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* =========================================================
+   3. STAGGER ANIMATIONS
+========================================================= */
+
+.stagger > * {
+    transition-delay: calc(var(--i, 0) * 0.12s);
+}
+
+
+/* Automatically stagger common cards */
+
+.stagger-cards > *:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+.stagger-cards > *:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+.stagger-cards > *:nth-child(3) {
+    transition-delay: 0.25s;
+}
+
+.stagger-cards > *:nth-child(4) {
+    transition-delay: 0.35s;
+}
+
+.stagger-cards > *:nth-child(5) {
+    transition-delay: 0.45s;
+}
+
+.stagger-cards > *:nth-child(6) {
+    transition-delay: 0.55s;
+}
+
+
+/* =========================================================
+   4. CARD INTERACTION
+========================================================= */
+
+.story-card,
+.focus-card,
+.founder-card,
+.team-card,
+.document-card,
+.event-card,
+.testimonial-document-card,
+.address-card,
+.donation-area,
+.payment-card,
+.info-box {
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+
+.story-card:hover,
+.focus-card:hover,
+.founder-card:hover,
+.team-card:hover,
+.document-card:hover,
+.event-card:hover,
+.testimonial-document-card:hover,
+.address-card:hover,
+.donation-area:hover,
+.payment-card:hover,
+.info-box:hover {
+    transform: translateY(-8px);
+}
+
+
+/* =========================================================
+   5. IMAGE HOVER
+========================================================= */
+
+.event-image-wrapper img,
+.founder-image img,
+.team-image img,
+.testimonial-image-wrapper img,
+.gallery img,
+.hero-slide {
+    transition:
+        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.4s ease;
+}
+
+
+.event-card:hover img,
+.founder-card:hover img,
+.team-card:hover img,
+.testimonial-document-card:hover img {
+    transform: scale(1.045);
+}
+
+
+/* =========================================================
+   6. BUTTON MICRO INTERACTION
+========================================================= */
+
+.hero-cta,
+.hero-learn,
+.story-cta a,
+.footer-donate-btn,
+button[type="submit"],
+input[type="submit"] {
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.hero-cta:hover,
+.hero-learn:hover,
+.story-cta a:hover,
+.footer-donate-btn:hover,
+button[type="submit"]:hover,
+input[type="submit"]:hover {
+    transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   7. ARROW ANIMATION
+========================================================= */
+
+.hero-cta i,
+.hero-learn i,
+.story-cta i,
+.footer-donate-btn i {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+
+.hero-cta:hover i,
+.hero-learn:hover i,
+.story-cta a:hover i,
+.footer-donate-btn:hover i {
+    transform: translateX(5px);
+}
+
+
+/* =========================================================
+   8. NAVBAR ENTRANCE
+========================================================= */
+
+.navbar {
+    animation: navbarEntrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes navbarEntrance {
+
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   9. NAVBAR LINK HOVER
+========================================================= */
+
+.nav-link {
+    transition:
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+.nav-link:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   10. DROPDOWN ANIMATION
+========================================================= */
+
+.nav-dropdown-menu {
+    transform-origin: top center;
+}
+
+
+/* =========================================================
+   11. HERO COLLAGE BACKGROUND
+========================================================= */
+
+.hero-collage-bg,
+.about-page-hero::before,
+.founders-hero::before,
+.team-hero::before,
+.transparency-hero::before,
+.contact-hero::before,
+.location-hero::before,
+.volunteer-hero::before,
+.testimonial-page-hero::before {
+    animation:
+        globalCollageMotion 24s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+
+@keyframes globalCollageMotion {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.035) translate3d(-0.5%, -0.3%, 0);
+    }
+
+    100% {
+        transform: scale(1.07) translate3d(0.7%, 0.4%, 0);
+    }
+
+}
+
+
+/* =========================================================
+   12. PREMIUM HERO CONTENT ENTRANCE
+========================================================= */
+
+/* Do NOT move the complete hero container */
+.about-page-hero .about-page-container,
+.founders-hero .founders-container,
+.team-hero .team-container,
+.transparency-hero .transparency-container,
+.contact-hero .contact-container,
+.location-hero .location-container,
+.volunteer-hero .volunteer-container,
+.testimonial-page-hero .testimonial-page-container,
+.category-hero .category-hero-content,
+.annual-hero-content {
+    animation: none;
+}
+
+
+/* Small eyebrow / label */
+
+.about-page-hero .eyebrow,
+.founders-hero .eyebrow,
+.team-hero .eyebrow,
+.transparency-hero .eyebrow,
+.contact-hero .eyebrow,
+.location-hero .eyebrow,
+.volunteer-hero .eyebrow,
+.testimonial-page-hero .eyebrow,
+.category-hero .eyebrow,
+.annual-hero-eyebrow {
+    animation: heroEyebrowReveal 0.7s ease-out both;
+}
+
+
+/* Main hero heading */
+
+.about-page-hero h1,
+.founders-hero h1,
+.team-hero h1,
+.transparency-hero h1,
+.contact-hero h1,
+.location-hero h1,
+.volunteer-hero h1,
+.testimonial-page-hero h1,
+.category-hero h1,
+.annual-hero-content h1 {
+    animation: heroHeadingReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+
+@keyframes heroEyebrowReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+        letter-spacing: 0.35em;
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        letter-spacing: inherit;
+    }
+
+}
+
+
+@keyframes heroHeadingReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+/* =========================================================
+   13. HERO IMAGE ENTRANCE
+========================================================= */
+
+.hero-image-area,
+.featured-card {
+    animation:
+        globalHeroImageEntrance
+        1s
+        cubic-bezier(0.22, 1, 0.36, 1)
+        0.25s
+        both;
+}
+
+
+@keyframes globalHeroImageEntrance {
+
+    from {
+        opacity: 0;
+        transform: translateX(45px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+}
+
+
+/* =========================================================
+   14. FORM INPUT INTERACTION
+========================================================= */
+
+input,
+textarea,
+select {
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+input:focus,
+textarea:focus,
+select:focus {
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   15. SOCIAL ICON INTERACTION
+========================================================= */
+
+.social-links a {
+    transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+}
+
+
+.social-links a:hover {
+    transform: translateY(-5px) scale(1.08);
+}
+
+
+/* =========================================================
+   16. FOOTER REVEAL
+========================================================= */
+
+.site-footer {
+    animation: footerReveal 0.9s ease-out both;
+}
+
+@keyframes footerReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   17. TOP SCROLL PROGRESS BAR
+========================================================= */
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: currentColor;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   18. BACK TO TOP
+========================================================= */
+
+.back-to-top {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(15px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease,
+        visibility 0.3s ease;
+
+    z-index: 9999;
+
+    cursor: pointer;
+}
+
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+
+.back-to-top:hover {
+    transform: translateY(-4px);
+}
+
+
+/* =========================================================
+   19. MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .hero-image-area,
+    .featured-card {
+        animation-name: globalMobileHeroEntrance;
+    }
+
+    @keyframes globalMobileHeroEntrance {
+
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.96);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+    }
+
+
+    .reveal-left,
+    .reveal-right {
+        transform: translateY(30px);
+    }
+
+    .reveal-left.active,
+    .reveal-right.active {
+        transform: translateY(0);
+    }
+
+
+    .back-to-top {
+        right: 15px;
+        bottom: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   20. REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale {
+        opacity: 1;
+        transform: none;
+    }
+
+}
+/* =========================================================
+   AUTOMATIC PAGE SCROLL ANIMATIONS
+
+   Normal content is invisible until its section enters the
+   viewport. Hero and card-deck animations are handled separately.
+========================================================= */
+
+.page-scroll-reveal {
+    opacity: 0 !important;
+    transform: translate3d(0, 38px, 0) !important;
+    transition:
+        opacity 0.75s ease var(--scroll-delay, 0s),
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-delay, 0s) !important;
+    will-change: opacity, transform;
+}
+
+.page-scroll-image {
+    opacity: 0 !important;
+    transform: translate3d(0, 28px, 0) scale(0.97) !important;
+    transition:
+        opacity 0.8s ease var(--scroll-delay, 0.24s),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--scroll-delay, 0.24s) !important;
+    will-change: opacity, transform;
+}
+
+.page-scroll-visible {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+@media (max-width: 768px) {
+    .page-scroll-reveal {
+        transform: translate3d(0, 25px, 0) !important;
+    }
+
+    .page-scroll-image {
+        transform: translate3d(0, 20px, 0) scale(0.98) !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-scroll-reveal,
+    .page-scroll-image {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+/* =========================================================
+   SEVARTHA FOUNDATION
+   TRUE SECTION-BY-SECTION SCROLL REVEAL
+
+   IMPORTANT:
+   These rules only control normal section content.
+   They do NOT replace the existing card animations.
+========================================================= */
+
+
+/* =========================================================
+   HIDDEN STATE
+
+   Content is invisible BEFORE the section is reached.
+========================================================= */
+
+main section:not(.hero-section)
+.section-scroll-hidden {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(45px) !important;
+
+    animation:
+        none !important;
+
+    transition:
+        opacity 0.85s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.85s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--scroll-delay, 0s);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+/* =========================================================
+   VISIBLE STATE
+
+   Added only after the section enters the viewport.
+========================================================= */
+
+main section:not(.hero-section)
+.section-scroll-hidden.section-scroll-show {
+
+    opacity: 1 !important;
+
+    transform:
+        translateY(0) !important;
+
+}
+
+
+/* =========================================================
+   BUTTON HIDDEN
+========================================================= */
+
+main section:not(.hero-section)
+.section-scroll-button-hidden {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(30px) !important;
+
+    animation:
+        none !important;
+
+    transition:
+        opacity 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--scroll-delay, 0.32s);
+
+}
+
+
+/* =========================================================
+   BUTTON VISIBLE
+========================================================= */
+
+main section:not(.hero-section)
+.section-scroll-button-hidden.section-scroll-show {
+
+    opacity: 1 !important;
+
+    transform:
+        translateY(0) !important;
+
+}
+
+
+/* =========================================================
+   IMAGE HIDDEN
+========================================================= */
+
+main section:not(.hero-section)
+.section-scroll-image-hidden {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(35px)
+        scale(0.97) !important;
+
+    animation:
+        none !important;
+
+    transition:
+        opacity 0.9s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.9s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--scroll-delay, 0.20s);
+
+}
+
+
+/* =========================================================
+   IMAGE VISIBLE
+========================================================= */
+
+main section:not(.hero-section)
+.section-scroll-image-hidden.section-scroll-image-show {
+
+    opacity: 1 !important;
+
+    transform:
+        translateY(0)
+        scale(1) !important;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    main section:not(.hero-section)
+    .section-scroll-hidden {
+
+        transform:
+            translateY(30px) !important;
+
+    }
+
+
+    main section:not(.hero-section)
+    .section-scroll-button-hidden {
+
+        transform:
+            translateY(22px) !important;
+
+    }
+
+
+    main section:not(.hero-section)
+    .section-scroll-image-hidden {
+
+        transform:
+            translateY(25px)
+            scale(0.98) !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    main section:not(.hero-section)
+    .section-scroll-hidden,
+
+    main section:not(.hero-section)
+    .section-scroll-button-hidden,
+
+    main section:not(.hero-section)
+    .section-scroll-image-hidden {
+
+        opacity: 1 !important;
+
+        transform:
+            none !important;
+
+        animation:
+            none !important;
+
+        transition:
+            none !important;
+
+    }
+
+}
+/* =========================================================
+   SEVARTHA FOUNDATION
+   GLOBAL SCROLL REVEAL
+   ---------------------------------------------------------
+   Added without replacing the existing animations.
+   Stack → Scatter card animation remains independent.
+========================================================= */
+
+
+/* =========================================================
+   1. NORMAL SECTION INITIAL STATE
+========================================================= */
+
+main section.scroll-section-pending:not(.hero-section),
+main > .container.scroll-section-pending,
+main > .container-fluid.scroll-section-pending {
+    visibility: visible;
+}
+
+
+/* =========================================================
+   2. GLOBAL TEXT REVEAL
+========================================================= */
+
+.global-scroll-text {
+
+    opacity: 0;
+
+    transform:
+        translateY(30px);
+
+    transition:
+        opacity 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--scroll-delay, 0s);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+.scroll-section-active
+.global-scroll-text {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =========================================================
+   3. GLOBAL IMAGE REVEAL
+========================================================= */
+
+.global-scroll-image {
+
+    opacity: 0;
+
+    transform:
+        translateY(35px)
+        scale(0.96);
+
+    transition:
+        opacity 0.9s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.9s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--scroll-delay, 0.18s);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+.scroll-section-active
+.global-scroll-image {
+
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+}
+
+
+/* =========================================================
+   4. GLOBAL BUTTON REVEAL
+========================================================= */
+
+.global-scroll-button {
+
+    opacity: 0;
+
+    transform:
+        translateY(22px)
+        scale(0.97);
+
+    transition:
+        opacity 0.7s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.7s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--scroll-delay, 0.28s);
+
+    will-change:
+        opacity,
+        transform;
+}
+
+
+.scroll-section-active
+.global-scroll-button {
+
+    opacity: 1;
+
+    transform:
+        translateY(0)
+        scale(1);
+
+}
+
+
+/* =========================================================
+   5. PRESERVE EXISTING FADE-IN ANIMATIONS
+
+   Important:
+   We do NOT delete fade-in-up / left / right.
+
+   We simply pause them until their section enters view.
+
+   This means existing animations still run using their
+   original animation definitions.
+========================================================= */
+
+main section.scroll-section-pending
+.scroll-controlled-animation {
+
+    animation-play-state:
+        paused !important;
+
+}
+
+
+main section.scroll-section-active
+.scroll-controlled-animation {
+
+    animation-play-state:
+        running !important;
+
+}
+
+
+/* =========================================================
+   6. STACK CARD CONTAINER
+
+   Keep the existing stack animation system.
+========================================================= */
+
+.stack-cards {
+
+    position: relative;
+
+    perspective: 1400px;
+
+    overflow: visible;
+
+}
+
+
+/* =========================================================
+   7. STACKED CARDS
+
+   JavaScript controls their exact positions.
+
+   These properties only improve rendering quality.
+========================================================= */
+
+.stack-cards > * {
+
+    backface-visibility: hidden;
+
+    transform-style:
+        preserve-3d;
+
+    will-change:
+        transform,
+        opacity;
+
+}
+
+
+/* =========================================================
+   8. DECK DEPTH
+========================================================= */
+
+.stack-cards.deck-ready > * {
+
+    box-shadow:
+        0 18px 40px
+        rgba(0, 0, 0, 0.12);
+
+}
+
+
+/* =========================================================
+   9. COMPLETED STACK
+
+   Once the cards reach their actual grid positions,
+   JavaScript restores normal layout.
+========================================================= */
+
+.stack-animation-complete > * {
+
+    will-change: auto;
+
+}
+
+
+/* =========================================================
+   10. CARD GROUP SAFETY
+
+   Prevent global section animations from accidentally
+   hiding individual stack cards.
+========================================================= */
+
+.stack-cards .global-scroll-text,
+.stack-cards .global-scroll-image,
+.stack-cards .global-scroll-button {
+
+    opacity: 1;
+
+    transform: none;
+
+    transition: none;
+
+}
+
+
+/* =========================================================
+   11. MOBILE STACK
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .stack-cards {
+
+        perspective: 1000px;
+
+    }
+
+
+    .stack-cards > * {
+
+        backface-visibility:
+            hidden;
+
+        transform-style:
+            preserve-3d;
+
+    }
+
+
+    .global-scroll-text {
+
+        transform:
+            translateY(22px);
+
+    }
+
+
+    .global-scroll-image {
+
+        transform:
+            translateY(25px)
+            scale(0.97);
+
+    }
+
+}
+
+
+/* =========================================================
+   12. REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .global-scroll-text,
+    .global-scroll-image,
+    .global-scroll-button {
+
+        opacity: 1 !important;
+
+        transform: none !important;
+
+        transition: none !important;
+
+    }
+
+
+    main section.scroll-section-pending
+    .scroll-controlled-animation {
+
+        animation-play-state:
+            running !important;
+
+    }
+
+
+    .stack-cards > * {
+
+        transition: none !important;
+
+        animation: none !important;
+
+        transform: none !important;
+
+        opacity: 1 !important;
+
+    }
+
+}
+/* =========================================================
+   GLOBAL CONTENT SCROLL REVEAL
+   ---------------------------------------------------------
+   HERO + STACK CARDS ARE NOT AFFECTED
+========================================================= */
+
+
+/* =========================================================
+   1. INITIAL HIDDEN STATE
+========================================================= */
+
+.global-content-reveal {
+
+    opacity: 0 !important;
+
+    visibility: hidden;
+
+    will-change:
+        opacity,
+        transform;
+
+}
+
+
+/* =========================================================
+   2. HEADING
+   ---------------------------------------------------------
+   Heading comes first.
+========================================================= */
+
+.global-reveal-heading {
+
+    transform:
+        translateY(35px) !important;
+
+    transition:
+        opacity 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--content-delay, 0s);
+
+}
+
+
+/* =========================================================
+   3. PARAGRAPH
+   ---------------------------------------------------------
+   Paragraph follows heading.
+========================================================= */
+
+.global-reveal-paragraph {
+
+    transform:
+        translateY(30px) !important;
+
+    transition:
+        opacity 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.75s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--content-delay, 0.18s);
+
+}
+
+
+/* =========================================================
+   4. IMAGE
+========================================================= */
+
+.global-reveal-image {
+
+    transform:
+        translateY(35px)
+        scale(0.96) !important;
+
+    transition:
+        opacity 0.9s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.9s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--content-delay, 0.28s);
+
+}
+
+
+/* =========================================================
+   5. BUTTON
+========================================================= */
+
+.global-reveal-button {
+
+    transform:
+        translateY(25px)
+        scale(0.97) !important;
+
+    transition:
+        opacity 0.7s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.7s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--content-delay, 0.38s);
+
+}
+
+
+/* =========================================================
+   6. OTHER CONTENT
+========================================================= */
+
+.global-reveal-other {
+
+    transform:
+        translateY(25px) !important;
+
+    transition:
+        opacity 0.7s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        ),
+        transform 0.7s cubic-bezier(
+            0.22,
+            1,
+            0.36,
+            1
+        );
+
+    transition-delay:
+        var(--content-delay, 0.12s);
+
+}
+
+
+/* =========================================================
+   7. VISIBLE STATE
+========================================================= */
+
+.global-content-visible {
+
+    opacity: 1 !important;
+
+    visibility: visible;
+
+    transform:
+        translateY(0)
+        translateX(0)
+        scale(1) !important;
+
+}
+
+
+/* =========================================================
+   8. EXTRA SAFETY
+   ---------------------------------------------------------
+   Make sure these new animations NEVER interfere with
+   the card stack system.
+========================================================= */
+
+.stack-cards .global-content-reveal {
+
+    opacity: 1 !important;
+
+    visibility: visible;
+
+    transform: none !important;
+
+    transition: none !important;
+
+}
+
+
+/* =========================================================
+   9. HERO SAFETY
+   ---------------------------------------------------------
+   Hero is completely excluded.
+========================================================= */
+
+.hero-section .global-content-reveal,
+.about-page-hero .global-content-reveal,
+.founders-hero .global-content-reveal,
+.team-hero .global-content-reveal,
+.transparency-hero .global-content-reveal,
+.contact-hero .global-content-reveal,
+.location-hero .global-content-reveal,
+.volunteer-hero .global-content-reveal,
+.testimonial-page-hero .global-content-reveal,
+.category-hero .global-content-reveal,
+.annual-hero .global-content-reveal {
+
+    opacity: 1 !important;
+
+    visibility: visible;
+
+    transform: none !important;
+
+    transition: none !important;
+
+}
+
+
+/* =========================================================
+   10. MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .global-reveal-heading {
+
+        transform:
+            translateY(25px) !important;
+
+    }
+
+
+    .global-reveal-paragraph {
+
+        transform:
+            translateY(22px) !important;
+
+    }
+
+
+    .global-reveal-image {
+
+        transform:
+            translateY(25px)
+            scale(0.97) !important;
+
+    }
+
+
+    .global-reveal-button {
+
+        transform:
+            translateY(20px)
+            scale(0.98) !important;
+
+    }
+
+}
+
+
+/* =========================================================
+   11. REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .global-content-reveal {
+
+        opacity: 1 !important;
+
+        visibility: visible;
+
+        transform: none !important;
+
+        transition: none !important;
+
+    }
+
+}
+/* =========================================================
+   SEVARTHA FOUNDATION
+   GLOBAL SCROLL CONTENT ANIMATION
+   DO NOT MODIFY HERO / STACK CARD SYSTEM
+========================================================= */
+
+
+/* =========================================================
+   NORMAL CONTENT - INITIAL STATE
+   Everything stays hidden until user scrolls.
+========================================================= */
+
+main .site-scroll-animation {
+    opacity: 0 !important;
+    visibility: hidden !important;
+
+    transform: translate3d(0, 45px, 0) !important;
+
+    transition:
+        opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) !important;
+
+    will-change: opacity, transform;
+}
+
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+main .site-scroll-heading {
+    opacity: 0 !important;
+    visibility: hidden !important;
+
+    transform: translate3d(0, 45px, 0) !important;
+
+    transition:
+        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+
+/* =========================================================
+   PARAGRAPH
+========================================================= */
+
+main .site-scroll-paragraph {
+    opacity: 0 !important;
+    visibility: hidden !important;
+
+    transform: translate3d(0, 30px, 0) !important;
+
+    transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) !important;
+
+    transition-delay: 0.12s !important;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+main .site-scroll-image {
+    opacity: 0 !important;
+    visibility: hidden !important;
+
+    transform:
+        translate3d(0, 35px, 0)
+        scale(0.96) !important;
+
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) !important;
+
+    transition-delay: 0.08s !important;
+}
+
+
+/* =========================================================
+   BUTTON / LINK
+========================================================= */
+
+main .site-scroll-button {
+    opacity: 0 !important;
+    visibility: hidden !important;
+
+    transform:
+        translate3d(0, 25px, 0)
+        scale(0.97) !important;
+
+    transition:
+        opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) !important;
+
+    transition-delay: 0.22s !important;
+}
+
+
+/* =========================================================
+   OTHER CONTENT
+========================================================= */
+
+main .site-scroll-other {
+    opacity: 0 !important;
+    visibility: hidden !important;
+
+    transform: translate3d(0, 30px, 0) !important;
+
+    transition:
+        opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+
+/* =========================================================
+   VISIBLE STATE
+========================================================= */
+
+main .site-scroll-visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    transform:
+        translate3d(0, 0, 0)
+        scale(1) !important;
+}
+
+
+/* =========================================================
+   CARD SAFETY
+   NEVER interfere with stack-card animation.
+========================================================= */
+
+.stack-cards,
+.stack-cards > * {
+    opacity: initial;
+    visibility: initial;
+}
+
+
+/* Keep stack-card JavaScript in control */
+.stack-cards > * {
+    transition-property: transform, opacity;
+}
+
+
+/* =========================================================
+   HERO SAFETY
+   NEVER apply global content animation to hero.
+========================================================= */
+
+.hero-section *,
+.about-page-hero *,
+.founders-hero *,
+.team-hero *,
+.transparency-hero *,
+.contact-hero *,
+.location-hero *,
+.volunteer-hero *,
+.testimonial-page-hero *,
+.category-hero *,
+.annual-hero-content * {
+    visibility: visible;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.site-footer {
+    opacity: 0;
+    transform: translateY(35px);
+
+    transition:
+        opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-footer.site-footer-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    main .site-scroll-animation {
+        transform: translate3d(0, 30px, 0) !important;
+    }
+
+    main .site-scroll-heading {
+        transform: translate3d(0, 30px, 0) !important;
+    }
+
+    main .site-scroll-paragraph {
+        transform: translate3d(0, 22px, 0) !important;
+    }
+
+    main .site-scroll-image {
+        transform:
+            translate3d(0, 25px, 0)
+            scale(0.97) !important;
+    }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    main .site-scroll-animation,
+    main .site-scroll-heading,
+    main .site-scroll-paragraph,
+    main .site-scroll-image,
+    main .site-scroll-button,
+    main .site-scroll-other,
+    .site-footer {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: none !important;
+        transition: none !important;
+    }
+
+}
+/* =========================================================
+   GLOBAL CONTENT SCROLL ANIMATION
+   =========================================================
+
+   IMPORTANT:
+   This system ONLY controls normal page content.
+
+   It does NOT control:
+   - Hero
+   - Stack cards
+   - Existing reveal elements
+   - Navbar
+   - Footer
+
+   Animation sequence:
+
+   HEADING
+       ↓
+   PARAGRAPH
+       ↓
+   IMAGE / CONTENT
+       ↓
+   BUTTON
+   ========================================================= */
+
+
+/* =========================================================
+   INITIAL HIDDEN STATE
+   ========================================================= */
+
+.global-scroll-content {
+
+    opacity: 0 !important;
+
+    visibility: hidden !important;
+
+    will-change:
+        opacity,
+        transform;
+
+    transition-property:
+        opacity,
+        transform;
+
+    transition-timing-function:
+        cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+/* =========================================================
+   HEADING
+   =========================================================
+
+   Hero-style:
+   fade in + move upward
+   ========================================================= */
+
+.global-scroll-heading {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(35px);
+
+    transition-duration:
+        0.8s;
+
+    transition-delay:
+        0s;
+}
+
+
+/* =========================================================
+   PARAGRAPH
+   =========================================================
+
+   Comes slightly after heading.
+   ========================================================= */
+
+.global-scroll-paragraph {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(30px);
+
+    transition-duration:
+        0.8s;
+
+    transition-delay:
+        0.15s;
+}
+
+
+/* =========================================================
+   IMAGE
+   =========================================================
+
+   Fade + slight scale + upward movement.
+   ========================================================= */
+
+.global-scroll-image {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(35px)
+        scale(0.96);
+
+    transition-duration:
+        0.9s;
+
+    transition-delay:
+        0.25s;
+}
+
+
+/* =========================================================
+   BUTTON / LINK
+   =========================================================
+
+   Appears after the text.
+   ========================================================= */
+
+.global-scroll-button {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(25px)
+        scale(0.97);
+
+    transition-duration:
+        0.75s;
+
+    transition-delay:
+        0.35s;
+}
+
+
+/* =========================================================
+   OTHER CONTENT
+   ========================================================= */
+
+.global-scroll-other {
+
+    opacity: 0 !important;
+
+    transform:
+        translateY(28px);
+
+    transition-duration:
+        0.8s;
+
+    transition-delay:
+        0.22s;
+}
+
+
+/* =========================================================
+   VISIBLE STATE
+   ========================================================= */
+
+.global-scroll-content.global-scroll-visible {
+
+    opacity: 1 !important;
+
+    visibility: visible !important;
+
+    transform:
+        translate3d(0, 0, 0)
+        scale(1) !important;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .global-scroll-heading {
+
+        transform:
+            translateY(25px);
+    }
+
+
+    .global-scroll-paragraph {
+
+        transform:
+            translateY(22px);
+    }
+
+
+    .global-scroll-image {
+
+        transform:
+            translateY(25px)
+            scale(0.97);
+    }
+
+
+    .global-scroll-button {
+
+        transform:
+            translateY(20px)
+            scale(0.98);
+    }
+
+
+    .global-scroll-other {
+
+        transform:
+            translateY(20px);
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .global-scroll-content,
+    .global-scroll-heading,
+    .global-scroll-paragraph,
+    .global-scroll-image,
+    .global-scroll-button,
+    .global-scroll-other {
+
+        opacity: 1 !important;
+
+        visibility: visible !important;
+
+        transform: none !important;
+
+        transition: none !important;
+    }
+
+}
+/* =========================================================
+   OUR IMPACT / STORY BAND CONTENT ANIMATION
+   DO NOT MODIFY CARD STACKING
+   ========================================================= */
+
+.story-band__inner {
+    opacity: 0;
+    transform: translateY(45px);
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Badge */
+.story-band__inner .story-intro::before {
+    opacity: 0;
+    transform: translateY(25px);
+    transition:
+        opacity 0.7s ease,
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Main heading */
+.story-band__title {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+        opacity 0.9s ease,
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: 0.15s;
+}
+
+/* Paragraph */
+.story-band__text {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity 0.85s ease,
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: 0.35s;
+}
+
+/* Activated state */
+.story-band__inner.impact-content-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.story-band__inner.impact-content-visible .story-band__title {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.story-band__inner.impact-content-visible .story-band__text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .story-band__inner {
+        transform: translateY(30px);
+    }
+
+    .story-band__title {
+        transform: translateY(30px);
+    }
+
+    .story-band__text {
+        transform: translateY(22px);
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+
+    .story-band__inner,
+    .story-band__title,
+    .story-band__text {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}

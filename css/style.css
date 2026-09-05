@@ -1788,3 +1788,589 @@ select {
         transform: none;
     }
 }
+/* =========================================================
+   HERO EVENT COLLAGE BACKGROUND
+========================================================= */
+
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Event collage layer */
+
+.hero-collage-bg {
+    position: absolute;
+
+    top: -5%;
+    left: -5%;
+
+    width: 110%;
+    height: 110%;
+
+    background-image:
+        url("../static_image.php?name=ChatGPT_Image_Sep_4__2026__04_00_14_PM.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    opacity: 0.50;
+
+    z-index: 0;
+
+    pointer-events: none;
+
+    animation: heroCollageZoom 20s ease-in-out infinite alternate;
+}
+
+
+/* Keep the actual website content above the collage */
+
+.hero-wrap {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   COLLAGE BACKGROUND ANIMATION
+========================================================= */
+
+@keyframes heroCollageZoom {
+
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.08);
+    }
+
+}
+/* =========================================================
+   SEVARTHA FOUNDATION
+   ANIMATED HERO COLLAGE BACKGROUND
+========================================================= */
+
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* ---------------------------------------------------------
+   ANIMATED COLLAGE
+--------------------------------------------------------- */
+
+.hero-collage-bg {
+    position: absolute;
+
+    top: -8%;
+    left: -8%;
+
+    width: 116%;
+    height: 116%;
+
+    background-image: url("../static_image.php?name=ChatGPT_Image_Sep_4__2026__04_00_14_PM.png");
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    /*
+       Keep the photos visible but subtle.
+       This prevents them from fighting with the hero text.
+    */
+    opacity: 0.25;
+
+    /*
+       Keeps collage behind all hero content.
+    */
+    z-index: -2;
+
+    pointer-events: none;
+
+    /*
+       Smooth continuous movement.
+    */
+    animation: sevarthaHeroCollage 24s ease-in-out infinite alternate;
+
+    will-change: transform;
+}
+
+
+/* ---------------------------------------------------------
+   SOFT OVERLAY
+--------------------------------------------------------- */
+
+.hero-collage-bg::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    /*
+       Soft cream/white overlay.
+       This blends the photos with your existing website
+       instead of making the background look too strong.
+    */
+    background:
+        linear-gradient(
+            90deg,
+            rgba(248, 246, 240, 0.92) 0%,
+            rgba(248, 246, 240, 0.72) 45%,
+            rgba(248, 246, 240, 0.78) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* ---------------------------------------------------------
+   KEEP HERO CONTENT ABOVE THE BACKGROUND
+--------------------------------------------------------- */
+
+.hero-wrap {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* ---------------------------------------------------------
+   BACKGROUND ANIMATION
+--------------------------------------------------------- */
+
+@keyframes sevarthaHeroCollage {
+
+    0% {
+        transform:
+            scale(1)
+            translate3d(0, 0, 0);
+    }
+
+    25% {
+        transform:
+            scale(1.025)
+            translate3d(-0.5%, -0.3%, 0);
+    }
+
+    50% {
+        transform:
+            scale(1.05)
+            translate3d(-1%, 0.5%, 0);
+    }
+
+    75% {
+        transform:
+            scale(1.065)
+            translate3d(0.5%, 0.8%, 0);
+    }
+
+    100% {
+        transform:
+            scale(1.08)
+            translate3d(1%, -0.5%, 0);
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .hero-collage-bg {
+        top: -5%;
+        left: -15%;
+
+        width: 130%;
+        height: 110%;
+
+        background-position: center center;
+
+        opacity: 0.11;
+
+        animation-duration: 28s;
+    }
+
+    .hero-collage-bg::after {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(248, 246, 240, 0.94) 0%,
+                rgba(248, 246, 240, 0.82) 50%,
+                rgba(248, 246, 240, 0.92) 100%
+            );
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   ACCESSIBILITY
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-collage-bg {
+        animation: none;
+        transform: none;
+    }
+
+}/* =========================================================
+   SEVARTHA FOUNDATION
+   VISIBLE + ANIMATED HERO COLLAGE
+========================================================= */
+
+.hero-section {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   COLLAGE BACKGROUND
+========================================================= */
+
+.hero-collage-bg {
+    position: absolute;
+
+    top: -8%;
+    left: -8%;
+
+    width: 116%;
+    height: 116%;
+
+    background-image: url("../static_image.php?name=ChatGPT_Image_Sep_4__2026__04_00_14_PM.png");
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    /* CLEARLY VISIBLE */
+    opacity: 0.45;
+
+    z-index: -2;
+
+    pointer-events: none;
+
+    animation: sevarthaHeroCollage 24s ease-in-out infinite alternate;
+
+    will-change: transform;
+}
+
+
+/* =========================================================
+   SOFT READABILITY OVERLAY
+========================================================= */
+
+.hero-collage-bg::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(248, 246, 240, 0.45) 0%,
+            rgba(248, 246, 240, 0.18) 45%,
+            rgba(248, 246, 240, 0.28) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HERO CONTENT ABOVE COLLAGE
+========================================================= */
+
+.hero-wrap {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   COLLAGE ANIMATION
+========================================================= */
+
+@keyframes sevarthaHeroCollage {
+
+    0% {
+        transform:
+            scale(1)
+            translate3d(0, 0, 0);
+    }
+
+    25% {
+        transform:
+            scale(1.025)
+            translate3d(-0.5%, -0.3%, 0);
+    }
+
+    50% {
+        transform:
+            scale(1.05)
+            translate3d(-1%, 0.5%, 0);
+    }
+
+    75% {
+        transform:
+            scale(1.065)
+            translate3d(0.5%, 0.8%, 0);
+    }
+
+    100% {
+        transform:
+            scale(1.08)
+            translate3d(1%, -0.5%, 0);
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .hero-collage-bg {
+        top: -5%;
+        left: -15%;
+
+        width: 130%;
+        height: 110%;
+
+        opacity: 0.40;
+
+        animation-duration: 28s;
+    }
+
+    .hero-collage-bg::after {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(248, 246, 240, 0.45) 0%,
+                rgba(248, 246, 240, 0.20) 50%,
+                rgba(248, 246, 240, 0.40) 100%
+            );
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-collage-bg {
+        animation: none;
+        transform: none;
+    }
+
+}
+/* =========================================================
+   SEVARTHA FOUNDATION
+   HERO ENTRANCE ANIMATION
+========================================================= */
+
+
+/* ---------------------------------------------------------
+   INITIAL STATE
+   Elements start slightly below their final position and
+   invisible.
+--------------------------------------------------------- */
+
+.hero-animate {
+    opacity: 0;
+    transform: translateY(35px);
+
+    animation-name: sevarthaHeroEntrance;
+    animation-duration: 1s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-fill-mode: forwards;
+}
+
+
+/* ---------------------------------------------------------
+   DIFFERENT STARTING DIRECTION FOR THE MAIN HEADING
+--------------------------------------------------------- */
+
+.hero-title.hero-animate {
+    transform: translateX(-45px);
+}
+
+
+/* ---------------------------------------------------------
+   HERO IMAGE
+--------------------------------------------------------- */
+
+.hero-image.hero-animate {
+    transform: translateX(45px) scale(0.94);
+}
+
+
+/* ---------------------------------------------------------
+   ANIMATION DELAYS
+--------------------------------------------------------- */
+
+.hero-delay-1 {
+    animation-delay: 0.15s;
+}
+
+.hero-delay-2 {
+    animation-delay: 0.30s;
+}
+
+.hero-delay-3 {
+    animation-delay: 0.50s;
+}
+
+.hero-delay-4 {
+    animation-delay: 0.70s;
+}
+
+.hero-delay-5 {
+    animation-delay: 0.90s;
+}
+
+
+/* ---------------------------------------------------------
+   MAIN ENTRANCE ANIMATION
+--------------------------------------------------------- */
+
+@keyframes sevarthaHeroEntrance {
+
+    from {
+        opacity: 0;
+        transform: translateY(35px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   HEADING ENTRANCE
+--------------------------------------------------------- */
+
+@keyframes sevarthaHeroTitleEntrance {
+
+    from {
+        opacity: 0;
+        transform: translateX(-45px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   IMAGE ENTRANCE
+--------------------------------------------------------- */
+
+@keyframes sevarthaHeroImageEntrance {
+
+    from {
+        opacity: 0;
+        transform: translateX(45px) scale(0.94);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   APPLY SPECIAL ANIMATION TO TITLE
+--------------------------------------------------------- */
+
+.hero-title.hero-animate {
+    animation-name: sevarthaHeroTitleEntrance;
+}
+
+
+/* ---------------------------------------------------------
+   APPLY SPECIAL ANIMATION TO IMAGE
+--------------------------------------------------------- */
+
+.hero-image.hero-animate {
+    animation-name: sevarthaHeroImageEntrance;
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+--------------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .hero-animate {
+        animation-duration: 0.85s;
+    }
+
+    .hero-title.hero-animate {
+        transform: translateY(25px);
+        animation-name: sevarthaHeroEntrance;
+    }
+
+    .hero-image.hero-animate {
+        transform: translateY(25px) scale(0.96);
+        animation-name: sevarthaHeroMobileImageEntrance;
+    }
+
+    @keyframes sevarthaHeroMobileImageEntrance {
+
+        from {
+            opacity: 0;
+            transform: translateY(25px) scale(0.96);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+    }
+
+}
+
+
+/* ---------------------------------------------------------
+   ACCESSIBILITY
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-animate,
+    .hero-title.hero-animate,
+    .hero-image.hero-animate {
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+
+}

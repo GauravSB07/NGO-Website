@@ -59,6 +59,7 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     >
+    <link rel="stylesheet" href="../css/scroll-content.css">
 
 </head>
 
@@ -94,7 +95,7 @@
         </h1>
 
 
-        <p class="founders-intro">
+        <p class="founders-intro scroll-paragraph scroll-delay-1">
 
             The people behind Sevartha Foundation
 
@@ -117,7 +118,7 @@
 
         <div class="founders-section-heading">
 
-            <div class="founders-label">
+            <div class="founders-label scroll-heading scroll-delay-1">
 
                 <span></span>
 
@@ -126,7 +127,7 @@
             </div>
 
 
-            <h2>
+            <h2 class="scroll-heading scroll-delay-2">
 
                 The People
                 <span>Behind Sevartha</span>
@@ -346,7 +347,7 @@
         <div class="founders-vision-box">
 
 
-            <div class="founders-vision-icon">
+            <div class="founders-vision-icon scroll-icon">
 
                 <i class="fa-solid fa-hands-holding-circle"></i>
 
@@ -356,7 +357,7 @@
             <div class="founders-vision-content">
 
 
-                <div class="founders-label">
+                <div class="founders-label scroll-heading">
 
                     <span></span>
 
@@ -365,7 +366,7 @@
                 </div>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-1">
 
                     Dr. Amit Korde, Mrs. Manisha Korde, and Adv. Nishant Sanap
                     – three professionals committed to nation-building –
@@ -375,7 +376,7 @@
                 </p>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-2">
 
                     Together, they have built Sevartha Foundation as a
                     platform for individuals and organizations to come
@@ -384,7 +385,7 @@
                 </p>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-3">
 
                     Their combined expertise and passion fuel the foundation’s
                     mission to uplift the marginalized and create opportunities
@@ -411,7 +412,7 @@
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
 </script>
-
+<script src="../js/scroll-content.js"></script>
 
 </body>
 

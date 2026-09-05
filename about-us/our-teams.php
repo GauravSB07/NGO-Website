@@ -56,6 +56,7 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
     >
+    <link rel="stylesheet" href="../css/scroll-content.css">
 
 </head>
 
@@ -91,7 +92,7 @@
         </h1>
 
 
-        <p class="team-intro">
+        <p class="team-intro scroll-paragraph scroll-delay-1">
 
             Meet the people behind Sevartha Foundation.
 
@@ -114,7 +115,7 @@
 
         <div class="team-section-heading">
 
-            <div class="team-label">
+            <div class="team-label scroll-heading scroll-delay-1">
 
                 <span></span>
 
@@ -123,7 +124,7 @@
             </div>
 
 
-            <h2>
+            <h2 class="scroll-heading scroll-delay-2">
 
                 Board of
                 <span>Directors</span>
@@ -131,7 +132,7 @@
             </h2>
 
 
-            <p>
+            <p class="scroll-paragraph scroll-delay-3">
 
                 The dedicated people working together to guide
                 Sevartha Foundation and its mission.
@@ -417,7 +418,7 @@
         <div class="team-message-box">
 
 
-            <div class="team-message-icon">
+            <div class="team-message-icon scroll-icon">
 
                 <i class="fa-solid fa-people-group"></i>
 
@@ -427,7 +428,7 @@
             <div class="team-message-content">
 
 
-                <div class="team-label">
+                <div class="team-label scroll-heading">
 
                     <span></span>
 
@@ -436,7 +437,7 @@
                 </div>
 
 
-                <h2>
+                <h2 class="scroll-heading scroll-delay-1">
 
                     Working Together
                     <span>for Change</span>
@@ -444,7 +445,7 @@
                 </h2>
 
 
-                <p>
+                <p class="scroll-paragraph scroll-delay-2">
 
                     Together, the Board of Directors works towards
                     advancing the mission and vision of Sevartha Foundation
@@ -469,7 +470,7 @@
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
 </script>
 
-
+<script src="../js/scroll-content.js"></script>
 </body>
 
 </html>

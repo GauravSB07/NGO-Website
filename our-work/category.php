@@ -10,7 +10,6 @@ include '../config/db.php';
 if (!isset($_GET['slug']) || empty($_GET['slug'])) {
 
     die("Category not found.");
-
 }
 
 $slug = $_GET['slug'];
@@ -46,7 +45,6 @@ $categoryResult = mysqli_stmt_get_result($stmt);
 if (!$categoryResult || mysqli_num_rows($categoryResult) == 0) {
 
     die("Category not found.");
-
 }
 
 
@@ -120,8 +118,7 @@ $events = mysqli_stmt_get_result($stmt);
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        content="width=device-width, initial-scale=1.0">
 
     <title>
         <?= htmlspecialchars($category['name']); ?>
@@ -135,8 +132,7 @@ $events = mysqli_stmt_get_result($stmt);
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+        rel="stylesheet">
 
 
     <!-- =====================================================
@@ -145,127 +141,131 @@ $events = mysqli_stmt_get_result($stmt);
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    >
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 
-    <!-- =====================================================
-         NAVBAR CSS
-    ====================================================== -->
-
+    <!-- MAIN WEBSITE CSS -->
     <link
         rel="stylesheet"
-        href="../css/navbar.css"
-    >
+        href="../css/style.css">
 
-
-    <!-- =====================================================
-         OUR WORK CSS
-    ====================================================== -->
-
+    <!-- NAVBAR CSS -->
     <link
         rel="stylesheet"
-        href="../css/our-work/our_work.css"
-    >
+        href="../css/navbar.css">
 
+    <!-- OUR WORK PAGE CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/our-work/our_work.css">
+
+    <link rel="stylesheet" href="../css/scroll-content.css">
 </head>
 
 
 <body class="category-page">
 
 
-<!-- =========================================================
+    <!-- =========================================================
      NAVBAR
 ========================================================== -->
 
-<?php include '../includes/navbar.php'; ?>
+    <?php include '../includes/navbar.php'; ?>
 
 
-<!-- =========================================================
+    <!-- =========================================================
      CATEGORY HERO
 ========================================================== -->
 
-<section class="category-hero">
+    <section class="category-hero">
 
-    <div class="category-hero-content">
+        <div class="category-hero-content">
 
-        <div class="category-eyebrow">
+            <div class="category-eyebrow">
 
-            <span></span>
+                <span></span>
 
-            Our Work
+                Our Work
+
+            </div>
+
+
+            <h1 class="category-title">
+
+                <?php
+                $categoryName = htmlspecialchars($category['name']);
+
+                $words = explode(' ', $categoryName);
+
+                if (count($words) > 1) {
+
+                    $lastWord = array_pop($words);
+                    $firstPart = implode(' ', $words);
+
+                    echo $firstPart . ' <span>' . $lastWord . '</span>';
+                } else {
+
+                    echo $categoryName;
+                }
+                ?>
+
+            </h1>
+
+            <?php if (
+                !empty($category['short_description'])
+            ) { ?>
+
+                <p class="category-description">
+
+                    <?= htmlspecialchars(
+                        $category['short_description']
+                    ); ?>
+
+                </p>
+
+            <?php } ?>
 
         </div>
 
-
-        <h1 class="category-title">
-
-            <?= htmlspecialchars(
-                $category['name']
-            ); ?>
-
-        </h1>
+    </section>
 
 
-        <?php if (
-            !empty($category['short_description'])
-        ) { ?>
-
-            <p class="category-description">
-
-                <?= htmlspecialchars(
-                    $category['short_description']
-                ); ?>
-
-            </p>
-
-        <?php } ?>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
+    <!-- =========================================================
      EVENTS
 ========================================================== -->
 
-<section class="events-section">
+    <section class="events-section">
 
 
-    <div class="events-heading">
+        <div class="events-heading">
 
-        <div>
+            <div>
 
-            <h2>
-                Our Events
-            </h2>
+                <h2 class="scroll-heading scroll-delay-1">
+                    Our <span>Events</span>
+                </h2>
 
-            <p>
-                Explore our initiatives and the impact we are creating.
-            </p>
+                <p class="scroll-paragraph scroll-delay-2">
+                    Explore our initiatives and the impact we are creating.
+                </p>
+
+            </div>
 
         </div>
 
-    </div>
+
+        <?php if (
+            $events &&
+            mysqli_num_rows($events) > 0
+        ) { ?>
 
 
-    <?php if (
-        $events &&
-        mysqli_num_rows($events) > 0
-    ) { ?>
+            <div class="focus-grid our-work-events">
 
 
-        <div class="row g-4">
-
-
-            <?php while (
-                $event = mysqli_fetch_assoc($events)
-            ) { ?>
-
-
-                <div class="col-lg-4 col-md-6">
-
+                <?php while (
+                    $event = mysqli_fetch_assoc($events)
+                ) { ?>
 
                     <article class="event-card">
 
@@ -285,22 +285,19 @@ $events = mysqli_stmt_get_result($stmt);
                                 <img
                                     src="../event_image.php?id=<?= (int) $event['cover_image_id']; ?>"
                                     alt="<?= htmlspecialchars(
-                                        $event['title']
-                                    ); ?>"
-                                    class="event-image"
-                                >
+                                                $event['title']
+                                            ); ?>"
+                                    class="event-image">
 
 
                             <?php } else { ?>
 
 
                                 <div
-                                    class="event-image-placeholder"
-                                >
+                                    class="event-image-placeholder">
 
                                     <i
-                                        class="fa-solid fa-image"
-                                    ></i>
+                                        class="fa-solid fa-image"></i>
 
                                 </div>
 
@@ -380,8 +377,7 @@ $events = mysqli_stmt_get_result($stmt);
                                 <div class="event-date">
 
                                     <i
-                                        class="fa-regular fa-calendar"
-                                    ></i>
+                                        class="fa-regular fa-calendar"></i>
 
                                     <span>
 
@@ -408,8 +404,7 @@ $events = mysqli_stmt_get_result($stmt);
                                 <div class="event-location">
 
                                     <i
-                                        class="fa-solid fa-location-dot"
-                                    ></i>
+                                        class="fa-solid fa-location-dot"></i>
 
                                     <span>
 
@@ -428,14 +423,12 @@ $events = mysqli_stmt_get_result($stmt);
 
                             <a
                                 href="event.php?id=<?= (int) $event['id']; ?>"
-                                class="event-button"
-                            >
+                                class="event-button">
 
                                 View Event
 
                                 <i
-                                    class="fa-solid fa-arrow-right"
-                                ></i>
+                                    class="fa-solid fa-arrow-right"></i>
 
                             </a>
 
@@ -445,72 +438,65 @@ $events = mysqli_stmt_get_result($stmt);
 
                     </article>
 
-
-                </div>
-
-
-            <?php } ?>
+                <?php } ?>
 
 
-        </div>
+            </div>
 
 
-    <?php } else { ?>
+        <?php } else { ?>
 
 
-        <!-- =====================================================
+            <!-- =====================================================
              NO EVENTS
         ====================================================== -->
 
-        <div class="no-events">
+            <div class="no-events">
 
-            <i
-                class="fa-regular fa-calendar-xmark"
-            ></i>
+                <i
+                    class="fa-regular fa-calendar-xmark"></i>
 
-            <h3>
-                No Events Yet
-            </h3>
+                <h3>
+                    No Events Yet
+                </h3>
 
-            <p>
-                There are currently no events listed under this category.
-            </p>
+                <p>
+                    There are currently no events listed under this category.
+                </p>
 
-        </div>
-
-
-    <?php } ?>
+            </div>
 
 
-</section>
+        <?php } ?>
 
 
-<!-- =========================================================
+    </section>
+
+
+    <!-- =========================================================
      FOOTER
 ========================================================== -->
 
-<?php include '../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 
 
-<!-- =========================================================
+    <!-- =========================================================
      FOOTER CSS
 ========================================================== -->
 
-<link
-    rel="stylesheet"
-    href="../css/footer.css"
->
+    <link
+        rel="stylesheet"
+        href="../css/footer.css">
 
 
-<!-- =========================================================
+    <!-- =========================================================
      BOOTSTRAP JS
 ========================================================== -->
 
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
-
+    <script src="../js/scroll-content.js"></script>
 </body>
 
 </html>
