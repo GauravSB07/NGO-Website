@@ -4,7 +4,9 @@
    SESSION & AUTHENTICATION
 ========================================================= */
 
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 if (!isset($_SESSION['admin_id'])) {
     header("Location: ../login.php");
@@ -15,9 +17,9 @@ if (!isset($_SESSION['admin_id'])) {
    DATABASE CONNECTION & INCLUDES
 ========================================================= */
 
-include "../../config/db.php";
-include "../../includes/mailer.php";
-include "../../includes/certificate.php";
+include __DIR__ . "/../../config/db.php";
+include __DIR__ . "/../../includes/mailer.php";
+include __DIR__ . "/../../includes/certificate.php";
 
 $successMessage = '';
 $errorMessage = '';
@@ -57,7 +59,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'download_pdf' && isset($_GET[
 ========================================================= */
 
 if (
-    $_SERVER['REQUEST_METHOD'] === 'POST' &&
+    ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST' &&
     isset($_POST['action']) &&
     isset($_POST['donation_id'])
 ) {
@@ -318,97 +320,141 @@ if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="../../css/admin/admin.css">
+    <link rel="stylesheet" href="../../css/admin/admin.css?v=<?= time(); ?>">
 
     <style>
         .donation-summary {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 28px;
+            gap: 20px;
+            margin-bottom: 32px;
         }
 
         .donation-summary-card {
+            position: relative;
             background: #ffffff;
-            border-radius: 16px;
-            padding: 22px 20px;
+            border-radius: 18px;
+            padding: 24px 22px;
             display: flex;
             align-items: center;
-            gap: 16px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.04);
-            border: 1px solid #e8e8e8;
+            gap: 18px;
+            box-shadow: var(--adm-shadow-md);
+            border: 1px solid rgba(84, 82, 71, 0.13);
+            overflow: hidden;
+            transition: var(--adm-transition);
+        }
+
+        .donation-summary-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--adm-sand), var(--adm-olive));
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .donation-summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--adm-shadow-lift);
+            border-color: rgba(208, 200, 182, 0.6);
+        }
+
+        .donation-summary-card:hover::before {
+            opacity: 1;
+            height: 4px;
+            background: linear-gradient(90deg, var(--adm-gold), var(--adm-olive-dark));
         }
 
         .donation-summary-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 20px;
             flex-shrink: 0;
+            box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7);
+            transition: var(--adm-transition);
         }
 
-        .pending-icon { background: #fff4d6; color: #9a6800; }
-        .completed-icon { background: #e8f7ee; color: #16834b; }
-        .total-icon { background: #eaf1fb; color: #1a73e8; }
-        .amount-icon { background: #f3e8fd; color: #8e24aa; }
+        .donation-summary-card:hover .donation-summary-icon {
+            transform: scale(1.06) rotate(-2deg);
+        }
+
+        .pending-icon { background: #FEF3C7; color: #B45309; border: 1px solid #FCD34D; }
+        .completed-icon { background: #DCFCE7; color: #15803D; border: 1px solid #86EFAC; }
+        .total-icon { background: var(--adm-sand-soft); color: var(--adm-olive-dark); border: 1px solid var(--adm-sand); }
+        .amount-icon { background: #F4EFE6; color: #545247; border: 1px solid #D0C8B6; }
 
         .donation-summary-card span {
             display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #777;
-            margin-bottom: 3px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #716D60;
+            margin-bottom: 4px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.06em;
         }
 
         .donation-summary-card strong {
             display: block;
-            font-size: 22px;
+            font-family: Georgia, serif;
+            font-size: 24px;
             font-weight: 800;
-            color: #1a1a1a;
+            color: var(--adm-dark);
+            line-height: 1.1;
         }
 
         /* Filter & Search Bar */
         .filter-bar {
             background: #ffffff;
-            border: 1px solid #e8e8e8;
-            border-radius: 14px;
-            padding: 16px 20px;
-            margin-bottom: 22px;
+            border: 1px solid var(--adm-border);
+            border-radius: 16px;
+            padding: 16px 22px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 14px;
+            gap: 16px;
+            box-shadow: var(--adm-shadow-sm);
         }
 
         .filter-tabs {
             display: flex;
-            gap: 6px;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .filter-tab {
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 8px 18px;
+            border-radius: var(--adm-radius-pill);
             font-size: 13px;
             font-weight: 700;
             text-decoration: none;
-            color: #555;
-            transition: all 0.2s;
+            color: #6C685B;
+            background: var(--adm-sand-soft);
+            border: 1px solid rgba(208, 200, 182, 0.4);
+            transition: var(--adm-transition);
         }
 
         .filter-tab:hover {
-            background: #f0f0f0;
-            color: #111;
+            background: var(--adm-dark);
+            border-color: var(--adm-dark);
+            color: #ffffff;
+            text-decoration: none;
+            transform: translateY(-1px);
         }
 
         .filter-tab.active {
-            background: #545247;
-            color: #fff;
+            background: var(--adm-dark);
+            border-color: var(--adm-dark);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(26, 26, 26, 0.15);
         }
 
         .search-form {
@@ -417,20 +463,28 @@ if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
         }
 
         .search-input {
-            padding: 8px 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 13px;
-            min-width: 260px;
+            padding: 9px 16px;
+            border: 1px solid #D8D4CA;
+            border-radius: var(--adm-radius-pill);
+            font-size: 13.5px;
+            min-width: 280px;
+            background: #FFFFFF;
+            transition: var(--adm-transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--adm-olive);
+            box-shadow: 0 0 0 3px rgba(84, 82, 71, 0.12);
         }
 
         /* Table */
         .donation-table-wrapper {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: var(--adm-radius-lg);
             padding: 24px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            border: 1px solid #e8e8e8;
+            box-shadow: var(--adm-shadow-md);
+            border: 1px solid var(--adm-border);
             overflow-x: auto;
         }
 
@@ -442,34 +496,45 @@ if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
 
         .donation-table th {
             text-align: left;
-            padding: 14px 16px;
-            font-size: 11px;
+            padding: 15px 18px;
+            font-size: 11.5px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #666;
-            background: #f8f9fa;
-            border-bottom: 2px solid #eaeaea;
+            letter-spacing: 0.06em;
+            color: var(--adm-dark);
+            background: var(--adm-sand-soft);
+            border-bottom: 1px solid rgba(84, 82, 71, 0.15);
             white-space: nowrap;
         }
 
         .donation-table td {
-            padding: 16px;
-            border-bottom: 1px solid #eeeeee;
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(84, 82, 71, 0.08);
             vertical-align: middle;
             font-size: 14px;
+            color: #3E3C36;
         }
 
-        .donor-name { font-weight: 700; color: #111; }
-        .donor-email { font-size: 12px; color: #666; margin-top: 2px; }
-        .donation-amount { font-weight: 800; color: #1a1a1a; white-space: nowrap; }
+        .donation-table tbody tr {
+            transition: background 0.18s ease;
+        }
+
+        .donation-table tbody tr:hover {
+            background: var(--adm-off-white-hover);
+        }
+
+        .donor-name { font-weight: 700; color: var(--adm-dark); font-size: 14.5px; }
+        .donor-email { font-size: 12px; color: #6C685B; margin-top: 2px; }
+        .donation-amount { font-family: Georgia, serif; font-weight: 800; color: var(--adm-dark); white-space: nowrap; font-size: 15px; }
 
         .transaction-id {
             font-family: monospace;
-            font-size: 13px;
-            background: #f6f6f6;
-            padding: 6px 10px;
+            font-size: 12.5px;
+            background: var(--adm-sand-soft);
+            padding: 5px 10px;
             border-radius: 6px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid rgba(208, 200, 182, 0.6);
+            color: var(--adm-dark);
             white-space: nowrap;
             display: inline-block;
         }
@@ -479,17 +544,17 @@ if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
             align-items: center;
             gap: 6px;
             padding: 5px 12px;
-            border-radius: 20px;
+            border-radius: var(--adm-radius-pill);
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.04em;
             white-space: nowrap;
         }
 
-        .payment-status.pending { background: #fff4d6; color: #9a6800; border: 1px solid #ffe8a1; }
-        .payment-status.completed { background: #e8f7ee; color: #16834b; border: 1px solid #b7ebd0; }
-        .payment-status.failed { background: #fdeaea; color: #c62828; border: 1px solid #f9c7c7; }
+        .payment-status.pending { background: #FEF3C7; color: #92400E; border: 1px solid #FCD34D; }
+        .payment-status.completed { background: #DCFCE7; color: #166534; border: 1px solid #86EFAC; }
+        .payment-status.failed { background: #FEE2E2; color: #991B1B; border: 1px solid #FCA5A5; }
 
         .donation-actions {
             display: flex;
@@ -500,8 +565,8 @@ if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
 
         .donation-action-btn {
             border: none;
-            border-radius: 8px;
-            padding: 8px 14px;
+            border-radius: var(--adm-radius-pill);
+            padding: 8px 16px;
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
@@ -509,42 +574,64 @@ if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            transition: all 0.2s ease;
+            gap: 6px;
+            transition: var(--adm-transition);
         }
 
         .approve-btn {
-            background: #198754;
+            background: #166534;
             color: #ffffff;
-            box-shadow: 0 2px 8px rgba(25, 135, 84, 0.25);
+            border: 1px solid #166534;
+            box-shadow: 0 2px 8px rgba(22, 101, 52, 0.25);
         }
-        .approve-btn:hover { background: #157347; color: #fff; }
+        .approve-btn:hover {
+            background: #14532D;
+            color: #fff;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(22, 101, 52, 0.35);
+        }
 
         .reject-btn {
-            background: #dc3545;
+            background: #DC2626;
             color: #ffffff;
+            border: 1px solid #DC2626;
         }
-        .reject-btn:hover { background: #bb2d3b; color: #fff; }
+        .reject-btn:hover { background: #B91C1C; color: #fff; transform: translateY(-1px); }
 
         .pdf-btn {
-            background: #545247;
+            background: var(--adm-dark);
             color: #ffffff;
+            border: 1px solid var(--adm-dark);
         }
-        .pdf-btn:hover { background: #46443b; color: #fff; }
+        .pdf-btn:hover {
+            background: var(--adm-olive);
+            border-color: var(--adm-olive);
+            color: #fff;
+            transform: translateY(-1px);
+        }
 
         .view-btn {
-            background: #f0f0f0;
-            color: #333;
-            border: 1px solid #ccc;
+            background: #ffffff;
+            color: var(--adm-dark);
+            border: 1px solid rgba(84, 82, 71, 0.22);
         }
-        .view-btn:hover { background: #e4e4e4; color: #111; }
+        .view-btn:hover {
+            background: var(--adm-sand-soft);
+            color: var(--adm-dark);
+            transform: translateY(-1px);
+        }
 
         .resend-btn {
-            background: #eaf1fb;
-            color: #1a73e8;
-            border: 1px solid #c7ddfb;
+            background: var(--adm-sand-soft);
+            color: var(--adm-dark);
+            border: 1px solid rgba(208, 200, 182, 0.6);
         }
-        .resend-btn:hover { background: #d3e3fd; color: #0d47a1; }
+        .resend-btn:hover {
+            background: var(--adm-dark);
+            border-color: var(--adm-dark);
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
 
         .top-action-bar {
             display: flex;
@@ -565,25 +652,10 @@ if ($statsQuery && ($s = mysqli_fetch_assoc($statsQuery))) {
 
 <body class="admin-dashboard">
 
-<!-- NAVBAR -->
-<nav class="admin-navbar">
-    <div class="container-fluid px-4">
-        <a class="admin-brand" href="../dashboard.php">
-            Sevartha Foundation
-            <span class="text-muted">| Admin</span>
-        </a>
-
-        <div class="admin-user">
-            <span>
-                <i class="fa-solid fa-user me-1"></i>
-                <?= htmlspecialchars($_SESSION['admin_name'] ?? 'Admin'); ?>
-            </span>
-            <a href="../logout.php" class="admin-logout">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </a>
-        </div>
-    </div>
-</nav>
+<?php
+$activeNav = 'donations';
+include __DIR__ . '/../includes/navbar.php';
+?>
 
 <main class="admin-container">
 

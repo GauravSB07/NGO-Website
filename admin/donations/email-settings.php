@@ -101,17 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_test'])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../../css/admin/admin.css?v=<?= time(); ?>">
 
     <style>
         * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            padding: 35px 20px 60px;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f5f6f8;
-            color: #222;
-        }
-        .container { max-width: 900px; margin: 0 auto; }
+        .settings-container { max-width: 960px; margin: 35px auto 60px; padding: 0 20px; }
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -120,26 +114,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_test'])) {
             color: #545247;
             text-decoration: none;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
         }
         .back-link:hover { color: #1a1a1a; }
-        .card {
+        .settings-card {
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 34px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-            border: 1px solid #e2e4e8;
+            box-shadow: 0 8px 30px rgba(26,26,26,0.06);
+            border: 1px solid rgba(84, 82, 71, 0.14);
             margin-bottom: 24px;
         }
-        h1 { margin: 0 0 8px; font-size: 26px; font-weight: 800; color: #1a1a1a; }
+        .settings-card h1, .settings-card h2 { margin: 0 0 8px; font-family: Georgia, serif; font-size: 24px; font-weight: 800; color: #1a1a1a; }
         .subtitle { color: #666; margin-bottom: 26px; font-size: 14px; line-height: 1.6; }
         .form-group { margin-bottom: 20px; }
         label { display: block; font-weight: 700; margin-bottom: 7px; font-size: 13px; color: #333; }
         input[type="text"], input[type="email"], input[type="password"], select {
             width: 100%;
             padding: 12px 14px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border: 1px solid #d8d4ca;
+            border-radius: 10px;
             font-size: 14px;
             background: #fff;
         }
@@ -150,43 +144,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_test'])) {
         }
         .help-text { color: #777; font-size: 12px; margin-top: 6px; line-height: 1.5; }
         .btn-save {
-            background: #545247;
+            background: #1a1a1a;
             color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 13px 26px;
+            border: 1px solid #1a1a1a;
+            border-radius: 999px;
+            padding: 12px 28px;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.25s ease;
         }
-        .btn-save:hover { background: #46443b; }
+        .btn-save:hover { background: #545247; border-color: #545247; color: #fff; }
         .btn-test {
-            background: #198754;
+            background: #2e7d32;
             color: #fff;
             border: none;
-            border-radius: 8px;
-            padding: 12px 20px;
-            font-size: 13px;
+            border-radius: 999px;
+            padding: 12px 24px;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
+            white-space: nowrap;
         }
-        .btn-test:hover { background: #157347; }
+        .btn-test:hover { background: #256629; }
         .guide-box {
-            background: #f8f9fa;
-            border: 1px solid #e2e4e8;
-            border-left: 4px solid #545247;
-            border-radius: 8px;
-            padding: 20px 24px;
-            margin-top: 14px;
-            font-size: 13px;
-            line-height: 1.7;
+            background: #fbf9f5;
+            border: 1px solid #e8e2d5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 24px;
+            font-size: 13.5px;
+            line-height: 1.6;
         }
         .guide-box ol { margin: 10px 0 0; padding-left: 20px; }
         .guide-box li { margin-bottom: 6px; }
         .sql-box {
-            background: #282c34;
-            color: #abb2bf;
+            background: #202020;
+            color: #e5ded0;
             padding: 18px 20px;
             border-radius: 10px;
             font-family: monospace;
@@ -197,15 +191,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_test'])) {
         }
     </style>
 </head>
-<body>
+<body class="admin-dashboard">
 
-<div class="container">
+<?php
+$activeNav = 'donations';
+include __DIR__ . '/../includes/navbar.php';
+?>
+
+<div class="settings-container">
     <a href="index.php" class="back-link">
         <i class="fa-solid fa-arrow-left"></i>
         <span>Back to Donations Management</span>
     </a>
 
-    <div class="card">
+    <div class="settings-card">
         <h1><i class="fa-solid fa-envelope me-2"></i>Email &amp; Automated Certificate Settings</h1>
         <p class="subtitle">
             Configure your Gmail or SMTP account. When you verify donations, the system uses these credentials to automatically email donors with a personalized thank you letter and their official PDF Certificate of Appreciation.
@@ -305,7 +304,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_test'])) {
     </div>
 
     <!-- Test Email Card -->
-    <div class="card">
+    <div class="settings-card">
         <h2><i class="fa-solid fa-paper-plane me-2 text-success"></i>Test Your Email Configuration</h2>
         <p class="subtitle">Send an instant test email to verify that your SMTP credentials connect properly before verifying donations.</p>
 
@@ -319,7 +318,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_test'])) {
     </div>
 
     <!-- Optional SQL Query for User (Without Modifying Database Directly) -->
-    <div class="card">
+    <div class="settings-card">
         <h2><i class="fa-solid fa-database me-2 text-primary"></i>Database Schema Note</h2>
         <p class="subtitle">
             The system works automatically without requiring any database changes (settings are safely stored in <code>config/email_config.php</code> and certificates are generated using existing donation records). If you want to store certificate tracking columns in your database, you can optionally run this SQL query yourself:

@@ -203,7 +203,7 @@ if (isset($_POST['login'])) {
 
     <link
         rel="stylesheet"
-        href="../css/admin/login.css"
+        href="../css/admin/login.css?v=<?= time(); ?>"
     >
     <link
     rel="stylesheet"
