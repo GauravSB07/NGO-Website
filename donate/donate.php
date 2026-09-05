@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 /*
  * STEP 1: Receive donation details and save them in the session.
  * The payment.php page reads these session values.
@@ -237,6 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
                 <!-- Donation Details Form -->
                 <form action="donate.php" method="POST" id="donationDetailsForm" novalidate>
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
                     <!-- Full Name -->
                     <div class="donation-form-group">
