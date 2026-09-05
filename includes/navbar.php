@@ -8,6 +8,8 @@ if (!isset($conn)) {
     include __DIR__ . '/../config/db.php';
 }
 
+/** @var mysqli $conn */
+
 
 /* =========================================================
    GET CATEGORIES FOR OUR WORK
@@ -27,6 +29,7 @@ if (!$categories) {
 
 ?>
 
+<link rel="stylesheet" href="/ngo-website/css/animations.css">
 <nav class="navbar">
 
     <div class="container-fluid">

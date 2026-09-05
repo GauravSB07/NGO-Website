@@ -36,6 +36,21 @@ $footerCategories = mysqli_query(
 ?>
 
 <!-- =========================================================
+     FLOATING WHATSAPP BUTTON
+========================================================= -->
+
+<a
+    href="https://wa.me/919867983524"
+    class="floating-whatsapp"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Chat with Sevartha Foundation on WhatsApp"
+    title="Chat with us on WhatsApp"
+>
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- =========================================================
      SEVARTHA FOUNDATION FOOTER
 ========================================================= -->
 
@@ -51,8 +66,7 @@ $footerCategories = mysqli_query(
 
             <a
                 href="<?= $siteBase; ?>index.php"
-                class="footer-logo"
-            >
+                class="footer-logo">
                 Sevartha Foundation
             </a>
 
@@ -70,8 +84,7 @@ $footerCategories = mysqli_query(
 
             <a
                 href="<?= $siteBase; ?>donate/donate.php"
-                class="footer-donate-btn"
-            >
+                class="footer-donate-btn">
                 Donate Now
                 <i class="fas fa-arrow-right"></i>
             </a>
@@ -91,32 +104,28 @@ $footerCategories = mysqli_query(
 
                 <li>
                     <a
-                        href="<?= $siteBase; ?>about-us/mission-vision-focus.php"
-                    >
+                        href="<?= $siteBase; ?>about-us/mission-vision-focus.php">
                         Mission, Vision &amp; Focus
                     </a>
                 </li>
 
                 <li>
                     <a
-                        href="<?= $siteBase; ?>about-us/founders.php"
-                    >
+                        href="<?= $siteBase; ?>about-us/founders.php">
                         Our Founders
                     </a>
                 </li>
 
                 <li>
                     <a
-                        href="<?= $siteBase; ?>about-us/our-teams.php"
-                    >
+                        href="<?= $siteBase; ?>about-us/our-teams.php">
                         Our Team
                     </a>
                 </li>
 
                 <li>
                     <a
-                        href="<?= $siteBase; ?>about-us/accountability-transparency.php"
-                    >
+                        href="<?= $siteBase; ?>about-us/accountability-transparency.php">
                         Financial Transparency
                     </a>
                 </li>
@@ -143,13 +152,12 @@ $footerCategories = mysqli_query(
 
                     <?php while (
                         $footerCategory =
-                            mysqli_fetch_assoc($footerCategories)
+                        mysqli_fetch_assoc($footerCategories)
                     ) { ?>
 
                         <li>
                             <a
-                                href="<?= $siteBase; ?>our-work/category.php?slug=<?= urlencode($footerCategory['slug']); ?>"
-                            >
+                                href="<?= $siteBase; ?>our-work/category.php?slug=<?= urlencode($footerCategory['slug']); ?>">
                                 <?= htmlspecialchars(
                                     $footerCategory['name']
                                 ); ?>
@@ -162,8 +170,7 @@ $footerCategories = mysqli_query(
 
                     <li>
                         <a
-                            href="<?= $siteBase; ?>about-us/mission-vision-focus.php"
-                        >
+                            href="<?= $siteBase; ?>about-us/mission-vision-focus.php">
                             Our Focus Areas
                         </a>
                     </li>
@@ -199,24 +206,21 @@ $footerCategories = mysqli_query(
 
                 <li>
                     <a
-                        href="<?= $siteBase; ?>connect-with-us/volunteer.php"
-                    >
+                        href="<?= $siteBase; ?>connect-with-us/volunteer.php">
                         Volunteer With Us
                     </a>
                 </li>
 
                 <li>
                     <a
-                        href="<?= $siteBase; ?>connect-with-us/contact.php"
-                    >
+                        href="<?= $siteBase; ?>connect-with-us/contact.php">
                         Contact Us
                     </a>
                 </li>
 
                 <li>
                     <a
-                        href="<?= $siteBase; ?>connect-with-us/location.php"
-                    >
+                        href="<?= $siteBase; ?>connect-with-us/location.php">
                         Our Location
                     </a>
                 </li>
@@ -242,9 +246,10 @@ $footerCategories = mysqli_query(
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
-                >
+                    class="footer-facebook">
                     <i class="fab fa-facebook-f"></i>
                 </a>
+
 
                 <!-- Instagram -->
                 <a
@@ -252,12 +257,22 @@ $footerCategories = mysqli_query(
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Instagram"
-                >
+                    class="footer-instagram">
                     <i class="fab fa-instagram"></i>
                 </a>
 
-            </div>
 
+                <!-- WhatsApp -->
+                <a
+                    href="https://wa.me/919867983524"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="WhatsApp"
+                    class="footer-whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+
+            </div>
 
             <div class="footer-contact-info">
 
@@ -265,8 +280,7 @@ $footerCategories = mysqli_query(
                     <i class="fas fa-location-dot"></i>
 
                     <a
-                        href="<?= $siteBase; ?>connect-with-us/location.php"
-                    >
+                        href="<?= $siteBase; ?>connect-with-us/location.php">
                         <span>
                             Plot No. 72, Office No. 101–102,<br>
                             Opposite FAB Gym, Shri Krishna Nagar,<br>
@@ -280,12 +294,12 @@ $footerCategories = mysqli_query(
                     <i class="fas fa-envelope"></i>
 
                     <a
-                        href="mailto:sevarthafoundation@gmail.com"
-                    >
-                        sevarthafoundation@gmail.com
+                        href="https://mail.google.com/mail/?view=cm&fs=1&to=sevarthafoundation7@gmail.com&su=Contact%20Sevartha%20Foundation&body=Hello%20Sevartha%20Foundation%2C%0A%0AI%20would%20like%20to%20get%20in%20touch%20with%20you%20regarding%3A%0A%0A"
+                        target="_blank"
+                        rel="noopener noreferrer">
+                        sevarthafoundation7@gmail.com
                     </a>
                 </p>
-
                 <p>
                     <i class="fas fa-phone"></i>
 
@@ -326,7 +340,7 @@ $footerCategories = mysqli_query(
             <span>•</span>
 
             <a href="#">
-                Terms &amp; Conditions
+                Terms & Conditions
             </a>
 
         </div>
@@ -334,3 +348,109 @@ $footerCategories = mysqli_query(
     </div>
 
 </footer>
+<script src="/ngo-website/js/animations.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const whatsappButton =
+        document.querySelector(".floating-whatsapp");
+
+    if (!whatsappButton) return;
+
+
+    /*
+     * Find the existing back-to-top button.
+     *
+     * The selectors below cover the common names
+     * used for the site's back-to-top button.
+     */
+
+    const backToTop =
+        document.querySelector(
+            "#backToTop, " +
+            ".back-to-top, " +
+            ".back-to-top-btn, " +
+            ".scroll-to-top, " +
+            ".scroll-top"
+        );
+
+
+    /*
+     * If the page has no back-to-top button,
+     * WhatsApp stays hidden.
+     */
+
+    if (!backToTop) return;
+
+
+    /*
+     * Check whether the back-to-top arrow
+     * is currently visible.
+     */
+
+    function updateWhatsAppVisibility() {
+
+        const arrowStyle =
+            window.getComputedStyle(backToTop);
+
+        const arrowVisible =
+            arrowStyle.display !== "none" &&
+            arrowStyle.visibility !== "hidden" &&
+            parseFloat(arrowStyle.opacity) > 0 &&
+            backToTop.classList.contains("show");
+
+
+        if (arrowVisible) {
+
+            whatsappButton.classList.add("show");
+
+        } else {
+
+            whatsappButton.classList.remove("show");
+
+        }
+
+    }
+
+
+    /*
+     * Watch for class/style changes on the
+     * back-to-top button.
+     */
+
+    const observer =
+        new MutationObserver(function () {
+
+            updateWhatsAppVisibility();
+
+        });
+
+
+    observer.observe(backToTop, {
+        attributes: true,
+        attributeFilter: [
+            "class",
+            "style"
+        ]
+    });
+
+
+    /*
+     * Also check while scrolling.
+     */
+
+    window.addEventListener(
+        "scroll",
+        updateWhatsAppVisibility,
+        { passive: true }
+    );
+
+
+    /*
+     * Initial state.
+     */
+
+    updateWhatsAppVisibility();
+
+});
+</script>
