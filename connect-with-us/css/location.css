@@ -286,15 +286,28 @@
 
 .address-grid {
 
-    display: grid;
+    display: flex;
 
-    grid-template-columns:
-        repeat(2, 1fr);
+    justify-content: center;
 
-    gap: 25px;
+    width: 100%;
+
+    margin-top: 25px;
 
 }
 
+
+/* =========================================================
+   SINGLE CORRESPONDENCE ADDRESS CARD
+========================================================= */
+
+.address-grid .address-card {
+
+    width: 100%;
+
+    max-width: 850px;
+
+}
 
 .address-card {
 

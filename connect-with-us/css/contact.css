@@ -920,3 +920,136 @@
     transform: none;
 
 }
+/* =========================================================
+   SOCIAL BRAND ICONS
+========================================================= */
+
+.social-icon {
+
+    width: 42px;
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    color: var(--white);
+
+    font-size: 1.5rem;
+
+    transition:
+        transform .25s ease;
+}
+
+/* INSTAGRAM */
+
+.social-link.instagram .social-icon {
+
+    background:
+        linear-gradient(
+            135deg,
+            #833AB4,
+            #E1306C,
+            #F77737
+        );
+
+}
+
+
+/* FACEBOOK */
+
+.social-link.facebook .social-icon {
+
+    background: #1877F2;
+
+}
+
+
+/* WHATSAPP */
+
+.social-link.whatsapp .social-icon {
+
+    background: #25D366;
+
+}
+
+
+/* Keep text in website theme */
+
+.social-link.instagram,
+.social-link.facebook,
+.social-link.whatsapp {
+
+    color: var(--dark-grey);
+
+}
+
+
+/* Hover */
+
+.social-link:hover .social-icon {
+
+    transform: scale(1.08);
+
+}
+
+.social-icon {
+
+    transition:
+        transform .25s ease;
+
+}
+/* =========================================================
+   CONTACT PAGE - EMAIL & PHONE SLIDE ANIMATION
+========================================================= */
+
+.contact-card-left,
+.contact-card-right {
+    opacity: 0;
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Email starts from the left */
+.contact-card-left {
+    transform: translateX(-100px);
+}
+
+/* Phone starts from the right */
+.contact-card-right {
+    transform: translateX(100px);
+}
+
+/* Visible state */
+.contact-card-left.contact-card-visible,
+.contact-card-right.contact-card-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
+/* Slight delay for the phone card */
+.contact-card-right.contact-card-visible {
+    transition-delay: 0.15s;
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .contact-card-left,
+    .contact-card-right {
+        transform: translateY(50px);
+    }
+
+    .contact-card-left.contact-card-visible,
+    .contact-card-right.contact-card-visible {
+        transform: translateY(0);
+    }
+
+}

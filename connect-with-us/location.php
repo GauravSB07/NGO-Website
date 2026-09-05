@@ -48,6 +48,13 @@
     >
 
 
+    <!-- Scroll Content Animation CSS -->
+    <link
+        rel="stylesheet"
+        href="../css/scroll-content.css"
+    >
+
+
     <!-- Font Awesome -->
     <link
         rel="stylesheet"
@@ -71,7 +78,7 @@
 
     <div class="location-container">
 
-        <div class="location-eyebrow">
+        <div class="location-eyebrow scroll-heading">
 
             <span></span>
 
@@ -80,7 +87,7 @@
         </div>
 
 
-        <h1 class="location-title">
+        <h1 class="location-title scroll-heading">
 
             Our
             <span>Location</span>
@@ -88,10 +95,10 @@
         </h1>
 
 
-        <p class="location-intro">
+        <p class="location-intro scroll-paragraph scroll-delay-1">
 
-            Find our registered address and correspondence
-            office and connect with us.
+            Find our correspondence office and connect
+            with us.
 
         </p>
 
@@ -114,7 +121,7 @@
 
         <div class="location-heading">
 
-            <div class="location-label">
+            <div class="location-label scroll-heading">
 
                 <span></span>
 
@@ -123,7 +130,7 @@
             </div>
 
 
-            <h2>
+            <h2 class="scroll-heading scroll-delay-1">
 
                 Where We
                 <span>Are Located</span>
@@ -131,10 +138,10 @@
             </h2>
 
 
-            <p>
+            <p class="scroll-paragraph scroll-delay-2">
 
-                You can find us at our registered address or
-                correspondence office in Mumbai.
+                You can find us at our correspondence office
+                in Mumbai.
 
             </p>
 
@@ -146,17 +153,17 @@
              MAP
         ================================================== -->
 
-        <div class="map-wrapper">
+        <div class="map-wrapper scroll-content scroll-delay-1">
 
             <iframe
-                src="https://www.google.com/maps?q=F-14%2C%20Prayas%20CHS%20Ltd%2C%20Gawade%20Nagar%2C%20Dahisar%20East%2C%20Mumbai%20400068&output=embed"
+                src="https://www.google.com/maps?q=Office%20no.%20101-102%2C%20Plot%20no.%2072%2C%20Omkar%20Smruti%20Building%2C%20Dhobhi%20Ghat%2C%20Shree%20Krishna%20Nagar%2C%20Borivali%20East%2C%20Mumbai%20400066&output=embed"
                 width="100%"
                 height="450"
                 style="border:0;"
                 allowfullscreen=""
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                title="Sevartha Foundation Location"
+                title="Sevartha Foundation Correspondence Office Location"
             ></iframe>
 
         </div>
@@ -164,59 +171,10 @@
 
 
         <!-- =================================================
-             ADDRESS CARDS
+             CORRESPONDENCE OFFICE
         ================================================== -->
 
         <div class="address-grid">
-
-
-            <!-- REGISTERED ADDRESS -->
-
-            <div class="address-card">
-
-                <div class="address-icon">
-
-                    <i class="fa-solid fa-building"></i>
-
-                </div>
-
-
-                <div class="address-content">
-
-                    <span class="address-label">
-
-                        REGISTERED ADDRESS
-
-                    </span>
-
-
-                    <h3>
-
-                        Sevartha Foundation
-
-                    </h3>
-
-
-                    <p>
-
-                        F-14, Prayas Chs Ltd,<br>
-
-                        Gawade Nagar, Near Dahisar
-                        Metro station,<br>
-
-                        Rawal Pada, Dahisar (East),<br>
-
-                        Mumbai - 400068.
-
-                    </p>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- CORRESPONDENCE OFFICE -->
 
             <div class="address-card">
 
@@ -271,7 +229,7 @@
              DIRECTIONS
         ================================================== -->
 
-        <div class="directions-section">
+        <div class="directions-section scroll-content scroll-delay-2">
 
             <div>
 
@@ -292,7 +250,7 @@
                 <p>
 
                     Use Google Maps to get directions to
-                    our location.
+                    our correspondence office.
 
                 </p>
 
@@ -300,7 +258,7 @@
 
 
             <a
-                href="https://maps.app.goo.gl/YXzNX"
+                href="https://www.google.com/maps/search/?api=1&query=Office+no.+101-102%2C+Plot+no.+72%2C+Omkar+Smruti+Building%2C+Dhobhi+Ghat%2C+Shree+Krishna+Nagar%2C+Borivali+East%2C+Mumbai+400066"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="directions-button"
@@ -323,8 +281,17 @@
 <?php include '../includes/footer.php'; ?>
 
 
+<!-- Bootstrap JS -->
+
 <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+</script>
+
+
+<!-- Scroll Content Animation JS -->
+
+<script
+    src="../js/scroll-content.js">
 </script>
 
 

@@ -63,24 +63,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($name === '') {
 
         $errorMessage = "Please enter your name.";
-
     } elseif ($email === '') {
 
         $errorMessage = "Please enter your email address.";
-
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
         $errorMessage = "Please enter a valid email address.";
-
     } elseif ($message === '') {
 
         $errorMessage = "Please enter your message.";
-
     } elseif (strlen($message) < 10) {
 
         $errorMessage =
             "Please enter a message of at least 10 characters.";
-
     } else {
 
 
@@ -109,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errorMessage =
                 "Database prepare error: " .
                 mysqli_error($conn);
-
         } else {
 
 
@@ -152,8 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header("Location: contact.php");
 
                 exit;
-
-
             } else {
 
                 $errorMessage =
@@ -162,13 +154,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
                 mysqli_stmt_close($stmt);
-
             }
-
         }
-
     }
-
 }
 
 ?>
@@ -183,8 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+        content="width=device-width, initial-scale=1.0">
 
     <title>
         Contact Us | Sevartha Foundation
@@ -195,504 +182,479 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+        rel="stylesheet">
 
 
     <!-- MAIN WEBSITE CSS -->
 
     <link
         rel="stylesheet"
-        href="../css/style.css"
-    >
+        href="../css/style.css">
 
 
     <!-- NAVBAR CSS -->
 
     <link
         rel="stylesheet"
-        href="../css/navbar.css"
-    >
+        href="../css/navbar.css">
 
 
     <!-- FOOTER CSS -->
 
     <link
         rel="stylesheet"
-        href="../css/footer.css"
-    >
+        href="../css/footer.css">
 
 
     <!-- CONTACT CSS -->
 
     <link
         rel="stylesheet"
-        href="css/contact.css"
-    >
+        href="css/contact.css">
 
 
     <!-- FONT AWESOME -->
 
     <link
         rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    >
-
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/scroll-content.css">
+    
 </head>
 
 
 <body>
 
 
-<?php
+    <?php
 
-/* =========================================================
+    /* =========================================================
    NAVBAR
 ========================================================= */
 
-include '../includes/navbar.php';
+    include '../includes/navbar.php';
 
-?>
+    ?>
 
 
-<!-- =========================================================
+    <!-- =========================================================
      CONTACT HERO
 ========================================================= -->
 
-<section class="contact-hero">
+    <section class="contact-hero">
 
-    <div class="contact-container">
+        <div class="contact-container">
 
-        <div class="contact-eyebrow">
-
-            <span></span>
-
-            SEVARTHA FOUNDATION
-
-        </div>
-
-
-        <h1 class="contact-title">
-
-            Get in Touch
-
-            <span>
-                With Us
-            </span>
-
-        </h1>
-
-
-        <p class="contact-intro">
-
-            We'd love to hear from you.
-
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     CONTACT INFORMATION
-========================================================= -->
-
-<section class="contact-section">
-
-    <div class="contact-container">
-
-        <div class="contact-heading">
-
-            <div class="contact-label">
+            <div class="contact-eyebrow scroll-eyebrow">
 
                 <span></span>
 
-                CONTACT US
+                SEVARTHA FOUNDATION
 
             </div>
 
 
-            <h2>
+            <h1 class="contact-title scroll-heading scroll-delay-1">
 
-                Let's Stay
+                Get in Touch
 
                 <span>
-                    Connected
+                    With Us
                 </span>
 
-            </h2>
+            </h1>
+
+
+            <p class="contact-intro scroll-paragraph scroll-delay-2">
+
+                We'd love to hear from you.
+
+            </p>
 
         </div>
 
+    </section>
 
-        <div class="contact-info-grid">
 
-
-            <!-- EMAIL -->
-
-            <a
-                href="mailto:sevarthafoundation7@gmail.com"
-                class="contact-info-card"
-            >
-
-                <div class="contact-info-icon">
-
-                    <i class="fa-solid fa-envelope"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span class="contact-info-label">
-
-                        EMAIL
-
-                    </span>
-
-
-                    <h3>
-
-                        sevarthafoundation7@gmail.com
-
-                    </h3>
-
-                </div>
-
-            </a>
-
-
-            <!-- PHONE -->
-
-            <a
-                href="tel:+919867983524"
-                class="contact-info-card"
-            >
-
-                <div class="contact-info-icon">
-
-                    <i class="fa-solid fa-phone"></i>
-
-                </div>
-
-
-                <div>
-
-                    <span class="contact-info-label">
-
-                        PHONE
-
-                    </span>
-
-
-                    <h3>
-
-                        +91 98679 83524
-
-                    </h3>
-
-                </div>
-
-            </a>
-
-
-            <!-- SOCIAL MEDIA -->
-
-            <div class="social-section">
-
-                <h3>
-
-                    Follow & Connect With Us
-
-                </h3>
-
-
-                <div class="social-links">
-
-
-                    <!-- INSTAGRAM -->
-
-                    <a
-                        href="https://www.instagram.com/sevarthafoundation/reels"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="social-link instagram"
-                    >
-
-                        <i class="fa-brands fa-instagram"></i>
-
-                        <span>
-                            Instagram
-                        </span>
-
-                    </a>
-
-
-                    <!-- FACEBOOK -->
-
-                    <a
-                        href="https://www.facebook.com/sevarthafoundation"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="social-link facebook"
-                    >
-
-                        <i class="fa-brands fa-facebook-f"></i>
-
-                        <span>
-                            Facebook
-                        </span>
-
-                    </a>
-
-
-                    <!-- WHATSAPP -->
-
-                    <a
-                        href="https://wa.me/919867983524"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="social-link whatsapp"
-                    >
-
-                        <i class="fa-brands fa-whatsapp"></i>
-
-                        <span>
-                            WhatsApp
-                        </span>
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     CONTACT FORM
+    <!-- =========================================================
+     CONTACT INFORMATION
 ========================================================= -->
 
-<section class="contact-form-section">
+    <section class="contact-section">
 
-    <div class="contact-container">
+        <div class="contact-container">
 
-        <div class="contact-form-wrapper">
+            <div class="contact-heading">
 
-
-            <!-- LEFT SIDE -->
-
-            <div class="contact-form-content">
-
-                <div class="contact-label">
+                <div class="contact-label scroll-heading">
 
                     <span></span>
 
-                    HAVE A QUESTION?
+                    CONTACT US
 
                 </div>
 
 
-                <h2>
+                <h2 class="scroll-heading scroll-delay-3">
 
-                    We'd Love to
+                    Let's Stay
 
                     <span>
-                        Hear From You
+                        Connected
                     </span>
 
                 </h2>
 
-
-                <p>
-
-                    Have a question, suggestion, or want to know
-                    more about our work? Send us a message and
-                    we'll get back to you.
-
-                </p>
-
             </div>
 
 
-            <!-- RIGHT SIDE -->
-
-            <form
-                class="contact-form"
-                id="contactForm"
-                action="contact.php"
-                method="POST"
-            >
-
-
-                <!-- SUCCESS MESSAGE -->
-
-                <?php if ($successMessage !== ''): ?>
-
-                    <div
-                        class="contact-form-message success"
-                        role="alert"
-                    >
-
-                        <i class="fa-solid fa-circle-check"></i>
-
-                        <?php
-                        echo htmlspecialchars($successMessage);
-                        ?>
-
-                    </div>
-
-                <?php endif; ?>
-
-
-                <!-- ERROR MESSAGE -->
-
-                <?php if ($errorMessage !== ''): ?>
-
-                    <div
-                        class="contact-form-message error"
-                        role="alert"
-                    >
-
-                        <i class="fa-solid fa-circle-exclamation"></i>
-
-                        <?php
-                        echo htmlspecialchars($errorMessage);
-                        ?>
-
-                    </div>
-
-                <?php endif; ?>
-
-
-                <!-- NAME -->
-
-                <div class="form-group">
-
-                    <label for="name">
-                        Name
-                    </label>
-
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Enter your name"
-                        value="<?php echo htmlspecialchars($name); ?>"
-                        maxlength="100"
-                        required
-                    >
-
-                </div>
+            <div class="contact-info-grid">
 
 
                 <!-- EMAIL -->
 
-                <div class="form-group">
+                <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=sevarthafoundation7@gmail.com&su=Contact%20Sevartha%20Foundation&body=Hello%20Sevartha%20Foundation%2C%0A%0AI%20would%20like%20to%20get%20in%20touch%20with%20you%20regarding%3A%0A%0A"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="contact-info-card contact-card-left">
+                    <div class="contact-info-icon">
 
-                    <label for="email">
-                        Email
-                    </label>
+                        <i class="fa-solid fa-envelope"></i>
 
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="Enter your email"
-                        value="<?php echo htmlspecialchars($email); ?>"
-                        maxlength="150"
-                        required
-                    >
+                    </div>
 
-                </div>
+
+                    <div>
+
+                        <span class="contact-info-label">
+
+                            EMAIL
+
+                        </span>
+
+
+                        <h3>
+
+                            sevarthafoundation7@gmail.com
+
+                        </h3>
+
+                    </div>
+
+                </a>
 
 
                 <!-- PHONE -->
 
-                <div class="form-group">
+                <a
+                    href="tel:+919867983524"
+                    class="contact-info-card contact-card-right">
 
-                    <label for="phone">
-                        Phone
-                    </label>
+                    <div class="contact-info-icon">
 
-                    <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        placeholder="Enter your phone number"
-                        value="<?php echo htmlspecialchars($phone); ?>"
-                        maxlength="30"
-                    >
+                        <i class="fa-solid fa-phone"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span class="contact-info-label">
+
+                            PHONE
+
+                        </span>
+
+
+                        <h3>
+
+                            +91 98679 83524
+
+                        </h3>
+
+                    </div>
+
+                </a>
+
+
+                <!-- SOCIAL MEDIA -->
+
+                <div class="social-section">
+
+                    <h2 class="scroll-heading">
+                        Follow & Connect 
+                        <span>
+                        With Us
+                        </span>
+                    </h2>
+
+                    <div class="social-links scroll-content scroll-delay-4">
+
+                        <!-- INSTAGRAM -->
+
+                        <a
+                            href="https://www.instagram.com/sevarthafoundation/reels"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-link instagram scroll-content scroll-delay-5">
+
+                            <span class="social-icon ">
+                                <i class="fa-brands fa-instagram"></i>
+                            </span>
+
+                        </a>
+
+
+                        <!-- FACEBOOK -->
+
+                        <a
+                            href="https://www.facebook.com/sevarthafoundation"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-link facebook scroll-content scroll-delay-6">
+
+                            <span class="social-icon">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </span>
+
+                        </a>
+
+
+                        <!-- WHATSAPP -->
+
+                        <a
+                            href="https://wa.me/919867983524"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="social-link whatsapp scroll-content scroll-delay-7">
+
+                            <span class="social-icon">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </span>
+
+
+                        </a>
+
+                    </div>
 
                 </div>
-
-
-                <!-- MESSAGE -->
-
-                <div class="form-group">
-
-                    <label for="message">
-                        Message
-                    </label>
-
-                    <textarea
-                        id="message"
-                        name="message"
-                        placeholder="Write your message here..."
-                        maxlength="5000"
-                        required
-                    ><?php echo htmlspecialchars($message); ?></textarea>
-
-                </div>
-
-
-                <!-- SUBMIT BUTTON -->
-
-                <button
-                    type="submit"
-                    class="contact-submit"
-                >
-
-                    SEND MESSAGE
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
-                </button>
-
-
-            </form>
+            </div>
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 
-<?php
+    <!-- =========================================================
+     CONTACT FORM
+========================================================= -->
 
-/* =========================================================
+    <section class="contact-form-section">
+
+        <div class="contact-container">
+
+            <div class="contact-form-wrapper">
+
+
+                <!-- LEFT SIDE -->
+
+                <div class="contact-form-content">
+
+                    <div class="contact-label scroll-heading scroll-delay-1">
+
+                        <span></span>
+
+                        HAVE A QUESTION?
+
+                    </div>
+
+
+                    <h2 class="scroll-heading scroll-delay-2">
+
+                        We'd Love to
+
+                        <span>
+                            Hear From You
+                        </span>
+
+                    </h2>
+
+
+                    <p class="scroll-paragraph scroll-delay-3">
+
+                        Have a question, suggestion, or want to know
+                        more about our work? Send us a message and
+                        we'll get back to you.
+
+                    </p>
+
+                </div>
+
+
+                <!-- RIGHT SIDE -->
+
+                <form
+                    class="contact-form"
+                    id="contactForm"
+                    action="contact.php"
+                    method="POST">
+
+
+                    <!-- SUCCESS MESSAGE -->
+
+                    <?php if ($successMessage !== ''): ?>
+
+                        <div
+                            class="contact-form-message success"
+                            role="alert">
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            <?php
+                            echo htmlspecialchars($successMessage);
+                            ?>
+
+                        </div>
+
+                    <?php endif; ?>
+
+
+                    <!-- ERROR MESSAGE -->
+
+                    <?php if ($errorMessage !== ''): ?>
+
+                        <div
+                            class="contact-form-message error"
+                            role="alert">
+
+                            <i class="fa-solid fa-circle-exclamation"></i>
+
+                            <?php
+                            echo htmlspecialchars($errorMessage);
+                            ?>
+
+                        </div>
+
+                    <?php endif; ?>
+
+
+                    <!-- NAME -->
+
+                    <div class="form-group scroll-content scroll-delay-2">
+
+                        <label for="name">
+                            Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            value="<?php echo htmlspecialchars($name); ?>"
+                            maxlength="100"
+                            required>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="form-group scroll-content scroll-delay-2">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            value="<?php echo htmlspecialchars($email); ?>"
+                            maxlength="150"
+                            required>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="form-group scroll-content scroll-delay-3">
+
+                        <label for="phone">
+                            Phone
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter your phone number"
+                            value="<?php echo htmlspecialchars($phone); ?>"
+                            maxlength="30">
+
+                    </div>
+
+
+                    <!-- MESSAGE -->
+
+                    <div class="form-group scroll-content scroll-delay-4">
+
+                        <label for="message">
+                            Message
+                        </label>
+
+                        <textarea
+                            id="message"
+                            name="message"
+                            placeholder="Write your message here..."
+                            maxlength="5000"
+                            required><?php echo htmlspecialchars($message); ?></textarea>
+
+                    </div>
+
+
+                    <!-- SUBMIT BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="contact-submit scroll-content scroll-delay-5">
+
+                        SEND MESSAGE
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <?php
+
+    /* =========================================================
    FOOTER
 ========================================================= */
 
-include '../includes/footer.php';
+    include '../includes/footer.php';
 
-?>
-
-
-<!-- BOOTSTRAP JS -->
-
-<script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-></script>
+    ?>
 
 
+    <!-- BOOTSTRAP JS -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/scroll-content.js"></script>
 </body>
 
 </html>
