@@ -205,7 +205,10 @@ if (isset($_POST['login'])) {
         rel="stylesheet"
         href="../css/admin/login.css"
     >
-
+    <link
+    rel="stylesheet"
+    href="../css/scroll-content.css"
+>
 </head>
 
 <body class="admin-login-page">
@@ -388,7 +391,7 @@ if (isset($_POST['login'])) {
 
 </div>
 
-
+<script src="../js/scroll-content.js"></script>
 </body>
 
 </html>
