@@ -2,16 +2,51 @@
 session_start();
 
 /*
- * Clear any previous donation information when
- * the donor starts a new donation.
+ * STEP 1: Receive donation details and save them in the session.
+ * The payment.php page reads these session values.
  */
-unset(
-    $_SESSION['donation_name'],
-    $_SESSION['donation_email'],
-    $_SESSION['donation_phone'],
-    $_SESSION['donation_purpose'],
-    $_SESSION['donation_amount']
-);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $name = trim($_POST['donor_name'] ?? '');
+    $email = trim($_POST['donor_email'] ?? '');
+    $phone = trim($_POST['donor_phone'] ?? '');
+    $purpose = trim($_POST['donation_purpose'] ?? '');
+    $amount = (int) ($_POST['donation_amount'] ?? 0);
+
+    if ($name === '') {
+        $errorMessage = 'Please enter your full name.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errorMessage = 'Please enter a valid email address.';
+    } elseif ($purpose === '') {
+        $errorMessage = 'Please select a donation purpose.';
+    } elseif ($amount < 1 || $amount > 10000000) {
+        $errorMessage = 'Please enter a valid donation amount.';
+    } else {
+
+        $_SESSION['donation_name'] = $name;
+        $_SESSION['donation_email'] = $email;
+        $_SESSION['donation_phone'] = $phone;
+        $_SESSION['donation_purpose'] = $purpose;
+        $_SESSION['donation_amount'] = $amount;
+
+        header('Location: payment.php');
+        exit;
+    }
+}
+
+/*
+ * Only clear old donation data when the donor is opening
+ * donate.php normally, not when the form is being submitted.
+ */
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    unset(
+        $_SESSION['donation_name'],
+        $_SESSION['donation_email'],
+        $_SESSION['donation_phone'],
+        $_SESSION['donation_purpose'],
+        $_SESSION['donation_amount']
+    );
+}
 ?>
 
 <!DOCTYPE html>
@@ -351,6 +386,12 @@ unset(
             <!-- =================================================
              DONATION FORM
         ================================================== -->
+
+            <?php if (!empty($errorMessage)): ?>
+                <div class="alert alert-danger mb-3">
+                    <?php echo htmlspecialchars($errorMessage); ?>
+                </div>
+            <?php endif; ?>
 
             <div class="donation-form-card donation-right-card">
 

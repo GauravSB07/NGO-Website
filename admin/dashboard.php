@@ -90,8 +90,31 @@ if ($volunteerQuery) {
 
 }
 
-?>
+/* =========================================================
+   PENDING DONATIONS
+========================================================= */
 
+$donationQuery = mysqli_query(
+    $conn,
+    "
+    SELECT COUNT(*) AS total
+    FROM donations
+    WHERE payment_status = 'pending'
+    "
+);
+
+$totalDonations = 0;
+
+if ($donationQuery) {
+
+    $donationData =
+        mysqli_fetch_assoc($donationQuery);
+
+    $totalDonations =
+        $donationData['total'] ?? 0;
+}
+
+?>
 
 <!DOCTYPE html>
 
@@ -540,7 +563,60 @@ if ($volunteerQuery) {
 
         </div>
 
+        <!-- =================================================
+            DONATIONS
+        ================================================== -->
 
+        <div class="col-md-6 col-lg-4">
+
+            <div class="admin-card">
+
+                <div class="admin-stat">
+
+                    <div>
+
+                        <h3>
+                            Donations
+                        </h3>
+
+                        <p class="admin-stat-label">
+                            Donations
+                        </p>
+
+                        <div class="admin-stat-number">
+                            <?= $totalDonations; ?>
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card-icon">
+
+                        <i class="fa-solid fa-hand-holding-dollar"></i>
+
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <a
+                        href="donations/index.php"
+                        class="admin-btn-secondary"
+                    >
+
+                        <i class="fa-solid fa-eye"></i>
+
+                        View Donations
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
 
         <!-- =================================================
              WEBSITE
